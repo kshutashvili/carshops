@@ -1,0 +1,559 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <title>Basket</title>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link href="/css/style.css" rel="stylesheet">
+    <!--[if lt IE 10]>
+    <link href="/css/ie.css" rel="stylesheet">
+      <script src="https://oss.maxcdn.com/html5shiv/3.7.3/html5shiv.min.js"></script>
+      <script src="https://oss.maxcdn.com/respond/1.4.2/respond.min.js"></script>
+    <![endif]-->
+</head>
+
+<body>
+    <!--header start-->
+    <header class="header">
+
+
+        <!--modal window start-->
+
+        <div class="modal-wrapper" id="modal">
+            <div class="modal-window">
+                <div class="modal-close-wrap"><a href="#!" id="modal-close"><i class="fa fa-times" aria-hidden="true"></i></a></div>
+                <p class="modal-title">Заказать звонок</p>
+                <form class="modal-form">
+                    <p class="input-wrap">
+                        <label for="call-name">* Имя</label>
+                        <input type="text" id="call-name">
+                    </p>
+                    <p class="input-wrap">
+                        <label for="call-phone">* Телефон</label>
+                        <input type="text" id="call-phone">
+                    </p>
+                    <p class="input-wrap">
+                        <label for="call-email">E-mail</label>
+                        <input type="text" id="call-email">
+                    </p>
+                    <p class="input-wrap">
+                        <input type="submit" class="submit" value="заказать звонок">
+                    </p>
+                </form>
+            </div>
+        </div>
+
+        <!--modal window end-->
+
+        <!--top-line start-->
+
+        <div class="top-line">
+
+            <div class="wrapper overflow">
+
+                <nav class="top-line__nav">
+                    <a href="#!">Стать диллером</a>
+                    <a href="#!">Каталог PDF</a>
+                    <a href="#!">Оплата и доставка</a>
+                    <a href="#!">Контакты</a>
+                </nav>
+
+
+                <div class="auth-wrap">
+                    <a href="#!" class="sign-up"><i class="fa fa-user" aria-hidden="true"></i>Регистрация</a>
+                    <a href="#!" class="sign-in"><i class="fa fa-sign-in" aria-hidden="true"></i>Вход</a>
+                </div>
+
+            </div>
+
+
+
+        </div>
+
+        <!--top-line end-->
+
+        <div class="wrapper">
+            <ul class="list-wrap">
+                <li>
+                    <div class="logo">
+                        <a href="#!">
+                            <h2 class="logo__title">carav</h2>
+                            <p class="logo__caption">Официальный интернет<br> магазин продукции </p>
+                        </a>
+                    </div>
+                </li>
+                <li>
+                    <div class="top-search-wrap">
+
+                        <input class="search-field" id="search-field" type="text" placeholder="Поиск">
+                        <label for="search-field" class="search-icon"><i class="fa fa-search" aria-hidden="true"></i></label>
+
+                    </div>
+                </li>
+                <li>
+                    <div class="phone-numbers">
+
+                        <div class="phone-icon">
+                            <i class="fa fa-mobile fa-2x" aria-hidden="true"></i>
+                        </div>
+
+                        <div class="phone-numbers__numbers">
+                            <a href="#!" class="phone-numbers__numbers__number">(063) 704-45-63</a>
+                            <a href="#!" class="phone-numbers__numbers__number">(096) 914-23-09</a>
+                            <a href="#!" class="phone-numbers__numbers__number" id="modal-open"><span>Позвонить Вам?</span></a>
+                            <a href="#!" class="arrow-down"><i class="fa fa-sort-desc" aria-hidden="true"></i></a>
+                        </div>
+
+                    </div>
+                </li>
+                <li>
+                    <div class="basket-wrap">
+                        <a href="#!" class="basket-goods"><i class="fa fa-shopping-basket" aria-hidden="true"></i>Корзина товаров <span>(0)</span></a>
+                        <a href="#!" class="goto-basket"><span>Перейти в корзину</span></a>
+                    </div>
+                </li>
+            </ul>
+
+        </div>
+
+        <!--header menu start-->
+
+        <div class="header__menu-wrap">
+            <div class="wrapper">
+
+                <nav class="menu">
+                    <a href="/pages/category.html" target="_blank">переходные рамки</a>
+                    <a href="/pages/category.html" target="_blank">разъёмы для подключения</a>
+                    <a href="/pages/category.html" target="_blank">адаптеры кнопок на руле</a>
+                    <a href="/pages/category.html" target="_blank">аксессуары для установки</a>
+                    <a href="/pages/category.html" target="_blank">автоэлектроника и прочее</a>
+                </nav>
+
+            </div>
+        </div>
+
+        <!--header menu end-->
+
+        <!--header mobile menu start-->
+
+        <div class="mb-menu">
+            <div class="wrapper">
+                <i id="mb-mnu-btn" class="fa fa-bars fa-2x" aria-hidden="true"></i>
+                <nav class="menu">
+                    <a href="#!">переходные рамки</a>
+                    <a href="#!">разъёмы для подключения</a>
+                    <a href="#!">адаптеры кнопок на руле</a>
+                    <a href="#!">аксессуары для установки</a>
+                    <a href="#!">автоэлектроника и прочее</a>
+                </nav>
+
+            </div>
+        </div>
+
+        <!--header mobile menu end-->
+
+        <!--search fields start-->
+
+        <div class="search-panel">
+
+            <div class="wrapper">
+                <ul class="list-wrap">
+                    <li>
+
+                        <div class="search-logo">
+                            <img src="/img/car-search.png" alt="car-search.png">
+                        </div>
+
+                    </li>
+                    <li>
+                        <p class="search-panel__title">поиск по автомобилю</p>
+                    </li>
+                    <li>
+                        <!--search block start-->
+
+                        <div class="search-block">
+                            <form class="search-form" id="search-form">
+
+                                <select class="select-hidden">
+                                        <option value="" hidden>Название автомобиля</option>
+                                        <option value="">bmw</option>
+                                        <option value="">mecedes</option>
+                                        <option value="">skoda</option>
+                                        <option value="">opel</option>
+                        </select>
+
+                                <select class="select-hidden">
+                                        <option value="" hidden>Модель автомобиля</option>
+                                        <option value="">i1</option>
+                                        <option value="">i2</option>
+                                        <option value="">i3</option>
+                                        <option value="">i4</option>
+                        </select>
+
+                                <select class="select-hidden">
+                                        <option value="" hidden>Год выпуска автомобиля</option>
+                                        <option value="">2014</option>
+                                        <option value="">2015</option>
+                                        <option value="">2016</option>
+                                        <option value="">2017</option>
+                        </select>
+
+                                <input type="submit" class="search-submit" value="Найти">
+
+                            </form>
+                        </div>
+
+                        <!--search block end-->
+                    </li>
+                </ul>
+
+
+
+
+
+            </div>
+
+        </div>
+
+        <!--search fields end-->
+
+    </header>
+    <!--header end-->
+    <!--breadcrumps start-->
+
+    <div class="wrapper">
+        <div class="breadcrumps">
+            <ul>
+                <li><a href="#!">Главная</a></li>
+                <li><a href="#!">Корзина</a></li>
+            </ul>
+        </div>
+    </div>
+
+    <!--breadcrumps end-->
+
+    <!--basket section start-->
+    <section class="basket-section">
+        <div class="wrapper">
+            <h1 class="basket-section__title">Оформление заказа</h1>
+            <div class="basket-list">
+                <div class="basket-list__titles">
+                    <div class="name">Наименование товара</div>
+                    <div class="amount">Кол-во</div>
+                    <div class="price">Цена</div>
+                    <div class="sum">Итого</div>
+                </div>
+
+                <article class="basket-item">
+                    <img class="basket-item__img" src="/img/product-img.png" alt="product">
+
+                    <div class="basket-item__name">Переходник ISO BMW, Land Rover, Rover, Mini Carav 12-003</div>
+
+                    <div class="basket-item__amount">
+                        <a href="#!" class="decrement">-</a>
+                        <input class="input-field" type="text" value="2">
+                        <a href="#!" class="increment">+</a>
+                    </div>
+
+                    <div class="basket-item__price">
+                        715 <span>грн</span>
+                    </div>
+
+                    <div class="basket-item__sum">
+                        1430 <span>грн</span>
+                    </div>
+                    <div class="basket-item__delete"><a href=""><i class="fa fa-trash-o" aria-hidden="true"></i></a></div>
+                </article>
+                <article class="basket-item">
+                    <img class="basket-item__img" src="/img/product-img.png" alt="product">
+
+                    <div class="basket-item__name">Переходник ISO BMW, Land Rover, Rover, Mini Carav 12-003</div>
+
+                    <div class="basket-item__amount">
+                        <a href="#!" class="decrement">-</a>
+                        <input class="input-field" type="text" value="2">
+                        <a href="#!" class="increment">+</a>
+                    </div>
+
+                    <div class="basket-item__price">
+                        715 <span>грн</span>
+                    </div>
+
+                    <div class="basket-item__sum">
+                        1430 <span>грн</span>
+                    </div>
+                    <div class="basket-item__delete"><a href=""><i class="fa fa-trash-o" aria-hidden="true"></i></a></div>
+                </article>
+
+            </div>
+
+            <!--form start-->
+            <form class="checkout-form">
+                <div class="delivery-method">
+                    <h2 class="delivery-method__title">Способ доставки</h2>
+                    <p>
+                        <input type="radio" class="radio" id="method1" name="method">
+                        <label for="method1">
+                            <span class="label-title">Доставка по Москве (в пределах МКАД)</span>
+                            <span class="label-desc">При заказе на сумму менее 7000 руб. стоимость доставки составляет 300 руб.	</span>
+                        </label>
+                    </p>
+                    <p>
+                        <input type="radio" class="radio" id="method2" name="method">
+                        <label for="method2">
+                            <span class="label-title">Доставка по Москве (в пределах МКАД)</span>
+                            <span class="label-desc">При заказе на сумму менее 7000 руб. стоимость доставки составляет 300 руб.	</span>
+                        </label>
+                    </p>
+                    <p>
+                        <input type="radio" class="radio" id="method3" name="method">
+                        <label for="method3">
+                            <span class="label-title">Доставка по Москве (в пределах МКАД)</span>
+                            <span class="label-desc">При заказе на сумму менее 7000 руб. стоимость доставки составляет 300 руб.	</span>
+                        </label>
+                    </p>
+                    <p>
+                        <input type="radio" class="radio" id="method4" name="method">
+                        <label for="method4">
+                            <span class="label-title">Доставка по Москве (в пределах МКАД)</span>
+                            <span class="label-desc">При заказе на сумму менее 7000 руб. стоимость доставки составляет 300 руб.	</span>
+                        </label>
+                    </p>
+                    <p>
+                        <input type="radio" class="radio" id="method5" name="method">
+                        <label for="method5">
+                            <span class="label-title">Доставка по Москве (в пределах МКАД)</span>
+                            <span class="label-desc">При заказе на сумму менее 7000 руб. стоимость доставки составляет 300 руб.	</span>
+                        </label>
+                    </p>
+                </div>
+                <div class="payment-method">
+                    <h2 class="payment-method__title">Способ оплаты</h2>
+
+                    <p>
+                        <input type="radio" class="radio" name="payment" id="payment1">
+                        <label for="payment1" class="payment-method__label">Наличными курьеру при получении заказа</label>
+                    </p>
+                    <p>
+                        <input type="radio" class="radio" name="payment" id="payment2">
+                        <label for="payment2" class="payment-method__label">Безналичный расчет через систему Сбербанк Онлайн</label>
+                    </p>
+                    <p>
+                        <input type="radio" class="radio" name="payment" id="payment3">
+                        <label for="payment3" class="payment-method__label">Яндекс.Деньги</label>
+                    </p>
+                    <p>
+                        <input type="radio" class="radio" name="payment" id="payment4">
+                        <label for="payment4" class="payment-method__label">Другие способы оплаты</label>
+                    </p>
+                    <p>
+                        <input type="radio" class="radio" name="payment" id="payment5">
+                        <label for="payment5" class="payment-method__label">Элекснет - оплата на банковскую карту через терминал</label>
+                    </p>
+                    <p>
+                        <input type="radio" class="radio" name="payment" id="payment6">
+                        <label for="payment6" class="payment-method__label">YandexДеньги перевод на кошелек</label>
+                    </p>
+                    <p>
+                        <input type="radio" class="radio" name="payment" id="payment7">
+                        <label for="payment7" class="payment-method__label">Visa, Mastercard, Maestro</label>
+                    </p>
+                </div>
+
+                <p class="checkout-form__title">Основная информация</p>
+                <div class="person-info">
+                    <p>
+                        <label for="fio">* Имя, Фамилия</label>
+                        <input type="text" id="fio">
+                    </p>
+                    <p>
+                        <label for="phone">* Телефон</label>
+                        <input type="text" id="phone">
+                    </p>
+                    <p>
+                        <label for="email">* E-mail</label>
+                        <input type="text" id="email">
+                    </p>
+                    <p>
+                        <label for="country">* Страна</label>
+                        <input type="text" id="country">
+                    </p>
+
+                </div>
+
+                <div class="location-info">
+                    <p>
+                        <label for="region">* Регион</label>
+                        <input type="text" id="region">
+                    </p>
+                    <p>
+                        <label for="city">* Город</label>
+                        <input type="text" id="city">
+                    </p>
+                    <p>
+                        <label for="index">* Индекс</label>
+                        <input type="text" id="index">
+                    </p>
+                    <p>
+                        <label for="address">* Адрес</label>
+                        <input type="text" id="address">
+                    </p>
+                    <p>
+                        <label for="comment">* Комментарий</label>
+                        <textarea name="" id="comment"></textarea>
+                    </p>
+
+                </div>
+
+                <input class="submit" type="submit" value="Оформить заказ">
+            </form>
+            <!--form end-->
+
+
+        </div>
+    </section>
+    <!--basket section end-->
+
+
+
+    <!--footer start-->
+
+    <footer class="footer">
+
+        <div class="footer__top-line">
+
+            <!--search fields start-->
+
+            <div class="search-panel">
+
+                <div class="wrapper">
+                    <ul class="list-wrap">
+                        <li>
+                            <p class="search-panel__title">поиск по автомобилю</p>
+                        </li>
+                        <li>
+
+                            <!--search block start-->
+
+                            <div class="search-block">
+                                <form class="search-form" id="search-form">
+
+                                    <select class="select-hidden">
+                                        <option value="" hidden>Название автомобиля</option>
+                                        <option value="">bmw</option>
+                                        <option value="">mecedes</option>
+                                        <option value="">skoda</option>
+                                        <option value="">opel</option>
+                            </select>
+
+                                    <select class="select-hidden">
+                                        <option value="" hidden>Модель автомобиля</option>
+                                        <option value="">i1</option>
+                                        <option value="">i2</option>
+                                        <option value="">i3</option>
+                                        <option value="">i4</option>
+                            </select>
+
+                                    <select class="select-hidden">
+                                        <option value="" hidden>Год выпуска автомобиля</option>
+                                        <option value="">2014</option>
+                                        <option value="">2015</option>
+                                        <option value="">2016</option>
+                                        <option value="">2017</option>
+                            </select>
+
+                                    <input type="submit" class="search-submit" value="Найти">
+
+                                </form>
+                            </div>
+
+                            <!--search block end-->
+
+                        </li>
+                    </ul>
+
+
+
+                </div>
+
+            </div>
+
+            <!--search fields end-->
+
+        </div>
+
+
+        <div class="wrapper overflow">
+            <form action="" class="contact-us">
+                <p>
+                    <label for="contact-name">Имя</label>
+                    <input type="text" placeholder="Имя" id="contact-name">
+                </p>
+                <p>
+                    <label for="contact-phone">Телефон</label>
+                    <input type="text" placeholder="Телефон" id="contact-phone">
+                </p>
+                <p>
+                    <label for="contact-auto">Автомобиль</label>
+                    <input type="text" placeholder="Автомобиль" id="contact-auto">
+                </p>
+                <p>
+                    <label for="contact-email">Email</label>
+                    <input type="email" placeholder="Email" id="contact-email">
+                </p>
+                <p>
+                    <label for="contact-msg">Сообщение</label>
+                    <textarea placeholder="Сообщение" id="contact-msg"></textarea>
+                </p>
+                <p><input type="submit" class="contact-us__submit" value="Отправить"></p>
+            </form>
+
+            <div class="footer__menu-wrap">
+                <nav class="footer__menu">
+                    <a href="#!">Доставка и оплата</a>
+                    <a href="#!">Возврат товара</a>
+                    <a href="#!">Обратная связь</a>
+                    <a href="#!">Каталог PDF</a>
+                </nav>
+
+                <div class="footer__catalog">
+                    <a href="#!">Переходные рамки</a>
+                    <a href="#!">Переходники ISO</a>
+                    <a href="#!">Антенные адаптеры</a>
+                    <a href="#!">Разъемы для магнитол</a>
+                    <a href="#!">Рулевые адаптеры</a>
+                    <a href="#!">Всё для монтажа</a>
+                </div>
+
+                <div class="footer__contacts">
+                    <a href="#!"><i class="fa fa-map-marker" aria-hidden="true"></i>г.Киев ул. Ушинского 14а</a>
+                    <a href="#!"><i class="fa fa-phone" aria-hidden="true"></i>(063) 704-45-63</a>
+                    <a href="#!" class="tel-padding">(096) 914-23-09</a>
+                    <a href="#!" class="tel-padding">(050) 381-40-45</a>
+                    <a href="#!"><i class="fa fa-envelope-o" aria-hidden="true"></i>info@carav.com.ua</a>
+                </div>
+
+
+                <div class="footer__socials">
+                    <a href="href-#!"><i class="fa fa-facebook-square" aria-hidden="true"></i></a>
+                    <a href="href-#!"><i class="fa fa-instagram" aria-hidden="true"></i></a>
+                    <a href="href-#!"><i class="fa fa-vk" aria-hidden="true"></i></a>
+                    <a href="href-#!"><i class="fa fa-skype" aria-hidden="true"></i></a>
+                    <a href="href-#!"><i class="fa fa-twitter-square" aria-hidden="true"></i></a>
+                </div>
+
+            </div>
+        </div>
+
+    </footer>
+
+    <!--footer end-->
+
+
+    <!--scripts-->
+    <script src="/js/app.js"></script>
+</body>
+
+</html>

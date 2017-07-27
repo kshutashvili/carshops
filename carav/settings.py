@@ -23,7 +23,7 @@ BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 SECRET_KEY = '!2sus_8f#e5z(zlrovmji6olv%3(cz09y$06ec=i7t&^8l9xxq'
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = True
+DEBUG = False
 
 ALLOWED_HOSTS = []
 
@@ -37,6 +37,10 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
+    # 3rd party
+
+    # own
+    'users',
 ]
 
 MIDDLEWARE = [
@@ -54,7 +58,7 @@ ROOT_URLCONF = 'carav.urls'
 TEMPLATES = [
     {
         'BACKEND': 'django.template.backends.django.DjangoTemplates',
-        'DIRS': [],
+        'DIRS': [os.path.join(BASE_DIR, 'templates')],
         'APP_DIRS': True,
         'OPTIONS': {
             'context_processors': [
@@ -75,14 +79,19 @@ WSGI_APPLICATION = 'carav.wsgi.application'
 
 DATABASES = {
     'default': {
-        'ENGINE': 'django.db.backends.sqlite3',
-        'NAME': os.path.join(BASE_DIR, 'db.sqlite3'),
+        'ENGINE': 'django.db.backends.mysql',
+        'NAME': 'carav',
+        'USER': 'carav',
+        'PASSWORD': 'carav',
+        'HOST': '/run/mysqld/mysqld.sock'
     }
 }
 
 
 # Password validation
 # https://docs.djangoproject.com/en/1.10/ref/settings/#auth-password-validators
+
+AUTH_USER_MODEL = 'users.User'
 
 AUTH_PASSWORD_VALIDATORS = [
     {
@@ -117,4 +126,15 @@ USE_TZ = True
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/1.10/howto/static-files/
 
+MEDIA_URL = '/media/'
+MEDIA_ROOT = os.path.join(os.path.dirname(BASE_DIR), 'media')
+
 STATIC_URL = '/static/'
+STATIC_ROOT = os.path.join(os.path.dirname(BASE_DIR), 'static')
+
+STATICFILES_DIRS = [os.path.join(BASE_DIR, 'static')]
+
+try:
+    from local_settings import *
+except ImportError:
+    pass

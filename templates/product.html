@@ -1,0 +1,982 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <title>Product</title>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link href="/css/style.css" rel="stylesheet">
+    <!--[if lt IE 10]>
+    <link href="/css/ie.css" rel="stylesheet">
+      <script src="https://oss.maxcdn.com/html5shiv/3.7.3/html5shiv.min.js"></script>
+      <script src="https://oss.maxcdn.com/respond/1.4.2/respond.min.js"></script>
+    <![endif]-->
+</head>
+
+<body>
+    <!--header start-->
+    <header class="header">
+
+
+        <!--modal window start-->
+
+        <div class="modal-wrapper" id="modal">
+            <div class="modal-window">
+                <div class="modal-close-wrap"><a href="#!" id="modal-close"><i class="fa fa-times" aria-hidden="true"></i></a></div>
+                <p class="modal-title">Заказать звонок</p>
+                <form class="modal-form">
+                    <p class="input-wrap">
+                        <label for="call-name">* Имя</label>
+                        <input type="text" id="call-name">
+                    </p>
+                    <p class="input-wrap">
+                        <label for="call-phone">* Телефон</label>
+                        <input type="text" id="call-phone">
+                    </p>
+                    <p class="input-wrap">
+                        <label for="call-email">E-mail</label>
+                        <input type="text" id="call-email">
+                    </p>
+                    <p class="input-wrap">
+                        <input type="submit" class="submit" value="заказать звонок">
+                    </p>
+                </form>
+            </div>
+        </div>
+
+        <!--modal window end-->
+
+        <!--top-line start-->
+
+        <div class="top-line">
+
+            <div class="wrapper overflow">
+
+                <nav class="top-line__nav">
+                    <a href="#!">Стать диллером</a>
+                    <a href="#!">Каталог PDF</a>
+                    <a href="#!">Оплата и доставка</a>
+                    <a href="#!">Контакты</a>
+                </nav>
+
+
+                <div class="auth-wrap">
+                    <a href="#!" class="sign-up"><i class="fa fa-user" aria-hidden="true"></i>Регистрация</a>
+                    <a href="#!" class="sign-in"><i class="fa fa-sign-in" aria-hidden="true"></i>Вход</a>
+                </div>
+
+            </div>
+
+
+
+        </div>
+
+        <!--top-line end-->
+
+        <div class="wrapper">
+            <ul class="list-wrap">
+                <li>
+                    <div class="logo">
+                        <a href="#!">
+                            <h2 class="logo__title">carav</h2>
+                            <p class="logo__caption">Официальный интернет<br> магазин продукции </p>
+                        </a>
+                    </div>
+                </li>
+                <li>
+                    <div class="top-search-wrap">
+
+                        <input class="search-field" id="search-field" type="text" placeholder="Поиск">
+                        <label for="search-field" class="search-icon"><i class="fa fa-search" aria-hidden="true"></i></label>
+
+                    </div>
+                </li>
+                <li>
+                    <div class="phone-numbers">
+
+                        <div class="phone-icon">
+                            <i class="fa fa-mobile fa-2x" aria-hidden="true"></i>
+                        </div>
+
+                        <div class="phone-numbers__numbers">
+                            <a href="#!" class="phone-numbers__numbers__number">(063) 704-45-63</a>
+                            <a href="#!" class="phone-numbers__numbers__number">(096) 914-23-09</a>
+                            <a href="#!" class="phone-numbers__numbers__number" id="modal-open"><span>Позвонить Вам?</span></a>
+                            <a href="#!" class="arrow-down"><i class="fa fa-sort-desc" aria-hidden="true"></i></a>
+                        </div>
+
+                    </div>
+                </li>
+                <li>
+                    <div class="basket-wrap">
+                        <a href="#!" class="basket-goods"><i class="fa fa-shopping-basket" aria-hidden="true"></i>Корзина товаров <span>(0)</span></a>
+                        <a href="#!" class="goto-basket"><span>Перейти в корзину</span></a>
+                    </div>
+                </li>
+            </ul>
+
+        </div>
+
+        <!--header menu start-->
+
+        <div class="header__menu-wrap">
+            <div class="wrapper">
+
+                <nav class="menu">
+                    <a href="/pages/category.html" target="_blank">переходные рамки</a>
+                    <a href="/pages/category.html" target="_blank">разъёмы для подключения</a>
+                    <a href="/pages/category.html" target="_blank">адаптеры кнопок на руле</a>
+                    <a href="/pages/category.html" target="_blank">аксессуары для установки</a>
+                    <a href="/pages/category.html" target="_blank">автоэлектроника и прочее</a>
+                </nav>
+
+            </div>
+        </div>
+
+        <!--header menu end-->
+
+        <!--header mobile menu start-->
+
+        <div class="mb-menu">
+            <div class="wrapper">
+                <i id="mb-mnu-btn" class="fa fa-bars fa-2x" aria-hidden="true"></i>
+                <nav class="menu">
+                    <a href="#!">переходные рамки</a>
+                    <a href="#!">разъёмы для подключения</a>
+                    <a href="#!">адаптеры кнопок на руле</a>
+                    <a href="#!">аксессуары для установки</a>
+                    <a href="#!">автоэлектроника и прочее</a>
+                </nav>
+
+            </div>
+        </div>
+
+        <!--header mobile menu end-->
+
+        <!--search fields start-->
+
+        <div class="search-panel">
+
+            <div class="wrapper">
+                <ul class="list-wrap">
+                    <li>
+
+                        <div class="search-logo">
+                            <img src="/img/car-search.png" alt="car-search.png">
+                        </div>
+
+                    </li>
+                    <li>
+                        <p class="search-panel__title">поиск по автомобилю</p>
+                    </li>
+                    <li>
+                        <!--search block start-->
+
+                        <div class="search-block">
+                            <form class="search-form" id="search-form">
+
+                                <select class="select-hidden">
+                                        <option value="" hidden>Название автомобиля</option>
+                                        <option value="">bmw</option>
+                                        <option value="">mecedes</option>
+                                        <option value="">skoda</option>
+                                        <option value="">opel</option>
+                        </select>
+
+                                <select class="select-hidden">
+                                        <option value="" hidden>Модель автомобиля</option>
+                                        <option value="">i1</option>
+                                        <option value="">i2</option>
+                                        <option value="">i3</option>
+                                        <option value="">i4</option>
+                        </select>
+
+                                <select class="select-hidden">
+                                        <option value="" hidden>Год выпуска автомобиля</option>
+                                        <option value="">2014</option>
+                                        <option value="">2015</option>
+                                        <option value="">2016</option>
+                                        <option value="">2017</option>
+                        </select>
+
+                                <input type="submit" class="search-submit" value="Найти">
+
+                            </form>
+                        </div>
+
+                        <!--search block end-->
+                    </li>
+                </ul>
+
+
+
+
+
+            </div>
+
+        </div>
+
+        <!--search fields end-->
+
+    </header>
+    <!--header end-->
+
+    <!--product card section start-->
+
+    <section class="product-card-section">
+        <!--breadcrumps start-->
+
+        <div class="wrapper">
+            <div class="breadcrumps">
+                <ul>
+                    <li><a href="#!">Главная</a></li>
+                    <li><a href="#!">Разъемы для подключения</a></li>
+                </ul>
+            </div>
+        </div>
+
+        <!--breadcrumps end-->
+
+
+        <!--product card start-->
+
+        <div class="product-card">
+            <div class="wrapper overflow">
+                <div class="product-card__view">
+                    <div class="view__main">
+                        <ul class="bxslider">
+                            <li><img src="/img/product-img-big.png" alt="product-img.png"></li>
+                            <li><img src="/img/product-img-big.png" alt="product-img.png"></li>
+                            <li><img src="/img/product-img-big.png" alt="product-img.png"></li>
+                        </ul>
+                    </div>
+                    <div class="view__other bx-pager">
+
+                        <div><a href="#!" data-slide-index="0"><img src="/img/product-img-big.png" alt="product-img.png"></a></div>
+                        <div><a href="#!" data-slide-index="1"><img src="/img/product-img-big.png" alt="product-img.png"></a></div>
+                        <div><a href="#!" data-slide-index="2"><img src="/img/product-img-big.png" alt="product-img.png"></a></div>
+
+                    </div>
+                    <div class="scheme-wrap">
+                        <img src="/img/scheme.png" alt="scheme.png">
+                        <p class="scheme-desc"><span>Внутренний размер рамки: 173 х 98 мм</span><i class="fa fa-info-circle" aria-hidden="true"></i></p>
+                    </div>
+                </div>
+
+                <div class="product-card__information">
+
+                    <h1 class="product-title">Переходник ISO BMW, Land Rover, Rover, <br>Mini Carav 12-003</h1>
+
+                    <div class="product-popularity">
+
+                        <p class="product-code">Код товара: 11-041</p>
+
+                        <p class="product-stars">
+
+                            <a href="#!"><i class="fa fa-star" aria-hidden="true"></i></a>
+                            <a href="#!"><i class="fa fa-star" aria-hidden="true"></i></a>
+                            <a href="#!"><i class="fa fa-star" aria-hidden="true"></i></a>
+                            <a href="#!"><i class="fa fa-star" aria-hidden="true"></i></a>
+                            <a href="#!"><i class="fa fa-star" aria-hidden="true"></i></a>
+
+                        </p>
+
+                        <p class="product-rating">Рейтинг 5 из 5 Голоcов:<span class="voices-amount">6</span></p>
+
+                        <a class="product-reviews" href="#!">Отзывы и вопросы (0)</a>
+
+                    </div>
+
+                    <div class="wrap">
+                        <div class="product-price-wrap">
+                            <p class="product-available">Есть в наличии</p>
+                            <p class="product-ppc">РРЦ: 1155 грн</p>
+                            <p class="product-price"><span class="old-price">1070 грн</span>715 <span>грн</span></p>
+                        </div>
+
+                        <div class="product-btns-wrap">
+                            <a class="product-buy-btn" href="#!">купить сейчас</a>
+                            <form class="one-click-form">
+                                <input type="submit" class="product-order-click" value="заказать в 1 клик">
+                                <p><input type="text" class="product-order-phone" placeholder="Ваш телефон"></p>
+                            </form>
+                        </div>
+
+                    </div>
+
+
+                    <!--stock block start-->
+                    <div class="stock">
+                        <p class="stock__title">Акция! Клипсы AWM в подарок<i class="fa fa-info-circle" aria-hidden="true"></i></p>
+                        <p class="stock__time-out">45 дней 6 часов 29 минут 6 секунд</p>
+                    </div>
+                    <!--stock block end-->
+
+
+                    <!--contacts block start-->
+                    <div class="contacts">
+                        <div class="contacts__phone-wrap">
+                            <ul>
+                                <li><a href="#!"><i class="fa fa-phone-square" aria-hidden="true"></i>+38 063 159 89 56<i class="fa fa-caret-down" aria-hidden="true"></i></a></li>
+                                <li><a href="#!">+38 063 159 89 56</a></li>
+                                <li><a href="#!">+38 063 159 89 56</a></li>
+                                <li><a href="#!">+38 063 159 89 56</a></li>
+                            </ul>
+                        </div>
+
+                        <a href="#!" class="delivery-and-payment"><i class="fa fa-briefcase" aria-hidden="true"></i><span>Условия доставки и оплаты</span></a>
+                        <a href="#!" class="address"><i class="fa fa-map-marker" aria-hidden="true"></i> <span>Адрес и контакты</span></a>
+                    </div>
+                    <!--contacts block end-->
+
+
+                    <!--table start-->
+                    <div class="table-wrap">
+                        <p class="table-title">Переходная рамка AWM 781-03-102 для автомобилей:<br> BMW
+                        </p>
+
+                        <table>
+                            <tbody>
+                                <tr>
+                                    <td>5 (E39) 1995-2003</td>
+                                    <td>5 (E39) 1995-2003</td>
+                                </tr>
+                                <tr>
+                                    <td>X5 (E53) 1999-2006</td>
+                                    <td>X5 (E53) 1999-2006</td>
+                                </tr>
+                                <tr>
+                                    <td>5 (E39) 1995-2003</td>
+                                    <td>5 (E39) 1995-2003</td>
+                                </tr>
+                                <tr>
+                                    <td>X5 (E53) 1999-2006</td>
+                                    <td>X5 (E53) 1999-2006</td>
+                                </tr>
+                                <tr>
+                                    <td>5 (E39) 1995-2003</td>
+                                    <td>5 (E39) 1995-2003</td>
+                                </tr>
+                                <tr>
+                                    <td>X5 (E53) 1999-2006</td>
+                                    <td>X5 (E53) 1999-2006</td>
+                                </tr>
+                                <tr>
+                                    <td>5 (E39) 1995-2003</td>
+                                    <td>5 (E39) 1995-2003</td>
+                                </tr>
+                                <tr>
+                                    <td>X5 (E53) 1999-2006</td>
+                                    <td>X5 (E53) 1999-2006</td>
+                                </tr>
+                                <tr>
+                                    <td>5 (E39) 1995-2003</td>
+                                    <td>5 (E39) 1995-2003</td>
+                                </tr>
+                                <tr>
+                                    <td>X5 (E53) 1999-2006</td>
+                                    <td>X5 (E53) 1999-2006</td>
+                                </tr>
+                                <tr>
+                                    <td>5 (E39) 1995-2003</td>
+                                    <td>5 (E39) 1995-2003</td>
+                                </tr>
+                                <tr>
+                                    <td>X5 (E53) 1999-2006</td>
+                                    <td>X5 (E53) 1999-2006</td>
+                                </tr>
+                                <tr>
+                                    <td>5 (E39) 1995-2003</td>
+                                    <td>5 (E39) 1995-2003</td>
+                                </tr>
+
+                            </tbody>
+                        </table>
+                    </div>
+                    <!--table end-->
+                </div>
+
+            </div>
+        </div>
+
+        <!--product card end-->
+
+        <!--carav solution start-->
+
+        <div class="carav-solution">
+            <div class="header">
+                <div class="wrapper">
+                    <div class="carav-solution__delivery">
+                        <p>Быстрая доставка</p>
+                        <p>Ближайшая отправка - <span>сегодня</span></p>
+                    </div>
+                    <div class="carav-solution__payment">
+                        <p>Оплата при получении или </p>
+                        <p>электронным платежем на сайте</span>
+                        </p>
+                    </div>
+                    <div class="carav-solution__online-help">
+                        <p>Онлайн помощь</p>
+                        <p>в подборе</p>
+                    </div>
+                </div>
+            </div>
+
+            <div class="carav-solution__logo-wrap">
+                <div class="wrapper overflow">
+                    <div class="logo">carav</div>
+                    <div class="caption">in car solution</div>
+                </div>
+            </div>
+
+
+            <div class="carav-solution__description">
+                <div class="wrapper">
+                    <p>Официальный интернет-магазин <a href="#!">carav.com.ua</a> представляет полный ассортимент автомобильного
+                        доп. оборудования бренда CARAV на территории Украины, а так же является эксклюзивным представителем
+                        ТМ: ACV, AWM, Clayton, Metra, Scosche.
+                    </p>
+                    <p>Более 1000 наименований продукции: переходные рамки, ISO-переходники, рулевые адаптеры, разъемы для магнитол,
+                        адаптеры активации штатных усилителей, различный монтажный инструмент и прочие необходимые расходные
+                        материалы для качественной установки аудио-видео аппаратуры в современные автомобили.
+                    </p>
+                    <p>Наша компания готова предложить вам лучшие цены на оригинальную продукцию CARAV, ACV, AWM, Clayton, Metra,
+                        Scosche с оперативной доставкой по всей Украине.
+                    </p>
+                    <p>Приглашаем к сотрудничеству установочные центры, магазины автозвука и дилерские центры – для вас мы подготовили
+                        специальные оптовые цены!<br> Официальный интернет-магазин <a href="#!">carav.com.ua</a> представляет
+                        полный ассортимент автомобильного доп. оборудования бренда CARAV на территории Украины, а так же
+                        является эксклюзивным представителем ТМ: ACV, AWM, Clayton, Metra, Scosche.
+                    </p>
+                    <p>Более 1000 наименований продукции: переходные рамки, ISO-переходники, рулевые адаптеры, разъемы для магнитол,
+                        адаптеры активации штатных усилителей, различный монтажный инструмент и прочие необходимые расходные
+                        материалы для качественной установки аудио-видео аппаратуры в современные автомобили.
+                    </p>
+                    <p>С уважением,<br> Коллектив интернет-магазина carav.com.ua</p>
+                </div>
+            </div>
+
+            <div class="carav-solution__imgs-wrap">
+                <div class="wrapper overflow">
+                    <img src="/img/adapter.png" alt="adapter">
+                    <img src="/img/adapter.png" alt="adapter">
+                    <p><img src="/img/germany_flag.png" alt="germany flag"><span>Продукция фирмы ACV изготовлена в Германии</span></p>
+                </div>
+            </div>
+
+        </div>
+
+        <!--carav solution end-->
+
+
+        <!--recommended start-->
+        <div class="wrapper">
+            <div class="recommended">
+                <p class="recommended__title">Сэкономьте, покупая в комплекте</p>
+
+
+                <div class="recommended__slider ">
+                    <ul class="bxslider-two">
+                        <li>
+
+                            <div class="slide">
+                                <div class="recommended__menu">
+                                    <a href="#!" class="active">Разъемы для подключения</a>
+                                    <a href="#!">Разъемы для подключения</a>
+                                    <a href="#!">Разъемы для подключения</a>
+                                    <a href="#!">Разъемы для подключения</a>
+                                    <a href="#!">Разъемы для подключения</a>
+                                </div>
+                                <!--tovar start-->
+
+                                <div class="tovar">
+                                    <div class="tovar__img-wrap">
+                                        <img src="/img/product-img.png" alt="product">
+                                    </div>
+                                    <div class="tovar__info-wrap">
+                                        <p class="tovar__code">Код товара: 11-041</p>
+                                        <p class="tovar__title">Переходник ISO BMW, Land Rover, Rover, Mini Carav <br>12-003</p>
+                                        <div class="tovar__price-wrap">
+                                            <a href="#!" class="tovar__available">есть в наличии</a>
+                                            <p class="tovar__price"><span class="old-price">1070 грн</span> 715 <span>грн</span></p>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <!--tovar end-->
+
+                                <!--tovar start-->
+
+                                <div class="tovar">
+                                    <div class="tovar__img-wrap">
+                                        <img src="/img/product-img.png" alt="product">
+                                    </div>
+                                    <div class="tovar__info-wrap">
+                                        <p class="tovar__code">Код товара: 11-041</p>
+                                        <p class="tovar__title">Переходник ISO BMW, Land Rover, Rover, Mini Carav <br>12-003</p>
+                                        <div class="tovar__price-wrap">
+                                            <a href="#!" class="tovar__available">есть в наличии</a>
+                                            <p class="tovar__price"><span class="old-price">1070 грн</span> 715 <span>грн</span></p>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <!--tovar end-->
+
+                                <!--summary start-->
+                                <div class="summary">
+                                    <p class="summary__price">715 <span>грн</span></p>
+                                    <p class="summary__saving">экономия: <span>715 грн</span></p>
+                                    <a href="#!" class="summary__buy">купить комплект</a>
+                                </div>
+                                <!--summary end-->
+                            </div>
+
+                        </li>
+                        <li>
+
+                            <div class="slide">
+                                <div class="recommended__menu">
+                                    <a href="#!">Разъемы для подключения</a>
+                                    <a href="#!" class="active">Разъемы для подключения</a>
+                                    <a href="#!">Разъемы для подключения</a>
+                                    <a href="#!">Разъемы для подключения</a>
+                                    <a href="#!">Разъемы для подключения</a>
+                                </div>
+                                <!--tovar start-->
+
+                                <div class="tovar">
+                                    <div class="tovar__img-wrap">
+                                        <img src="/img/product-img.png" alt="product">
+                                    </div>
+                                    <div class="tovar__info-wrap">
+                                        <p class="tovar__code">Код товара: 11-041</p>
+                                        <p class="tovar__title">Переходник ISO BMW, Land Rover, Rover, Mini Carav <br>12-003</p>
+                                        <div class="tovar__price-wrap">
+                                            <a href="#!" class="tovar__available">есть в наличии</a>
+                                            <p class="tovar__price"><span class="old-price">1070 грн</span> 715 <span>грн</span></p>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <!--tovar end-->
+
+                                <!--tovar start-->
+
+                                <div class="tovar">
+                                    <div class="tovar__img-wrap">
+                                        <img src="/img/product-img.png" alt="product">
+                                    </div>
+                                    <div class="tovar__info-wrap">
+                                        <p class="tovar__code">Код товара: 11-041</p>
+                                        <p class="tovar__title">Переходник ISO BMW, Land Rover, Rover, Mini Carav <br>12-003</p>
+                                        <div class="tovar__price-wrap">
+                                            <a href="#!" class="tovar__available">есть в наличии</a>
+                                            <p class="tovar__price"><span class="old-price">1070 грн</span> 715 <span>грн</span></p>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <!--tovar end-->
+
+                                <!--summary start-->
+                                <div class="summary">
+                                    <p class="summary__price">715 <span>грн</span></p>
+                                    <p class="summary__saving">экономия: <span>715 грн</span></p>
+                                    <a href="#!" class="summary__buy">купить комплект</a>
+                                </div>
+                                <!--summary end-->
+                            </div>
+
+                        </li>
+                        <li>
+
+                            <div class="slide">
+                                <div class="recommended__menu">
+                                    <a href="#!">Разъемы для подключения</a>
+                                    <a href="#!">Разъемы для подключения</a>
+                                    <a href="#!" class="active">Разъемы для подключения</a>
+                                    <a href="#!">Разъемы для подключения</a>
+                                    <a href="#!">Разъемы для подключения</a>
+                                </div>
+                                <!--tovar start-->
+
+                                <div class="tovar">
+                                    <div class="tovar__img-wrap">
+                                        <img src="/img/product-img.png" alt="product">
+                                    </div>
+                                    <div class="tovar__info-wrap">
+                                        <p class="tovar__code">Код товара: 11-041</p>
+                                        <p class="tovar__title">Переходник ISO BMW, Land Rover, Rover, Mini Carav <br>12-003</p>
+                                        <div class="tovar__price-wrap">
+                                            <a href="#!" class="tovar__available">есть в наличии</a>
+                                            <p class="tovar__price"><span class="old-price">1070 грн</span> 715 <span>грн</span></p>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <!--tovar end-->
+
+                                <!--tovar start-->
+
+                                <div class="tovar">
+                                    <div class="tovar__img-wrap">
+                                        <img src="/img/product-img.png" alt="product">
+                                    </div>
+                                    <div class="tovar__info-wrap">
+                                        <p class="tovar__code">Код товара: 11-041</p>
+                                        <p class="tovar__title">Переходник ISO BMW, Land Rover, Rover, Mini Carav <br>12-003</p>
+                                        <div class="tovar__price-wrap">
+                                            <a href="#!" class="tovar__available">есть в наличии</a>
+                                            <p class="tovar__price"><span class="old-price">1070 грн</span> 715 <span>грн</span></p>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <!--tovar end-->
+
+                                <!--summary start-->
+                                <div class="summary">
+                                    <p class="summary__price">715 <span>грн</span></p>
+                                    <p class="summary__saving">экономия: <span>715 грн</span></p>
+                                    <a href="#!" class="summary__buy">купить комплект</a>
+                                </div>
+                                <!--summary end-->
+                            </div>
+
+                        </li>
+                        <li>
+
+                            <div class="slide">
+                                <div class="recommended__menu">
+                                    <a href="#!">Разъемы для подключения</a>
+                                    <a href="#!">Разъемы для подключения</a>
+                                    <a href="#!">Разъемы для подключения</a>
+                                    <a href="#!" class="active">Разъемы для подключения</a>
+                                    <a href="#!">Разъемы для подключения</a>
+                                </div>
+                                <!--tovar start-->
+
+                                <div class="tovar">
+                                    <div class="tovar__img-wrap">
+                                        <img src="/img/product-img.png" alt="product">
+                                    </div>
+                                    <div class="tovar__info-wrap">
+                                        <p class="tovar__code">Код товара: 11-041</p>
+                                        <p class="tovar__title">Переходник ISO BMW, Land Rover, Rover, Mini Carav <br>12-003</p>
+                                        <div class="tovar__price-wrap">
+                                            <a href="#!" class="tovar__available">есть в наличии</a>
+                                            <p class="tovar__price"><span class="old-price">1070 грн</span> 715 <span>грн</span></p>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <!--tovar end-->
+
+                                <!--tovar start-->
+
+                                <div class="tovar">
+                                    <div class="tovar__img-wrap">
+                                        <img src="/img/product-img.png" alt="product">
+                                    </div>
+                                    <div class="tovar__info-wrap">
+                                        <p class="tovar__code">Код товара: 11-041</p>
+                                        <p class="tovar__title">Переходник ISO BMW, Land Rover, Rover, Mini Carav <br>12-003</p>
+                                        <div class="tovar__price-wrap">
+                                            <a href="#!" class="tovar__available">есть в наличии</a>
+                                            <p class="tovar__price"><span class="old-price">1070 грн</span> 715 <span>грн</span></p>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <!--tovar end-->
+
+                                <!--summary start-->
+                                <div class="summary">
+                                    <p class="summary__price">715 <span>грн</span></p>
+                                    <p class="summary__saving">экономия: <span>715 грн</span></p>
+                                    <a href="#!" class="summary__buy">купить комплект</a>
+                                </div>
+                                <!--summary end-->
+                            </div>
+
+                        </li>
+                        <li>
+
+                            <div class="slide">
+                                <div class="recommended__menu">
+                                    <a href="#!">Разъемы для подключения</a>
+                                    <a href="#!">Разъемы для подключения</a>
+                                    <a href="#!">Разъемы для подключения</a>
+                                    <a href="#!">Разъемы для подключения</a>
+                                    <a href="#!" class="active">Разъемы для подключения</a>
+                                </div>
+                                <!--tovar start-->
+
+                                <div class="tovar">
+                                    <div class="tovar__img-wrap">
+                                        <img src="/img/product-img.png" alt="product">
+                                    </div>
+                                    <div class="tovar__info-wrap">
+                                        <p class="tovar__code">Код товара: 11-041</p>
+                                        <p class="tovar__title">Переходник ISO BMW, Land Rover, Rover, Mini Carav <br>12-003</p>
+                                        <div class="tovar__price-wrap">
+                                            <a href="#!" class="tovar__available">есть в наличии</a>
+                                            <p class="tovar__price"><span class="old-price">1070 грн</span> 715 <span>грн</span></p>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <!--tovar end-->
+
+                                <!--tovar start-->
+
+                                <div class="tovar">
+                                    <div class="tovar__img-wrap">
+                                        <img src="/img/product-img.png" alt="product">
+                                    </div>
+                                    <div class="tovar__info-wrap">
+                                        <p class="tovar__code">Код товара: 11-041</p>
+                                        <p class="tovar__title">Переходник ISO BMW, Land Rover, Rover, Mini Carav <br>12-003</p>
+                                        <div class="tovar__price-wrap">
+                                            <a href="#!" class="tovar__available">есть в наличии</a>
+                                            <p class="tovar__price"><span class="old-price">1070 грн</span> 715 <span>грн</span></p>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <!--tovar end-->
+
+                                <!--summary start-->
+                                <div class="summary">
+                                    <p class="summary__price">715 <span>грн</span></p>
+                                    <p class="summary__saving">экономия: <span>715 грн</span></p>
+                                    <a href="#!" class="summary__buy">купить комплект</a>
+                                </div>
+                                <!--summary end-->
+                            </div>
+
+                        </li>
+                    </ul>
+                </div>
+
+
+            </div>
+        </div>
+        <!--recommended end-->
+
+        <!--comments section start-->
+
+        <div class="comments-section">
+            <div class="header">
+                <div class="wrapper">
+                    <h2 class="title"><i class="fa fa-commenting-o" aria-hidden="true"></i>Отзывы и вопросы (2)</h2>
+                </div>
+            </div>
+
+            <!--comments block start-->
+
+            <div class="comments-block">
+                <div class="wrapper">
+                    <article class="comment">
+                        <div class="review">
+                            <div class="author">Владимир <span class="time">16.03.2017</span></div>
+                            <div class="message">Официальный интернет-магазин <a href="#!">carav.com.ua</a> представляет полный ассортимент автомобильного
+                                доп. оборудования бренда CARAV на территории<br> Украины, а так же является эксклюзивным
+                                представителем ТМ: ACV, AWM, Clayton, Metra, Scosche.
+                            </div>
+                        </div>
+
+                        <div class="reply">
+                            <div class="author">
+                                <p class="logo">carav</p>Carav.com.ua <span class="time">16.03.2017</span>
+                            </div>
+                            <div class="message">Официальный интернет-магазин <a href="#!">carav.com.ua</a> представляет полный ассортимент автомобильного
+                                доп. оборудования бренда CARAV на территории<br> Украины, а так же является эксклюзивным
+                                представителем ТМ: ACV, AWM, Clayton, Metra, Scosche.
+                            </div>
+                        </div>
+
+                    </article>
+                    <article class="comment">
+                        <div class="review">
+                            <div class="author">Владимир <span class="time">16.03.2017</span></div>
+                            <div class="message">Официальный интернет-магазин <a href="#!">carav.com.ua</a> представляет полный ассортимент автомобильного
+                                доп. оборудования бренда CARAV на территории<br> Украины, а так же является эксклюзивным
+                                представителем ТМ: ACV, AWM, Clayton, Metra, Scosche.
+                            </div>
+                        </div>
+
+                        <div class="reply">
+                            <div class="author">
+                                <p class="logo">carav</p>Carav.com.ua <span class="time">16.03.2017</span>
+                            </div>
+                            <div class="message">Официальный интернет-магазин <a href="#!">carav.com.ua</a> представляет полный ассортимент автомобильного
+                                доп. оборудования бренда CARAV на территории<br> Украины, а так же является эксклюзивным
+                                представителем ТМ: ACV, AWM, Clayton, Metra, Scosche.
+                            </div>
+                        </div>
+
+                    </article>
+                </div>
+            </div>
+
+            <!--comments block end-->
+            <div class="wrapper">
+                <form class="add-comment-form">
+                    <label for="input-name">Представьтесь</label>
+                    <p><input type="text" class="add-comment-form__input input-name" id="input-name"></p>
+                    <label for="input-message">Напишите отзыв или задайте вопрос</label>
+                    <p><textarea class="add-comment-form__input input-message" id="input-messag"></textarea></p>
+
+                    <input type="submit" class="submit" value="отправить">
+                    <a href="#!" class="rules">Правила публикации</a>
+                </form>
+            </div>
+        </div>
+        <!--comments section end-->
+
+
+    </section>
+
+    <!--product card section start-->
+
+    <!--footer start-->
+
+    <footer class="footer">
+
+        <div class="footer__top-line">
+
+            <!--search fields start-->
+
+            <div class="search-panel">
+
+                <div class="wrapper">
+                    <ul class="list-wrap">
+                        <li>
+                            <p class="search-panel__title">поиск по автомобилю</p>
+                        </li>
+                        <li>
+
+                            <!--search block start-->
+
+                            <div class="search-block">
+                                <form class="search-form" id="search-form">
+
+                                    <select class="select-hidden">
+                                        <option value="" hidden>Название автомобиля</option>
+                                        <option value="">bmw</option>
+                                        <option value="">mecedes</option>
+                                        <option value="">skoda</option>
+                                        <option value="">opel</option>
+                            </select>
+
+                                    <select class="select-hidden">
+                                        <option value="" hidden>Модель автомобиля</option>
+                                        <option value="">i1</option>
+                                        <option value="">i2</option>
+                                        <option value="">i3</option>
+                                        <option value="">i4</option>
+                            </select>
+
+                                    <select class="select-hidden">
+                                        <option value="" hidden>Год выпуска автомобиля</option>
+                                        <option value="">2014</option>
+                                        <option value="">2015</option>
+                                        <option value="">2016</option>
+                                        <option value="">2017</option>
+                            </select>
+
+                                    <input type="submit" class="search-submit" value="Найти">
+
+                                </form>
+                            </div>
+
+                            <!--search block end-->
+
+                        </li>
+                    </ul>
+
+
+
+                </div>
+
+            </div>
+
+            <!--search fields end-->
+
+        </div>
+
+
+        <div class="wrapper overflow">
+            <form action="" class="contact-us">
+                <p>
+                    <label for="contact-name">Имя</label>
+                    <input type="text" placeholder="Имя" id="contact-name">
+                </p>
+                <p>
+                    <label for="contact-phone">Телефон</label>
+                    <input type="text" placeholder="Телефон" id="contact-phone">
+                </p>
+                <p>
+                    <label for="contact-auto">Автомобиль</label>
+                    <input type="text" placeholder="Автомобиль" id="contact-auto">
+                </p>
+                <p>
+                    <label for="contact-email">Email</label>
+                    <input type="email" placeholder="Email" id="contact-email">
+                </p>
+                <p>
+                    <label for="contact-msg">Сообщение</label>
+                    <textarea placeholder="Сообщение" id="contact-msg"></textarea>
+                </p>
+                <p><input type="submit" class="contact-us__submit" value="Отправить"></p>
+            </form>
+
+            <div class="footer__menu-wrap">
+                <nav class="footer__menu">
+                    <a href="#!">Доставка и оплата</a>
+                    <a href="#!">Возврат товара</a>
+                    <a href="#!">Обратная связь</a>
+                    <a href="#!">Каталог PDF</a>
+                </nav>
+
+                <div class="footer__catalog">
+                    <a href="#!">Переходные рамки</a>
+                    <a href="#!">Переходники ISO</a>
+                    <a href="#!">Антенные адаптеры</a>
+                    <a href="#!">Разъемы для магнитол</a>
+                    <a href="#!">Рулевые адаптеры</a>
+                    <a href="#!">Всё для монтажа</a>
+                </div>
+
+                <div class="footer__contacts">
+                    <a href="#!"><i class="fa fa-map-marker" aria-hidden="true"></i>г.Киев ул. Ушинского 14а</a>
+                    <a href="#!"><i class="fa fa-phone" aria-hidden="true"></i>(063) 704-45-63</a>
+                    <a href="#!" class="tel-padding">(096) 914-23-09</a>
+                    <a href="#!" class="tel-padding">(050) 381-40-45</a>
+                    <a href="#!"><i class="fa fa-envelope-o" aria-hidden="true"></i>info@carav.com.ua</a>
+                </div>
+
+
+                <div class="footer__socials">
+                    <a href="href-#!"><i class="fa fa-facebook-square" aria-hidden="true"></i></a>
+                    <a href="href-#!"><i class="fa fa-instagram" aria-hidden="true"></i></a>
+                    <a href="href-#!"><i class="fa fa-vk" aria-hidden="true"></i></a>
+                    <a href="href-#!"><i class="fa fa-skype" aria-hidden="true"></i></a>
+                    <a href="href-#!"><i class="fa fa-twitter-square" aria-hidden="true"></i></a>
+                </div>
+
+            </div>
+        </div>
+
+    </footer>
+
+    <!--footer end-->
+
+    <!--scripts-->
+    <script src="/js/app.js"></script>
+</body>
+
+</html>
