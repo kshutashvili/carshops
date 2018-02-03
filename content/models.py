@@ -136,12 +136,6 @@ class LandingProductBlock(models.Model):
                                         "указывать полностью (https://...)"))
     order = models.IntegerField(_(u'Порядок'),
                                 default=0)
-    image_width = models.IntegerField(_(u"Ширина заднего фона"),
-                                      help_text=_(u"В целых единицах"),
-                                      default=100)
-    image_height = models.IntegerField(_(u"Высота заднего фона"),
-                                      help_text=_(u"В целых единицах"),
-                                      default=200)
     
     class Meta:
         verbose_name = _(u"Блок главной страницы")
