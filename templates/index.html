@@ -1,408 +1,548 @@
 {% extends "base.html" %}
 
-{% load staticfiles %}
+{% load solo_tags %}
 
-{% block title %}
-Carav
-{% endblock title %}
+{% load custom_filters %}
 
+{% load static %}
+
+
+{% block extrastyles %}{% endblock %}
 {% block content %}
-
-    <!--slider start-->
-    <div class="slider-section">
-
-        <div class="slider ">
-
-            <div class="slide" style="background-image:url({% static 'img/slider-img.png' %})">
-                <div class="wrapper">
-                    <p>Официальный интернет-магазин</p>
-                    <p><span>carav.com.ua</span> на территории</p>
-                    <p>Украины</p>
+    <!-- main section start -->
+    <main class="main-section">
+        <section class="container">
+            <div class="content masonry-container">
+                <div class="choose-mark-search masonry-item">
+                    <div class="choose-mark-search__content">
+                        <p class="choose-mark-search__title">Выберите марку вашего автомобиля</p>
+                        <form action="" name="choose-mark">
+                            <select type="text" class="select" name="" placeholder="Марка автомобиля">
+                                <option value="">Марка автомобиля</option>
+                                <option value="">Марка автомобиля1</option>
+                                <option value="">Марка автомобиля2</option>
+                                <option value="">Марка автомобиля3</option>
+                            </select>
+                            <select type="text" class="select" name="" placeholder="Марка автомобиля">
+                                <option value="">Модель автомобиля</option>
+                                <option value="">Модель автомобиля1</option>
+                                <option value="">Модель автомобиля2</option>
+                                <option value="">Модель автомобиля3</option>
+                            </select>
+                            <select type="text" class="select" name="" placeholder="Марка автомобиля">
+                                <option value="">Год выпуска</option>
+                                <option value="">Год выпуска1</option>
+                                <option value="">Год выпуска2</option>
+                                <option value="">Год выпуска3</option>
+                            </select>
+                            <button type="submit" class="btn">
+                                <div class="img-wrap">
+                                    <svg class="img" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" version="1.1" id="Capa_1"
+                                        x="0px" y="0px" viewBox="0 0 250.313 250.313" style="enable-background:new 0 0 250.313 250.313;"
+                                        xml:space="preserve" width="512px" height="512px">
+                                        <g id="Search">
+                                            <path style="fill-rule:evenodd;clip-rule:evenodd;" d="M244.186,214.604l-54.379-54.378c-0.289-0.289-0.628-0.491-0.93-0.76   c10.7-16.231,16.945-35.66,16.945-56.554C205.822,46.075,159.747,0,102.911,0S0,46.075,0,102.911   c0,56.835,46.074,102.911,102.91,102.911c20.895,0,40.323-6.245,56.554-16.945c0.269,0.301,0.47,0.64,0.759,0.929l54.38,54.38   c8.169,8.168,21.413,8.168,29.583,0C252.354,236.017,252.354,222.773,244.186,214.604z M102.911,170.146   c-37.134,0-67.236-30.102-67.236-67.235c0-37.134,30.103-67.236,67.236-67.236c37.132,0,67.235,30.103,67.235,67.236   C170.146,140.044,140.043,170.146,102.911,170.146z"
+                                                fill="#FFFFFF" />
+                                        </g>
+                                    </svg>
+                                </div>
+                                <div class="text">
+                                    Найти запчасти
+                                </div>
+                            </button>
+                        </form>
+                    </div>
+                </div>
+                {% for obj in landing_products %}
+                {% if forloop.counter == 1 %}
+                <div class="ramki shadow masonry-item" style="background-image: url({{ obj.image.url }});" >
+                    <p class="title">{{ obj.name }}</p>
+                    <a href="{{ obj.link }}" class="link">{{ obj.button_text }}
+                        {% include "right_arrow.html" %}
+                    </a>
+                </div>
+                {% elif forloop.counter == 2 %}
+                <div class="accessories shadow masonry-item" style="background-image: url({{ obj.image.url }});" >
+                    <p class="accessories__title">{{ obj.name }}</p>
+                    <a href="{{ obj.link }}" class="link">{{ obj.button_text }}
+                        {% include "right_arrow.html" %}
+                    </a>
+                </div>
+                {% elif forloop.counter == 3 %}
+                <div class="razemi shadow masonry-item" style="background-image: url({{ obj.image.url }});" >
+                    <p class="razemi__title">{{ obj.name }}</p>
+                    <a href="{{ obj.link }}" class="link">{{ obj.button_text }}
+                        {% include "right_arrow.html" %}
+                    </a>
+                </div>
+                {% elif forloop.counter == 4 %}
+                <div class="adapteri-na-rule shadow masonry-item" style="background-image: url({{ obj.image.url }});" >
+                    <p class="adapteri-na-rule__title">{{ obj.name }}</p>
+                    <a href="{{ obj.link }}" class="link">{{ obj.button_text }}
+                        {% include "right_arrow.html" %}
+                    </a>
+                </div>
+                {% elif forloop.counter == 5 %}
+                <div class="zvuk shadow masonry-item" style="background-image: url({{ obj.image.url }});" >
+                    <p class="zvuk__title">{{ obj.name }}</p>
+                    <a href="{{ obj.link }}" class="link">{{ obj.button_text }}
+                        {% include "right_arrow.html" %}
+                    </a>
+                </div>
+                {% endif %}
+                {% endfor %}
+                <div class="popular-products shadow masonry-item">
+                    <p class="title">Популярные товары</p>
+                    <div class="slider-wrap">
+                        <div class="popular-slider">
+                            <div class="slide">
+                                <img src="{% static 'img/ramki.png' %}" alt="">
+                                <div class="slide__info">
+                                    <p class="slide__info__title">Переходные рамки</p>
+                                    <div class="slide__info__name">Переходник ISO BMW, Land Rover, Rover, Mini Carav 12-003</div>
+                                    <div class="price-wrap">
+                                        <div class="price">799 грн</div>
+                                        <a href="#!" class="buy">
+                                            <span>В корзину</span>
+                                            <svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" version="1.1" id="Capa_1" x="0px" y="0px"
+                                                width="512px" height="512px" viewBox="0 0 32.028 32.028" style="enable-background:new 0 0 32.028 32.028;"
+                                                xml:space="preserve">
+                                                <g>
+                                                    <g id="Cart">
+                                                        <g>
+                                                            <path d="M31.998,0.772c-0.133-0.535-0.677-0.863-1.213-0.728l-4.004,1c-0.39,0.098-0.684,0.418-0.746,0.813l-0.507,3.208     L0.878,8.022c-0.019,0.002-0.034,0.016-0.055,0.02C0.8,8.046,0.779,8.039,0.755,8.045c-0.057,0.014-0.1,0.049-0.15,0.071     c-0.057,0.024-0.11,0.043-0.16,0.076C0.375,8.24,0.318,8.302,0.263,8.365C0.234,8.396,0.198,8.414,0.173,8.448     c-0.006,0.008-0.006,0.018-0.01,0.026C0.109,8.558,0.078,8.652,0.05,8.748c-0.01,0.035-0.03,0.065-0.036,0.101     C-0.006,8.981-0.006,9.12,0.028,9.258l3.004,12l1,4c0.008,0.029,0.025,0.052,0.035,0.079c0.016,0.048,0.037,0.092,0.061,0.137     c0.033,0.065,0.074,0.125,0.122,0.182c0.029,0.034,0.06,0.068,0.093,0.101c0.061,0.053,0.125,0.094,0.194,0.131     c0.036,0.021,0.068,0.043,0.107,0.059c0.112,0.042,0.232,0.068,0.357,0.068h21.022c0.553,0,1-0.447,1-0.999     c0-0.553-0.447-1.001-1-1.001H5.783l-0.5-2h18.739c0.123,0,0.242-0.021,0.352-0.063c0.045-0.018,0.08-0.047,0.121-0.069     c0.062-0.033,0.126-0.062,0.179-0.107c0.039-0.033,0.065-0.078,0.102-0.119c0.042-0.051,0.089-0.095,0.122-0.15     c0.027-0.053,0.039-0.113,0.059-0.172c0.021-0.053,0.047-0.103,0.059-0.158l0.004-0.021v-0.011L27.91,2.824l3.36-0.839     C31.808,1.851,32.133,1.308,31.998,0.772z M4.783,20.014L2.244,9.873l3.104-0.372l1.505,10.513H4.783z M8.873,20.014L7.336,9.263     l3.119-0.374l0.505,11.125H8.873z M15.056,20.014h-2.089L12.449,8.649l3.116-0.373L15.056,20.014z M19.133,20.014H17.06     l0.52-11.98l3.102-0.371L19.133,20.014z M23.146,20.014h-1.994l1.576-12.598l2.133-0.255L23.146,20.014z M9.005,28.014     c-1.104,0-2.002,0.896-2.002,2.001c0,1.105,0.897,1.999,2.002,1.999c1.106,0,2.002-0.895,2.002-1.999     C11.007,28.912,10.111,28.014,9.005,28.014z M22.021,28.014c-1.105,0-2.002,0.896-2.002,2.001c0,1.105,0.896,1.999,2.002,1.999     c1.104,0,2.002-0.895,2.002-1.999C24.021,28.911,23.125,28.014,22.021,28.014z"
+                                                                fill="#FFFFFF" />
+                                                        </g>
+                                                    </g>
+                                                </g>
+                                            </svg>
+                                        </a>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="slide">
+                                <img src="{% static 'img/ramki.png' %}" alt="">
+                                <div class="slide__info">
+                                    <p class="slide__info__title">Переходные рамки</p>
+                                    <div class="slide__info__name">Переходник ISO BMW, Land Rover, Rover, Mini Carav 12-003</div>
+                                    <div class="price-wrap">
+                                        <div class="price">799 грн</div>
+                                        <a href="#!" class="buy">
+                                            <span>В корзину</span>
+                                            <svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" version="1.1" id="Capa_1" x="0px" y="0px"
+                                                width="512px" height="512px" viewBox="0 0 32.028 32.028" style="enable-background:new 0 0 32.028 32.028;"
+                                                xml:space="preserve">
+                                                <g>
+                                                    <g id="Cart">
+                                                        <g>
+                                                            <path d="M31.998,0.772c-0.133-0.535-0.677-0.863-1.213-0.728l-4.004,1c-0.39,0.098-0.684,0.418-0.746,0.813l-0.507,3.208     L0.878,8.022c-0.019,0.002-0.034,0.016-0.055,0.02C0.8,8.046,0.779,8.039,0.755,8.045c-0.057,0.014-0.1,0.049-0.15,0.071     c-0.057,0.024-0.11,0.043-0.16,0.076C0.375,8.24,0.318,8.302,0.263,8.365C0.234,8.396,0.198,8.414,0.173,8.448     c-0.006,0.008-0.006,0.018-0.01,0.026C0.109,8.558,0.078,8.652,0.05,8.748c-0.01,0.035-0.03,0.065-0.036,0.101     C-0.006,8.981-0.006,9.12,0.028,9.258l3.004,12l1,4c0.008,0.029,0.025,0.052,0.035,0.079c0.016,0.048,0.037,0.092,0.061,0.137     c0.033,0.065,0.074,0.125,0.122,0.182c0.029,0.034,0.06,0.068,0.093,0.101c0.061,0.053,0.125,0.094,0.194,0.131     c0.036,0.021,0.068,0.043,0.107,0.059c0.112,0.042,0.232,0.068,0.357,0.068h21.022c0.553,0,1-0.447,1-0.999     c0-0.553-0.447-1.001-1-1.001H5.783l-0.5-2h18.739c0.123,0,0.242-0.021,0.352-0.063c0.045-0.018,0.08-0.047,0.121-0.069     c0.062-0.033,0.126-0.062,0.179-0.107c0.039-0.033,0.065-0.078,0.102-0.119c0.042-0.051,0.089-0.095,0.122-0.15     c0.027-0.053,0.039-0.113,0.059-0.172c0.021-0.053,0.047-0.103,0.059-0.158l0.004-0.021v-0.011L27.91,2.824l3.36-0.839     C31.808,1.851,32.133,1.308,31.998,0.772z M4.783,20.014L2.244,9.873l3.104-0.372l1.505,10.513H4.783z M8.873,20.014L7.336,9.263     l3.119-0.374l0.505,11.125H8.873z M15.056,20.014h-2.089L12.449,8.649l3.116-0.373L15.056,20.014z M19.133,20.014H17.06     l0.52-11.98l3.102-0.371L19.133,20.014z M23.146,20.014h-1.994l1.576-12.598l2.133-0.255L23.146,20.014z M9.005,28.014     c-1.104,0-2.002,0.896-2.002,2.001c0,1.105,0.897,1.999,2.002,1.999c1.106,0,2.002-0.895,2.002-1.999     C11.007,28.912,10.111,28.014,9.005,28.014z M22.021,28.014c-1.105,0-2.002,0.896-2.002,2.001c0,1.105,0.896,1.999,2.002,1.999     c1.104,0,2.002-0.895,2.002-1.999C24.021,28.911,23.125,28.014,22.021,28.014z"
+                                                                fill="#FFFFFF" />
+                                                        </g>
+                                                    </g>
+                                                </g>
+                                            </svg>
+                                        </a>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="nav" id="slider-nav">
+                            <a href="#!" class="arrow-prev" id="arrow-prev">
+                                {% include "left_arrow.html" %}
+                                <span>Предыдущий</span>
+                            </a>
+                            <a href="#!" class="arrow-next" id="arrow-next">
+                                <span>Следующий</span>
+                                {% include "right_arrow.html" %}
+                        </div>
+                    </div>
                 </div>
             </div>
+        </section>
+    </main>
 
-            <div class="slide" style="background-image:url({% static 'img/slider-img.png' %})">
-                <div class="wrapper">
-                    <p>Официальный интернет-магазин</p>
-                    <p><span>carav.com.ua</span> на территории</p>
-                    <p>Украины</p>
+    <!-- main section end -->
+
+    <!-- sales section start -->
+
+    <section class="sales-section">
+        <div class="container">
+            <div class="content">
+                <div class="stock">
+                    <div class="stock__content">Акционные
+                        <br>предложения</div>
+                </div>
+                <div class="tovar-list" id="sales-slider">
+                    <div class="tovar">
+                        <a href="#!" class="tovar__top-title">Переходные рамки для аксессуаров адаптеров кнопок на руле</a>
+                        <img class="tovar__img" src="{% static 'img/sales-img.png' %}" alt="ramki.png">
+                        <div class="tovar__title">Переходник ISO BMW, Land Rover, Rover, Mini Carav Переходник ISO BMW, Land Rover, Rover, Mini Carav
+                            12-003
+                        </div>
+                        <div class="tovar__middle-line">
+                            <div class="code">Код: 11-0q524525151252541 </div>
+                            <div class="available">
+                                <svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" version="1.1" id="Capa_1" x="0px" y="0px"
+                                    width="512px" height="512px" viewBox="0 0 442.533 442.533" style="enable-background:new 0 0 442.533 442.533;"
+                                    xml:space="preserve">
+                                    <g>
+                                        <path d="M434.539,98.499l-38.828-38.828c-5.324-5.328-11.799-7.993-19.41-7.993c-7.618,0-14.093,2.665-19.417,7.993L169.59,247.248   l-83.939-84.225c-5.33-5.33-11.801-7.992-19.412-7.992c-7.616,0-14.087,2.662-19.417,7.992L7.994,201.852   C2.664,207.181,0,213.654,0,221.269c0,7.609,2.664,14.088,7.994,19.416l103.351,103.349l38.831,38.828   c5.327,5.332,11.8,7.994,19.414,7.994c7.611,0,14.084-2.669,19.414-7.994l38.83-38.828L434.539,137.33   c5.325-5.33,7.994-11.802,7.994-19.417C442.537,110.302,439.864,103.829,434.539,98.499z"
+                                            fill="#52ac62" />
+                                    </g>
+                                </svg>
+                                <span>В наличии</span>
+                            </div>
+                        </div>
+                        <div class="tovar__old-price">21999 грн</div>
+                        <div class="tovar__price-line">
+                            <div class="price">14799 грн</div>
+                            <!-- <div class="convert">(25 243,40 грн)</div> -->
+                        </div>
+                        <a href="#!" class="tovar__basket">
+                            <span>В корзину</span>
+                            <svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" version="1.1" id="Capa_1" x="0px" y="0px"
+                                width="512px" height="512px" viewBox="0 0 32.028 32.028" style="enable-background:new 0 0 32.028 32.028;"
+                                xml:space="preserve">
+                                <g>
+                                    <g id="Cart">
+                                        <g>
+                                            <path d="M31.998,0.772c-0.133-0.535-0.677-0.863-1.213-0.728l-4.004,1c-0.39,0.098-0.684,0.418-0.746,0.813l-0.507,3.208     L0.878,8.022c-0.019,0.002-0.034,0.016-0.055,0.02C0.8,8.046,0.779,8.039,0.755,8.045c-0.057,0.014-0.1,0.049-0.15,0.071     c-0.057,0.024-0.11,0.043-0.16,0.076C0.375,8.24,0.318,8.302,0.263,8.365C0.234,8.396,0.198,8.414,0.173,8.448     c-0.006,0.008-0.006,0.018-0.01,0.026C0.109,8.558,0.078,8.652,0.05,8.748c-0.01,0.035-0.03,0.065-0.036,0.101     C-0.006,8.981-0.006,9.12,0.028,9.258l3.004,12l1,4c0.008,0.029,0.025,0.052,0.035,0.079c0.016,0.048,0.037,0.092,0.061,0.137     c0.033,0.065,0.074,0.125,0.122,0.182c0.029,0.034,0.06,0.068,0.093,0.101c0.061,0.053,0.125,0.094,0.194,0.131     c0.036,0.021,0.068,0.043,0.107,0.059c0.112,0.042,0.232,0.068,0.357,0.068h21.022c0.553,0,1-0.447,1-0.999     c0-0.553-0.447-1.001-1-1.001H5.783l-0.5-2h18.739c0.123,0,0.242-0.021,0.352-0.063c0.045-0.018,0.08-0.047,0.121-0.069     c0.062-0.033,0.126-0.062,0.179-0.107c0.039-0.033,0.065-0.078,0.102-0.119c0.042-0.051,0.089-0.095,0.122-0.15     c0.027-0.053,0.039-0.113,0.059-0.172c0.021-0.053,0.047-0.103,0.059-0.158l0.004-0.021v-0.011L27.91,2.824l3.36-0.839     C31.808,1.851,32.133,1.308,31.998,0.772z M4.783,20.014L2.244,9.873l3.104-0.372l1.505,10.513H4.783z M8.873,20.014L7.336,9.263     l3.119-0.374l0.505,11.125H8.873z M15.056,20.014h-2.089L12.449,8.649l3.116-0.373L15.056,20.014z M19.133,20.014H17.06     l0.52-11.98l3.102-0.371L19.133,20.014z M23.146,20.014h-1.994l1.576-12.598l2.133-0.255L23.146,20.014z M9.005,28.014     c-1.104,0-2.002,0.896-2.002,2.001c0,1.105,0.897,1.999,2.002,1.999c1.106,0,2.002-0.895,2.002-1.999     C11.007,28.912,10.111,28.014,9.005,28.014z M22.021,28.014c-1.105,0-2.002,0.896-2.002,2.001c0,1.105,0.896,1.999,2.002,1.999     c1.104,0,2.002-0.895,2.002-1.999C24.021,28.911,23.125,28.014,22.021,28.014z"
+                                                fill="#FFFFFF"></path>
+                                        </g>
+                                    </g>
+                                </g>
+                            </svg>
+                        </a>
+                        <div class="tovar__additions">
+                            <ul>
+                                <li>
+                                    <a>3 Series (E30) 1987-1990</a>
+                                </li>
+                                <li>
+                                    <a>3 Series (E36) 1991-1999</a>
+                                </li>
+                                <li>
+                                    <a>3 Series (E46) 1998-2003</a>
+                                </li>
+                                <li>
+                                    <a>5 Series (E39) 1995-2000</a>
+                                </li>
+                                <li>
+                                    <a>7 Series (E38) 1994-2000</a>
+                                </li>
+                                <li>
+                                    <a>X5 (E53) 1999-2001</a>
+                                </li>
+                                <li>
+                                    <a>Z3 1995-2002</a>
+                                </li>
+                                <li>
+                                    <a>Z8 2000-2003</a>
+                                </li>
+                            </ul>
+                            <ul>
+                                <li>
+                                    <a>3 Series (E30) 1987-1990</a>
+                                </li>
+                                <li>
+                                    <a>3 Series (E36) 1991-1999</a>
+                                </li>
+                                <li>
+                                    <a>3 Series (E46) 1998-2003</a>
+                                </li>
+                                <li>
+                                    <a>5 Series (E39) 1995-2000</a>
+                                </li>
+                                <li>
+                                    <a>7 Series (E38) 1994-2000</a>
+                                </li>
+                                <li>
+                                    <a>X5 (E53) 1999-2001</a>
+                                </li>
+                                <li>
+                                    <a>Z3 1995-2002</a>
+                                </li>
+                                <li>
+                                    <a>Z8 2000-2003</a>
+                                </li>
+                            </ul>
+                        </div>
+                    </div>
+                    <div class="tovar">
+                        <a href="#!" class="tovar__top-title">Переходные рамки для аксессуаров адаптеров кнопок на руле</a>
+                        <img class="tovar__img" src="{% static 'img/sales-img.png' %}" alt="ramki.png">
+                        <div class="tovar__title">Переходник ISO BMW, Land Rover, Rover, Mini Carav Переходник ISO BMW, Land Rover, Rover, Mini Carav
+                            12-003
+                        </div>
+                        <div class="tovar__middle-line">
+                            <div class="code">Код: 11-0q524525151252541 </div>
+                            <div class="available">
+                                <svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" version="1.1" id="Capa_1" x="0px" y="0px"
+                                    width="512px" height="512px" viewBox="0 0 442.533 442.533" style="enable-background:new 0 0 442.533 442.533;"
+                                    xml:space="preserve">
+                                    <g>
+                                        <path d="M434.539,98.499l-38.828-38.828c-5.324-5.328-11.799-7.993-19.41-7.993c-7.618,0-14.093,2.665-19.417,7.993L169.59,247.248   l-83.939-84.225c-5.33-5.33-11.801-7.992-19.412-7.992c-7.616,0-14.087,2.662-19.417,7.992L7.994,201.852   C2.664,207.181,0,213.654,0,221.269c0,7.609,2.664,14.088,7.994,19.416l103.351,103.349l38.831,38.828   c5.327,5.332,11.8,7.994,19.414,7.994c7.611,0,14.084-2.669,19.414-7.994l38.83-38.828L434.539,137.33   c5.325-5.33,7.994-11.802,7.994-19.417C442.537,110.302,439.864,103.829,434.539,98.499z"
+                                            fill="#52ac62" />
+                                    </g>
+                                </svg>
+                                <span>В наличии</span>
+                            </div>
+                        </div>
+                        <div class="tovar__ppc">РРЦ: 27 418 грн</div>
+                        <div class="tovar__price-line">
+                            <div class="price">949 $</div>
+                            <div class="convert">(25 243,40 грн)</div>
+                        </div>
+                        <a href="#!" class="tovar__basket">
+                            <span>В корзину</span>
+                            <svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" version="1.1" id="Capa_1" x="0px" y="0px"
+                                width="512px" height="512px" viewBox="0 0 32.028 32.028" style="enable-background:new 0 0 32.028 32.028;"
+                                xml:space="preserve">
+                                <g>
+                                    <g id="Cart">
+                                        <g>
+                                            <path d="M31.998,0.772c-0.133-0.535-0.677-0.863-1.213-0.728l-4.004,1c-0.39,0.098-0.684,0.418-0.746,0.813l-0.507,3.208     L0.878,8.022c-0.019,0.002-0.034,0.016-0.055,0.02C0.8,8.046,0.779,8.039,0.755,8.045c-0.057,0.014-0.1,0.049-0.15,0.071     c-0.057,0.024-0.11,0.043-0.16,0.076C0.375,8.24,0.318,8.302,0.263,8.365C0.234,8.396,0.198,8.414,0.173,8.448     c-0.006,0.008-0.006,0.018-0.01,0.026C0.109,8.558,0.078,8.652,0.05,8.748c-0.01,0.035-0.03,0.065-0.036,0.101     C-0.006,8.981-0.006,9.12,0.028,9.258l3.004,12l1,4c0.008,0.029,0.025,0.052,0.035,0.079c0.016,0.048,0.037,0.092,0.061,0.137     c0.033,0.065,0.074,0.125,0.122,0.182c0.029,0.034,0.06,0.068,0.093,0.101c0.061,0.053,0.125,0.094,0.194,0.131     c0.036,0.021,0.068,0.043,0.107,0.059c0.112,0.042,0.232,0.068,0.357,0.068h21.022c0.553,0,1-0.447,1-0.999     c0-0.553-0.447-1.001-1-1.001H5.783l-0.5-2h18.739c0.123,0,0.242-0.021,0.352-0.063c0.045-0.018,0.08-0.047,0.121-0.069     c0.062-0.033,0.126-0.062,0.179-0.107c0.039-0.033,0.065-0.078,0.102-0.119c0.042-0.051,0.089-0.095,0.122-0.15     c0.027-0.053,0.039-0.113,0.059-0.172c0.021-0.053,0.047-0.103,0.059-0.158l0.004-0.021v-0.011L27.91,2.824l3.36-0.839     C31.808,1.851,32.133,1.308,31.998,0.772z M4.783,20.014L2.244,9.873l3.104-0.372l1.505,10.513H4.783z M8.873,20.014L7.336,9.263     l3.119-0.374l0.505,11.125H8.873z M15.056,20.014h-2.089L12.449,8.649l3.116-0.373L15.056,20.014z M19.133,20.014H17.06     l0.52-11.98l3.102-0.371L19.133,20.014z M23.146,20.014h-1.994l1.576-12.598l2.133-0.255L23.146,20.014z M9.005,28.014     c-1.104,0-2.002,0.896-2.002,2.001c0,1.105,0.897,1.999,2.002,1.999c1.106,0,2.002-0.895,2.002-1.999     C11.007,28.912,10.111,28.014,9.005,28.014z M22.021,28.014c-1.105,0-2.002,0.896-2.002,2.001c0,1.105,0.896,1.999,2.002,1.999     c1.104,0,2.002-0.895,2.002-1.999C24.021,28.911,23.125,28.014,22.021,28.014z"
+                                                fill="#FFFFFF"></path>
+                                        </g>
+                                    </g>
+                                </g>
+                            </svg>
+                        </a>
+                        <div class="tovar__additions">
+                            <ul>
+                                <li>
+                                    <a>3 Series (E30) 1987-1990</a>
+                                </li>
+                                <li>
+                                    <a>3 Series (E36) 1991-1999</a>
+                                </li>
+                                <li>
+                                    <a>3 Series (E46) 1998-2003</a>
+                                </li>
+                                <li>
+                                    <a>5 Series (E39) 1995-2000</a>
+                                </li>
+                                <li>
+                                    <a>7 Series (E38) 1994-2000</a>
+                                </li>
+                                <li>
+                                    <a>X5 (E53) 1999-2001</a>
+                                </li>
+                                <li>
+                                    <a>Z3 1995-2002</a>
+                                </li>
+                                <li>
+                                    <a>Z8 2000-2003</a>
+                                </li>
+                            </ul>
+                            <ul>
+                                <li>
+                                    <a>3 Series (E30) 1987-1990</a>
+                                </li>
+                                <li>
+                                    <a>3 Series (E36) 1991-1999</a>
+                                </li>
+                                <li>
+                                    <a>3 Series (E46) 1998-2003</a>
+                                </li>
+                                <li>
+                                    <a>5 Series (E39) 1995-2000</a>
+                                </li>
+                                <li>
+                                    <a>7 Series (E38) 1994-2000</a>
+                                </li>
+                                <li>
+                                    <a>X5 (E53) 1999-2001</a>
+                                </li>
+                                <li>
+                                    <a>Z3 1995-2002</a>
+                                </li>
+                                <li>
+                                    <a>Z8 2000-2003</a>
+                                </li>
+                            </ul>
+                        </div>
+                    </div>
+                    <div class="tovar">
+                        <a href="#!" class="tovar__top-title">Переходные рамки для аксессуаров адаптеров кнопок на руле</a>
+                        <div class="tovar__img-wrap">
+                            <div class="tovar__sale">Акция!</div>
+                            <img class="tovar__img" src="{% static 'img/sales-img.png' %}" alt="ramki.png">
+                            <div class="tovar__credit">Кредит 0,01%</div>
+                        </div>
+                        <div class="tovar__title">Переходник ISO BMW, Land Rover, Rover, Mini Carav
+                        </div>
+                        <div class="tovar__middle-line">
+                            <div class="code">Код: 11-0q524525151252541 </div>
+                            <div class="available">
+                                <svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" version="1.1" id="Capa_1" x="0px" y="0px"
+                                    width="512px" height="512px" viewBox="0 0 442.533 442.533" style="enable-background:new 0 0 442.533 442.533;"
+                                    xml:space="preserve">
+                                    <g>
+                                        <path d="M434.539,98.499l-38.828-38.828c-5.324-5.328-11.799-7.993-19.41-7.993c-7.618,0-14.093,2.665-19.417,7.993L169.59,247.248   l-83.939-84.225c-5.33-5.33-11.801-7.992-19.412-7.992c-7.616,0-14.087,2.662-19.417,7.992L7.994,201.852   C2.664,207.181,0,213.654,0,221.269c0,7.609,2.664,14.088,7.994,19.416l103.351,103.349l38.831,38.828   c5.327,5.332,11.8,7.994,19.414,7.994c7.611,0,14.084-2.669,19.414-7.994l38.83-38.828L434.539,137.33   c5.325-5.33,7.994-11.802,7.994-19.417C442.537,110.302,439.864,103.829,434.539,98.499z"
+                                            fill="#52ac62" />
+                                    </g>
+                                </svg>
+                                <span>В наличии</span>
+                            </div>
+                        </div>
+                        <div class="tovar__ppc">РРЦ: 27 418 грн</div>
+                        <div class="tovar__price-line">
+                            <div class="price">949 $</div>
+                            <div class="convert">(25 243,40 грн)</div>
+                        </div>
+                        <a href="#!" class="tovar__basket">
+                            <span>В корзину</span>
+                            <svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" version="1.1" id="Capa_1" x="0px" y="0px"
+                                width="512px" height="512px" viewBox="0 0 32.028 32.028" style="enable-background:new 0 0 32.028 32.028;"
+                                xml:space="preserve">
+                                <g>
+                                    <g id="Cart">
+                                        <g>
+                                            <path d="M31.998,0.772c-0.133-0.535-0.677-0.863-1.213-0.728l-4.004,1c-0.39,0.098-0.684,0.418-0.746,0.813l-0.507,3.208     L0.878,8.022c-0.019,0.002-0.034,0.016-0.055,0.02C0.8,8.046,0.779,8.039,0.755,8.045c-0.057,0.014-0.1,0.049-0.15,0.071     c-0.057,0.024-0.11,0.043-0.16,0.076C0.375,8.24,0.318,8.302,0.263,8.365C0.234,8.396,0.198,8.414,0.173,8.448     c-0.006,0.008-0.006,0.018-0.01,0.026C0.109,8.558,0.078,8.652,0.05,8.748c-0.01,0.035-0.03,0.065-0.036,0.101     C-0.006,8.981-0.006,9.12,0.028,9.258l3.004,12l1,4c0.008,0.029,0.025,0.052,0.035,0.079c0.016,0.048,0.037,0.092,0.061,0.137     c0.033,0.065,0.074,0.125,0.122,0.182c0.029,0.034,0.06,0.068,0.093,0.101c0.061,0.053,0.125,0.094,0.194,0.131     c0.036,0.021,0.068,0.043,0.107,0.059c0.112,0.042,0.232,0.068,0.357,0.068h21.022c0.553,0,1-0.447,1-0.999     c0-0.553-0.447-1.001-1-1.001H5.783l-0.5-2h18.739c0.123,0,0.242-0.021,0.352-0.063c0.045-0.018,0.08-0.047,0.121-0.069     c0.062-0.033,0.126-0.062,0.179-0.107c0.039-0.033,0.065-0.078,0.102-0.119c0.042-0.051,0.089-0.095,0.122-0.15     c0.027-0.053,0.039-0.113,0.059-0.172c0.021-0.053,0.047-0.103,0.059-0.158l0.004-0.021v-0.011L27.91,2.824l3.36-0.839     C31.808,1.851,32.133,1.308,31.998,0.772z M4.783,20.014L2.244,9.873l3.104-0.372l1.505,10.513H4.783z M8.873,20.014L7.336,9.263     l3.119-0.374l0.505,11.125H8.873z M15.056,20.014h-2.089L12.449,8.649l3.116-0.373L15.056,20.014z M19.133,20.014H17.06     l0.52-11.98l3.102-0.371L19.133,20.014z M23.146,20.014h-1.994l1.576-12.598l2.133-0.255L23.146,20.014z M9.005,28.014     c-1.104,0-2.002,0.896-2.002,2.001c0,1.105,0.897,1.999,2.002,1.999c1.106,0,2.002-0.895,2.002-1.999     C11.007,28.912,10.111,28.014,9.005,28.014z M22.021,28.014c-1.105,0-2.002,0.896-2.002,2.001c0,1.105,0.896,1.999,2.002,1.999     c1.104,0,2.002-0.895,2.002-1.999C24.021,28.911,23.125,28.014,22.021,28.014z"
+                                                fill="#FFFFFF"></path>
+                                        </g>
+                                    </g>
+                                </g>
+                            </svg>
+                        </a>
+                        <div class="tovar__additions">
+                            <ul>
+                                <li>
+                                    <a>3 Series (E30) 1987-1990</a>
+                                </li>
+                                <li>
+                                    <a>3 Series (E36) 1991-1999</a>
+                                </li>
+                                <li>
+                                    <a>3 Series (E46) 1998-2003</a>
+                                </li>
+                                <li>
+                                    <a>5 Series (E39) 1995-2000</a>
+                                </li>
+                                <li>
+                                    <a>7 Series (E38) 1994-2000</a>
+                                </li>
+                                <li>
+                                    <a>X5 (E53) 1999-2001</a>
+                                </li>
+                                <li>
+                                    <a>Z3 1995-2002</a>
+                                </li>
+                                <li>
+                                    <a>Z8 2000-2003</a>
+                                </li>
+                            </ul>
+                            <ul>
+                                <li>
+                                    <a>3 Series (E30) 1987-1990</a>
+                                </li>
+                                <li>
+                                    <a>3 Series (E36) 1991-1999</a>
+                                </li>
+                                <li>
+                                    <a>3 Series (E46) 1998-2003</a>
+                                </li>
+                                <li>
+                                    <a>5 Series (E39) 1995-2000</a>
+                                </li>
+                                <li>
+                                    <a>7 Series (E38) 1994-2000</a>
+                                </li>
+                                <li>
+                                    <a>X5 (E53) 1999-2001</a>
+                                </li>
+                                <li>
+                                    <a>Z3 1995-2002</a>
+                                </li>
+                                <li>
+                                    <a>Z8 2000-2003</a>
+                                </li>
+                            </ul>
+                        </div>
+                    </div>
+                    <div class="sales-block">
+                        <div class="sales-block__title">
+                            МЫ ДАРИМ
+                        </div>
+                        <div class="sales-block__percent">5%</div>
+                        <div class="sales-block__bottom">
+                            СКИДКИ НА ВСЕ ТОВАРЫ
+                        </div>
+                        <a href="#!" class="link">Подробнее
+                            {% include "right_arrow.html" %}
+                        </a>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+    </section>
+
+    <!-- sales section end -->
+
+    <!-- news section start -->
+
+    <section class="news-section">
+        <div class="container">
+            <div class="content">
+                <div class="title-line">
+                    <h2 class="title-line__title">Последние новости</h2>
+                    <a class="link" href="#!">Все новости
+                        {% include "right_arrow.html" %}
+                    </a>
+                </div>
+                <div class="news-grid">
+                    {% for obj in news %}
+                    <article class="news-block">
+                        <div class="news-block__img-wrap" style="background-color: #FFFFFF;">
+                             <img src="{{ obj.image.url }}" alt=""> 
+                        </div>
+                        <a href="{{ obj.link }}" class="news-block__title">
+                            <span>{{ obj.title }}</span>
+                        </a>
+                        <a href="{{ obj.link }}" class="news-block__text">{{ obj.content }}</a>
+                        <div class="news-block__date">
+                            <img src="{% static 'img/calendar-with-a-clock-time-tools.png' %}" alt="calendar">
+                            <a href="{{ obj.link }}" class="news-block__date__link">{{ obj.date|date:"d.m.Y" }}</a>
+                        </div>
+                    </article>
+                {% endfor %}
                 </div>
             </div>
+        </div>
+    </section>
 
-            <div class="slide" style="background-image:url({% static 'img/slider-img.png' %})">
-                <div class="wrapper">
-                    <p>Официальный интернет-магазин</p>
-                    <p><span>carav.com.ua</span> на территории</p>
-                    <p>Украины</p>
+    <!-- news section end -->
+
+    <!-- dealer section start -->
+
+    <section class="dealer-section">
+        <div class="container">
+            {% get_solo 'content.DealerSection' as dealer %}
+            <div class="content">    
+                <a href="{{ dealer.link }}" class="title">
+                    <span class="top">{{ dealer.title|get_few_words:"0,1" }}</span>
+                    <span class="bottom">
+                        {{ dealer.title|get_few_words:"2" }}
+                        <span class="carav">{{ dealer.title|get_few_words:"3" }}</span>
+                        <span class="question">{{ dealer.title|get_few_words:"4" }}</span>
+                    </span>
+                </a>
+                <div class="information">
+                    {{ dealer.content| safe }}
+                <p>
+                    <br/>
+                    {{ dealer.footer| safe }}
+                </p>
                 </div>
+                <img class="dealer-user" src="{% static 'img/dealer-user.png' %}" alt="dealer.png">
             </div>
-
-            <div class="slide" style="background-image:url({% static 'img/slider-img.png' %})">
-                <div class="wrapper">
-                    <p>Официальный интернет-магазин</p>
-                    <p><span>carav.com.ua</span> на территории</p>
-                    <p>Украины</p>
-                </div>
-            </div>
-
         </div>
+    </section>
 
-        <a href="#!" class="slider-section__arrows slider-section__arrows--prev"><i class="fa fa-angle-left fa-4x" aria-hidden="true"></i></a>
-        <a href="#!" class="slider-section__arrows slider-section__arrows--next"><i class="fa fa-angle-right fa-4x" aria-hidden="true"></i></a>
-        <div class="slider-section__pag-wrap">
-            <!--<a href="#!" class="slider-section__pag"></a>
-            <a href="#!" class="slider-section__pag"></a>
-            <a href="#!" class="slider-section__pag"></a>
-            <a href="#!" class="slider-section__pag"></a>-->
-        </div>
-    </div>
-    <!--slider end-->
-
-    <!--new arrivals start-->
-    <div class="new-arrivals">
-        <div class="wrapper">
-            <h1 class="new-arrivals__title">Новые поступления</h1>
-
-            <!--arrivals wrap start-->
-            <div class="arrivals-list-wrap">
-
-                <ul>
-                    <li>
-                        <div class="product">
-                            <p class="product__code">Код товара: 11-041</p>
-                            <div class="product__img">
-                                <img src="{% static 'img/product-img.png' %}" alt="product-img.png">
-                            </div>
-                            <p class="product__title">Переходник ISO BMW, Land Rover,<br> Rover, Mini Carav 12-003</p>
-                            <p class="product__available">есть в наличии</p>
-                            <p class="product__ppc">РРЦ: 1989 грн</p>
-                            <p class="product__price">19 <span>$</span></p>
-                            <a href="#!" class="product__buy-btn">Купить</a>
-                            <div class="product__additional-info">
-                                <table>
-                                    <tr>
-                                        <td>3 Series (E30) 1987-1990</td>
-                                        <td>3 Series (E30) 1987-1990</td>
-                                    </tr>
-                                    <tr>
-                                        <td>3 Series (E30) 1987-1990</td>
-                                        <td>3 Series (E30) 1987-1990</td>
-                                    </tr>
-                                    <tr>
-                                        <td>3 Series (E30) 1987-1990</td>
-                                        <td>3 Series (E30) 1987-1990</td>
-                                    </tr>
-                                    <tr>
-                                        <td>3 Series (E30) 1987-1990</td>
-                                        <td>3 Series (E30) 1987-1990</td>
-                                    </tr>
-                                    <tr>
-                                        <td>3 Series (E30) 1987-1990</td>
-                                        <td>3 Series (E30) 1987-1990</td>
-                                    </tr>
-                                    <tr>
-                                        <td>X5 (E53) 1999-2001</td>
-                                        <td>X5 (E53) 1999-2001</td>
-                                    </tr>
-                                    <tr>
-                                        <td>Z3 1995-2002</td>
-                                        <td>Z3 1995-2002</td>
-                                    </tr>
-                                    <tr>
-                                        <td>Z8 2000-2003</td>
-                                        <td>Z8 2000-2003</td>
-                                    </tr>
-                                </table>
-                            </div>
-                        </div>
-                    </li>
-                    <li>
-                        <div class="product">
-                            <p class="product__code">Код товара: 11-041</p>
-                            <div class="product__img">
-                                <img src="{% static 'img/product-img.png' %}" alt="product-img.png">
-                            </div>
-                            <p class="product__title">Переходник ISO BMW, Land Rover,<br> Rover, Mini Carav 12-003</p>
-                            <p class="product__available">есть в наличии</p>
-                            <p class="product__ppc">РРЦ: 1989 грн</p>
-                            <p class="product__price">19 <span>$</span></p>
-                            <a href="#!" class="product__buy-btn">Купить</a>
-                            <div class="product__additional-info">
-                                <table>
-                                    <tr>
-                                        <td>3 Series (E30) 1987-1990</td>
-                                        <td>3 Series (E30) 1987-1990</td>
-                                    </tr>
-                                    <tr>
-                                        <td>3 Series (E30) 1987-1990</td>
-                                        <td>3 Series (E30) 1987-1990</td>
-                                    </tr>
-                                    <tr>
-                                        <td>3 Series (E30) 1987-1990</td>
-                                        <td>3 Series (E30) 1987-1990</td>
-                                    </tr>
-                                    <tr>
-                                        <td>3 Series (E30) 1987-1990</td>
-                                        <td>3 Series (E30) 1987-1990</td>
-                                    </tr>
-                                    <tr>
-                                        <td>3 Series (E30) 1987-1990</td>
-                                        <td>3 Series (E30) 1987-1990</td>
-                                    </tr>
-                                    <tr>
-                                        <td>X5 (E53) 1999-2001</td>
-                                        <td>X5 (E53) 1999-2001</td>
-                                    </tr>
-                                    <tr>
-                                        <td>Z3 1995-2002</td>
-                                        <td>Z3 1995-2002</td>
-                                    </tr>
-                                    <tr>
-                                        <td>Z8 2000-2003</td>
-                                        <td>Z8 2000-2003</td>
-                                    </tr>
-                                </table>
-                            </div>
-                        </div>
-                    </li>
-                    <li>
-                        <div class="product">
-                            <p class="product__code">Код товара: 11-041</p>
-                            <div class="product__img">
-                                <img src="{% static 'img/product-img.png' %}" alt="product-img.png">
-                            </div>
-                            <p class="product__title">Переходник ISO BMW, Land Rover,<br> Rover, Mini Carav 12-003</p>
-                            <p class="product__available">есть в наличии</p>
-                            <p class="product__ppc">РРЦ: 1989 грн</p>
-                            <p class="product__price">19 <span>$</span></p>
-                            <a href="#!" class="product__buy-btn">Купить</a>
-                            <div class="product__additional-info">
-                                <table>
-                                    <tr>
-                                        <td>3 Series (E30) 1987-1990</td>
-                                        <td>3 Series (E30) 1987-1990</td>
-                                    </tr>
-                                    <tr>
-                                        <td>3 Series (E30) 1987-1990</td>
-                                        <td>3 Series (E30) 1987-1990</td>
-                                    </tr>
-                                    <tr>
-                                        <td>3 Series (E30) 1987-1990</td>
-                                        <td>3 Series (E30) 1987-1990</td>
-                                    </tr>
-                                    <tr>
-                                        <td>3 Series (E30) 1987-1990</td>
-                                        <td>3 Series (E30) 1987-1990</td>
-                                    </tr>
-                                    <tr>
-                                        <td>3 Series (E30) 1987-1990</td>
-                                        <td>3 Series (E30) 1987-1990</td>
-                                    </tr>
-                                    <tr>
-                                        <td>X5 (E53) 1999-2001</td>
-                                        <td>X5 (E53) 1999-2001</td>
-                                    </tr>
-                                    <tr>
-                                        <td>Z3 1995-2002</td>
-                                        <td>Z3 1995-2002</td>
-                                    </tr>
-                                    <tr>
-                                        <td>Z8 2000-2003</td>
-                                        <td>Z8 2000-2003</td>
-                                    </tr>
-                                </table>
-                            </div>
-                        </div>
-                    </li>
-                    <li>
-                        <div class="product">
-                            <p class="product__code">Код товара: 11-041</p>
-                            <div class="product__img">
-                                <img src="{% static 'img/product-img.png' %}" alt="product-img.png">
-                            </div>
-                            <p class="product__title">Переходник ISO BMW, Land Rover,<br> Rover, Mini Carav 12-003</p>
-                            <p class="product__available">есть в наличии</p>
-                            <p class="product__ppc">РРЦ: 1989 грн</p>
-                            <p class="product__price">19 <span>$</span></p>
-                            <a href="#!" class="product__buy-btn">Купить</a>
-                            <div class="product__additional-info">
-                                <table>
-                                    <tr>
-                                        <td>3 Series (E30) 1987-1990</td>
-                                        <td>3 Series (E30) 1987-1990</td>
-                                    </tr>
-                                    <tr>
-                                        <td>3 Series (E30) 1987-1990</td>
-                                        <td>3 Series (E30) 1987-1990</td>
-                                    </tr>
-                                    <tr>
-                                        <td>3 Series (E30) 1987-1990</td>
-                                        <td>3 Series (E30) 1987-1990</td>
-                                    </tr>
-                                    <tr>
-                                        <td>3 Series (E30) 1987-1990</td>
-                                        <td>3 Series (E30) 1987-1990</td>
-                                    </tr>
-                                    <tr>
-                                        <td>3 Series (E30) 1987-1990</td>
-                                        <td>3 Series (E30) 1987-1990</td>
-                                    </tr>
-                                    <tr>
-                                        <td>X5 (E53) 1999-2001</td>
-                                        <td>X5 (E53) 1999-2001</td>
-                                    </tr>
-                                    <tr>
-                                        <td>Z3 1995-2002</td>
-                                        <td>Z3 1995-2002</td>
-                                    </tr>
-                                    <tr>
-                                        <td>Z8 2000-2003</td>
-                                        <td>Z8 2000-2003</td>
-                                    </tr>
-                                </table>
-                            </div>
-                        </div>
-                    </li>
-                    <li>
-                        <div class="product">
-                            <p class="product__code">Код товара: 11-041</p>
-                            <div class="product__img">
-                                <img src="{% static 'img/product-img.png' %}" alt="product-img.png">
-                            </div>
-                            <p class="product__title">Переходник ISO BMW, Land Rover,<br> Rover, Mini Carav 12-003</p>
-                            <p class="product__available">есть в наличии</p>
-                            <p class="product__ppc">РРЦ: 1989 грн</p>
-                            <p class="product__price">19 <span>$</span></p>
-                            <a href="#!" class="product__buy-btn">Купить</a>
-                            <div class="product__additional-info">
-                                <table>
-                                    <tr>
-                                        <td>3 Series (E30) 1987-1990</td>
-                                        <td>3 Series (E30) 1987-1990</td>
-                                    </tr>
-                                    <tr>
-                                        <td>3 Series (E30) 1987-1990</td>
-                                        <td>3 Series (E30) 1987-1990</td>
-                                    </tr>
-                                    <tr>
-                                        <td>3 Series (E30) 1987-1990</td>
-                                        <td>3 Series (E30) 1987-1990</td>
-                                    </tr>
-                                    <tr>
-                                        <td>3 Series (E30) 1987-1990</td>
-                                        <td>3 Series (E30) 1987-1990</td>
-                                    </tr>
-                                    <tr>
-                                        <td>3 Series (E30) 1987-1990</td>
-                                        <td>3 Series (E30) 1987-1990</td>
-                                    </tr>
-                                    <tr>
-                                        <td>X5 (E53) 1999-2001</td>
-                                        <td>X5 (E53) 1999-2001</td>
-                                    </tr>
-                                    <tr>
-                                        <td>Z3 1995-2002</td>
-                                        <td>Z3 1995-2002</td>
-                                    </tr>
-                                    <tr>
-                                        <td>Z8 2000-2003</td>
-                                        <td>Z8 2000-2003</td>
-                                    </tr>
-                                </table>
-                            </div>
-                        </div>
-                    </li>
-                    <li>
-                        <div class="product">
-                            <p class="product__code">Код товара: 11-041</p>
-                            <div class="product__img">
-                                <img src="{% static 'img/product-img.png' %}" alt="product-img.png">
-                            </div>
-                            <p class="product__title">Переходник ISO BMW, Land Rover,<br> Rover, Mini Carav 12-003</p>
-                            <p class="product__available">есть в наличии</p>
-                            <p class="product__ppc">РРЦ: 1989 грн</p>
-                            <p class="product__price">19 <span>$</span></p>
-                            <a href="#!" class="product__buy-btn">Купить</a>
-                            <div class="product__additional-info">
-                                <table>
-                                    <tr>
-                                        <td>3 Series (E30) 1987-1990</td>
-                                        <td>3 Series (E30) 1987-1990</td>
-                                    </tr>
-                                    <tr>
-                                        <td>3 Series (E30) 1987-1990</td>
-                                        <td>3 Series (E30) 1987-1990</td>
-                                    </tr>
-                                    <tr>
-                                        <td>3 Series (E30) 1987-1990</td>
-                                        <td>3 Series (E30) 1987-1990</td>
-                                    </tr>
-                                    <tr>
-                                        <td>3 Series (E30) 1987-1990</td>
-                                        <td>3 Series (E30) 1987-1990</td>
-                                    </tr>
-                                    <tr>
-                                        <td>3 Series (E30) 1987-1990</td>
-                                        <td>3 Series (E30) 1987-1990</td>
-                                    </tr>
-                                    <tr>
-                                        <td>X5 (E53) 1999-2001</td>
-                                        <td>X5 (E53) 1999-2001</td>
-                                    </tr>
-                                    <tr>
-                                        <td>Z3 1995-2002</td>
-                                        <td>Z3 1995-2002</td>
-                                    </tr>
-                                    <tr>
-                                        <td>Z8 2000-2003</td>
-                                        <td>Z8 2000-2003</td>
-                                    </tr>
-                                </table>
-                            </div>
-                        </div>
-                    </li>
-
-                </ul>
-
-            </div>
-            <!--arrivals wrap end-->
-
-        </div>
-    </div>
-    <!--new arrivels end-->
-
-    <!--dealer start-->
-    <div class="dealer-section">
-
-        <div class="wrapper">
-
-            <div class="info-block">
-
-                <h2>СТАТЬ ДИЛЕРОМ</h2>
-
-                <p>Официальный интернет-магазин <a href="#!">carav.com.ua</a> представляет полный ассортимент автомобильного
-                    доп. оборудования бренда CARAV на территории Украины, а так же является эксклюзивным представителем ТМ:
-                    ACV, AWM, Clayton, Metra, Scosche.</p>
-
-                <p>Более 1000 наименований продукции: переходные рамки, ISO-переходники, рулевые адаптеры, разъемы для магнитол,
-                    адаптеры активации штатных усилителей, различный монтажный инструмент и прочие необходимые расходные
-                    материалы для качественной установки аудио-видео аппаратуры в современные автомобили. </p>
-
-                <p>Наша компания готова предложить вам лучшие цены на оригинальную продукцию CARAV, ACV, AWM, Clayton, Metra,
-                    Scosche с оперативной доставкой по всей Украине.</p>
-
-                <p>Приглашаем к сотрудничеству установочные центры, магазины автозвука и дилерские центры – для вас мы подготовили
-                    специальные оптовые цены!</p>
-
-                <p>С уважением,<br> Коллектив интернет-магазина carav.com.ua</p>
-
-            </div>
-
-            <div class="dealer-section__img-block">
-                <img src="{% static '/img/dealer.png' %}" alt="dealer.png">
-            </div>
-
-        </div>
-    </div>
-    <!--dealer end-->
-{% endblock content %}
+    <!-- dealer section end -->
+{% endblock %}
+{% block extrascripts %}
+<script type="text/javascript" src="{% static 'js/index.js' %}"></script>
+{% endblock %}

@@ -1,0 +1,823 @@
+@font-face {
+  font-family: 'Ubuntu';
+  src: url(../fonts/Ubuntu.woff2) format("woff2"), url(../fonts/Ubuntu.woff) format("woff"), url(../fonts/Ubuntu.eot) format("eot");
+  font-weight: normal;
+  font-style: normal; }
+
+@font-face {
+  font-family: 'Ubuntu Bold';
+  src: url(../fonts/Ubuntu-Bold.woff2) format("woff2"), url(../fonts/Ubuntu-Bold.woff) format("woff"), url(../fonts/Ubuntu-Bold.eot) format("eot");
+  font-weight: normal;
+  font-style: normal; }
+
+@font-face {
+  font-family: 'OpenSans Bold';
+  src: url(../fonts/OpenSans-Bold.woff2) format("woff2"), url(../fonts/OpenSans-Bold.woff) format("woff"), url(../fonts/OpenSans-Bold.eot) format("eot");
+  font-weight: normal;
+  font-style: normal; }
+
+/*variables start*/
+/*variables end*/
+/*px to em function start*/
+/*px to em function end*/
+/*media start*/
+/*media end*/
+/*
+
+&::-webkit-scrollbar {
+            width: 10px;
+        }
+        &::-webkit-scrollbar-track {
+            background-color: #202020;
+            border: 4px solid transparent;
+            background-clip: content-box;
+        }
+        &::-webkit-scrollbar-thumb {
+            background-color: #202020;
+            border-radius: 10px;    
+        }
+
+*/
+/*variables start*/
+/*variables end*/
+/*px to em function start*/
+/*px to em function end*/
+/*media start*/
+/*media end*/
+/*
+
+&::-webkit-scrollbar {
+            width: 10px;
+        }
+        &::-webkit-scrollbar-track {
+            background-color: #202020;
+            border: 4px solid transparent;
+            background-clip: content-box;
+        }
+        &::-webkit-scrollbar-thumb {
+            background-color: #202020;
+            border-radius: 10px;    
+        }
+
+*/
+* {
+  margin: 0;
+  padding: 0;
+  -webkit-box-sizing: border-box;
+          box-sizing: border-box; }
+
+body {
+  font-size: 16px; }
+  @media only screen and (max-width: 768px) {
+    body {
+      position: relative; } }
+
+.container {
+  width: 100%;
+  padding: 0 50px; }
+  @media only screen and (max-width: 768px) {
+    .container {
+      padding: 0 5px; } }
+
+.clearfix:after {
+  content: " ";
+  display: table;
+  clear: both; }
+
+.more {
+  display: block;
+  width: 270px;
+  height: 51px;
+  line-height: 51px;
+  margin: 0 auto 0 auto;
+  font-family: "Ubuntu", sans-serif;
+  font-size: 1em;
+  color: #fff;
+  text-align: center;
+  text-transform: uppercase;
+  text-decoration: none;
+  border-radius: 5px;
+  background-color: #c11a30; }
+
+/* components */
+/*variables start*/
+/*variables end*/
+/*px to em function start*/
+/*px to em function end*/
+/*media start*/
+/*media end*/
+/*
+
+&::-webkit-scrollbar {
+            width: 10px;
+        }
+        &::-webkit-scrollbar-track {
+            background-color: #202020;
+            border: 4px solid transparent;
+            background-clip: content-box;
+        }
+        &::-webkit-scrollbar-thumb {
+            background-color: #202020;
+            border-radius: 10px;    
+        }
+
+*/
+.guest-enter-block {
+  position: relative;
+  width: 572px;
+  height: 262px;
+  margin: 98px 0 0 65px;
+  background-image: url(../img/guest-btn-img.png);
+  background-repeat: no-repeat;
+  -webkit-background-size: cover;
+          background-size: cover; }
+  .guest-enter-block .link {
+    position: absolute;
+    top: 54px;
+    left: -25px;
+    display: -webkit-box;
+    display: -webkit-flex;
+    display: -ms-flexbox;
+    display: flex;
+    -webkit-box-align: center;
+    -webkit-align-items: center;
+        -ms-flex-align: center;
+            align-items: center;
+    -webkit-box-pack: justify;
+    -webkit-justify-content: space-between;
+        -ms-flex-pack: justify;
+            justify-content: space-between;
+    width: 469px;
+    height: 80px;
+    font-family: "Ubuntu Bold", sans-serif;
+    font-size: 2.25em;
+    color: #c11a30;
+    text-decoration: none;
+    background-color: #fff;
+    border-radius: 7px; }
+    .guest-enter-block .link svg {
+      width: 35px;
+      height: 35px;
+      margin: 0 28px;
+      fill: #c11a30;
+      -webkit-transform: rotate(-90deg);
+          -ms-transform: rotate(-90deg);
+              transform: rotate(-90deg); }
+    .guest-enter-block .link span {
+      display: block;
+      padding: 0 49px 0 35px;
+      border-right: 2px solid #dcdcdc; }
+  .guest-enter-block .arrows {
+    position: absolute;
+    top: -79px;
+    right: -206px; }
+  .guest-enter-block .car {
+    position: absolute;
+    top: 134px;
+    left: -163px; }
+
+/*login styles*/
+body {
+  background-color: #131313; }
+
+.main-section {
+  display: -webkit-box;
+  display: -webkit-flex;
+  display: -ms-flexbox;
+  display: flex;
+  overflow: hidden; }
+  @media only screen and (max-width: 768px) {
+    .main-section {
+      -webkit-box-orient: vertical;
+      -webkit-box-direction: normal;
+      -webkit-flex-direction: column;
+          -ms-flex-direction: column;
+              flex-direction: column; } }
+  .main-section .registration-block {
+    width: 100%;
+    max-width: 960px;
+    min-height: 949px;
+    background-image: url(../img/reg-img.png);
+    background-position: center center;
+    -webkit-background-size: cover;
+            background-size: cover; }
+    @media (min-width: 1024px) and (max-width: 1600px) {
+      .main-section .registration-block {
+        width: 50%;
+        max-width: 100%;
+        min-height: auto; } }
+    @media only screen and (max-width: 768px) {
+      .main-section .registration-block {
+        max-width: 100%;
+        min-height: auto;
+        padding: 0 10px 50px 10px; } }
+    .main-section .registration-block .title {
+      margin: 37px 0 0 0;
+      text-align: center;
+      font-size: 1em; }
+      @media only screen and (max-width: 768px) {
+        .main-section .registration-block .title {
+          margin: 25px 0 0 0; } }
+      .main-section .registration-block .title a {
+        font-family: Arial, Helvetica, sans-serif;
+        font-size: 2.1875em;
+        color: #c11a30;
+        text-decoration: none;
+        text-transform: uppercase;
+        letter-spacing: -4px; }
+    .main-section .registration-block .subtitle {
+      margin: 37px 0 0 0;
+      padding: 0 113px 0 0;
+      font-family: "Ubuntu Bold", sans-serif;
+      font-size: 3em;
+      color: #d0d0d0;
+      text-align: right; }
+      @media (min-width: 1024px) and (max-width: 1366px) {
+        .main-section .registration-block .subtitle {
+          padding: 0;
+          text-align: center; } }
+      @media only screen and (max-width: 768px) {
+        .main-section .registration-block .subtitle {
+          margin: 25px 0 0 0;
+          padding: 0;
+          font-size: 2.25em;
+          text-align: center; } }
+      @media only screen and (max-width: 340px) {
+        .main-section .registration-block .subtitle {
+          font-size: 1.625em; } }
+    .main-section .registration-block .reg-links {
+      display: block;
+      margin: 137px 0 0 0; }
+      @media only screen and (max-width: 768px) {
+        .main-section .registration-block .reg-links {
+          display: -webkit-box;
+          display: -webkit-flex;
+          display: -ms-flexbox;
+          display: flex;
+          -webkit-box-pack: justify;
+          -webkit-justify-content: space-between;
+              -ms-flex-pack: justify;
+                  justify-content: space-between;
+          margin: 25px 0 0 0; } }
+      @media only screen and (max-width: 500px) {
+        .main-section .registration-block .reg-links {
+          -webkit-flex-wrap: wrap;
+              -ms-flex-wrap: wrap;
+                  flex-wrap: wrap; } }
+      .main-section .registration-block .reg-links a {
+        display: block;
+        margin: 0 0 54px 0;
+        padding: 0 109px 0 0;
+        font-family: "Ubuntu Bold", sans-serif;
+        font-size: 1.875em;
+        color: #c11a30;
+        text-align: right;
+        text-decoration: none; }
+        @media (min-width: 1024px) and (max-width: 1240px) {
+          .main-section .registration-block .reg-links a {
+            padding: 0 80px 0 0; } }
+        @media only screen and (max-width: 768px) {
+          .main-section .registration-block .reg-links a {
+            margin: 0;
+            padding: 0;
+            font-size: 1.5em;
+            text-align: left; } }
+        @media only screen and (max-width: 500px) {
+          .main-section .registration-block .reg-links a.reg-rzn {
+            margin: 10px 0 0 0; } }
+    .main-section .registration-block .forms-wrap {
+      display: -webkit-box;
+      display: -webkit-flex;
+      display: -ms-flexbox;
+      display: flex;
+      -webkit-box-pack: end;
+      -webkit-justify-content: flex-end;
+          -ms-flex-pack: end;
+              justify-content: flex-end;
+      padding: 0 115px 0 0; }
+      @media (min-width: 1024px) and (max-width: 1366px) {
+        .main-section .registration-block .forms-wrap {
+          position: relative;
+          padding: 0;
+          z-index: 1; } }
+      @media only screen and (max-width: 768px) {
+        .main-section .registration-block .forms-wrap {
+          padding: 0; } }
+      .main-section .registration-block .forms-wrap .form {
+        width: 100%;
+        max-width: 470px; }
+        .main-section .registration-block .forms-wrap .form .input-wrap {
+          margin: 20px 0 0 0; }
+          .main-section .registration-block .forms-wrap .form .input-wrap:nth-child(1) {
+            margin: 0; }
+          .main-section .registration-block .forms-wrap .form .input-wrap input {
+            outline: none;
+            width: 100%;
+            height: 50px;
+            padding: 0 24px;
+            font-family: "Ubuntu", sans-serif;
+            font-size: 1.375em;
+            color: #acacac;
+            border: none;
+            border: 1px solid #000; }
+            @media only screen and (max-width: 768px) {
+              .main-section .registration-block .forms-wrap .form .input-wrap input {
+                height: 40px;
+                font-size: 1.25em; } }
+        .main-section .registration-block .forms-wrap .form .radio-wrap {
+          margin: 20px 0 0 0; }
+          .main-section .registration-block .forms-wrap .form .radio-wrap p {
+            margin: 0 0 10px 0;
+            font-family: "Ubuntu", sans-serif;
+            font-size: 1.125em;
+            color: #fff; }
+          .main-section .registration-block .forms-wrap .form .radio-wrap div {
+            display: -webkit-box;
+            display: -webkit-flex;
+            display: -ms-flexbox;
+            display: flex;
+            -webkit-box-align: center;
+            -webkit-align-items: center;
+                -ms-flex-align: center;
+                    align-items: center;
+            -webkit-box-pack: justify;
+            -webkit-justify-content: space-between;
+                -ms-flex-pack: justify;
+                    justify-content: space-between; }
+            @media only screen and (max-width: 359px) {
+              .main-section .registration-block .forms-wrap .form .radio-wrap div {
+                -webkit-box-orient: vertical;
+                -webkit-box-direction: normal;
+                -webkit-flex-direction: column;
+                    -ms-flex-direction: column;
+                        flex-direction: column;
+                -webkit-box-align: start;
+                -webkit-align-items: flex-start;
+                    -ms-flex-align: start;
+                        align-items: flex-start; } }
+            .main-section .registration-block .forms-wrap .form .radio-wrap div input {
+              position: absolute;
+              top: 0;
+              left: 0;
+              opacity: 0;
+              visibility: hidden; }
+              .main-section .registration-block .forms-wrap .form .radio-wrap div input:checked + label {
+                color: #c11a30; }
+                .main-section .registration-block .forms-wrap .form .radio-wrap div input:checked + label:after {
+                  border: 1px solid #c11a30;
+                  background-image: url(../img/dot.png); }
+            .main-section .registration-block .forms-wrap .form .radio-wrap div label {
+              position: relative;
+              padding: 0 0 0 40px;
+              font-family: "Ubuntu", sans-serif;
+              font-size: 0.875em;
+              color: #fff; }
+              @media only screen and (max-width: 768px) {
+                .main-section .registration-block .forms-wrap .form .radio-wrap div label {
+                  margin: 0 0 15px 0; } }
+              .main-section .registration-block .forms-wrap .form .radio-wrap div label:after {
+                -webkit-box-sizing: border-box;
+                        box-sizing: border-box;
+                content: "";
+                position: absolute;
+                top: 50%;
+                left: 0;
+                width: 13px;
+                height: 13px;
+                margin-top: -7.5px;
+                border: 1px solid #fff;
+                border-radius: 50%;
+                background-repeat: no-repeat;
+                background-position: center center; }
+        .main-section .registration-block .forms-wrap .form .submit {
+          cursor: pointer;
+          display: -webkit-box;
+          display: -webkit-flex;
+          display: -ms-flexbox;
+          display: flex;
+          -webkit-box-align: center;
+          -webkit-align-items: center;
+              -ms-flex-align: center;
+                  align-items: center;
+          width: 100%;
+          height: 60px;
+          margin: 25px 0 0 0;
+          border: none;
+          border-radius: 5px;
+          background-color: #c11a30; }
+          .main-section .registration-block .forms-wrap .form .submit .img {
+            width: 26px;
+            height: 26px;
+            margin: 0 17px;
+            fill: #ffffff; }
+          .main-section .registration-block .forms-wrap .form .submit .text {
+            padding: 0 0 0 39px;
+            font-family: "Ubuntu Bold", sans-serif;
+            font-size: 30px;
+            color: #fff;
+            border: none;
+            border-left: 2px solid rgba(0, 0, 0, 0.1);
+            background-color: transparent; }
+            @media only screen and (max-width: 470px) {
+              .main-section .registration-block .forms-wrap .form .submit .text {
+                font-size: 22px; } }
+            @media only screen and (max-width: 360px) {
+              .main-section .registration-block .forms-wrap .form .submit .text {
+                font-size: 18px; } }
+        .main-section .registration-block .forms-wrap .form .bottom {
+          margin: 147px 0 0 0; }
+          .main-section .registration-block .forms-wrap .form .bottom p {
+            margin: 5px 0 0 0;
+            text-align: right; }
+            .main-section .registration-block .forms-wrap .form .bottom p:nth-child(1) {
+              margin: 0; }
+            .main-section .registration-block .forms-wrap .form .bottom p a {
+              font-family: "Ubuntu Bold", sans-serif;
+              font-size: 1.125em;
+              color: #c11a30;
+              text-decoration: none; }
+              .main-section .registration-block .forms-wrap .form .bottom p a.grey {
+                color: #c4c4c4; }
+        .main-section .registration-block .forms-wrap .form#form-rzn {
+          display: none;
+          margin: 142px 0 0 0; }
+          @media (min-width: 1024px) and (max-width: 1240px) {
+            .main-section .registration-block .forms-wrap .form#form-rzn {
+              margin: 142px auto 0 auto; } }
+          @media only screen and (max-width: 768px) {
+            .main-section .registration-block .forms-wrap .form#form-rzn {
+              margin: 50px auto 0 auto; } }
+        .main-section .registration-block .forms-wrap .form#form-opt {
+          display: none;
+          margin: 100px 0 0 0; }
+          @media (min-width: 1024px) and (max-width: 1240px) {
+            .main-section .registration-block .forms-wrap .form#form-opt {
+              margin: 100px auto 0 auto; } }
+          @media only screen and (max-width: 768px) {
+            .main-section .registration-block .forms-wrap .form#form-opt {
+              margin: 50px auto 0 auto; } }
+          .main-section .registration-block .forms-wrap .form#form-opt .bottom {
+            margin: 100px 0 20px 0; }
+  .main-section .authentication-block {
+    display: -webkit-box;
+    display: -webkit-flex;
+    display: -ms-flexbox;
+    display: flex;
+    -webkit-box-orient: vertical;
+    -webkit-box-direction: normal;
+    -webkit-flex-direction: column;
+        -ms-flex-direction: column;
+            flex-direction: column;
+    width: calc(100% - 960px);
+    position: relative; }
+    @media (min-width: 1024px) and (max-width: 1600px) {
+      .main-section .authentication-block {
+        width: 50%; } }
+    @media only screen and (max-width: 768px) {
+      .main-section .authentication-block {
+        width: 100%;
+        padding: 0 10px; } }
+    .main-section .authentication-block .content {
+      -webkit-box-flex: 1;
+      -webkit-flex-grow: 1;
+          -ms-flex-positive: 1;
+              flex-grow: 1; }
+      .main-section .authentication-block .content .title {
+        position: relative;
+        width: 528px;
+        margin: 116px 0 0 0;
+        padding: 0 0 0 84px;
+        font-family: "Ubuntu Bold", sans-serif;
+        font-size: 3em;
+        color: #d0d0d0;
+        line-height: 1; }
+        @media (min-width: 1024px) and (max-width: 1600px) {
+          .main-section .authentication-block .content .title {
+            padding: 0 0 0 40px; } }
+        @media only screen and (max-width: 768px) {
+          .main-section .authentication-block .content .title {
+            width: 100%;
+            margin: 50px 0 0 0;
+            padding: 0;
+            text-align: center; } }
+        @media only screen and (max-width: 470px) {
+          .main-section .authentication-block .content .title {
+            font-size: 2.25em; } }
+        .main-section .authentication-block .content .title .subtitle {
+          position: absolute;
+          top: 63%;
+          right: -59px;
+          width: 290px;
+          font-family: "Ubuntu", sans-serif;
+          font-size: 18px;
+          line-height: 1.2; }
+          @media (min-width: 1024px) and (max-width: 1240px) {
+            .main-section .authentication-block .content .title .subtitle {
+              right: 0;
+              font-size: 16px; } }
+          @media only screen and (max-width: 768px) {
+            .main-section .authentication-block .content .title .subtitle {
+              position: static;
+              margin: 10px auto 0 auto;
+              text-align: left; } }
+      .main-section .authentication-block .content .login-form {
+        width: 470px;
+        margin: 100px 0 0 115px; }
+        @media (min-width: 1024px) and (max-width: 1600px) {
+          .main-section .authentication-block .content .login-form {
+            margin: 100px auto 0 auto; } }
+        @media only screen and (max-width: 768px) {
+          .main-section .authentication-block .content .login-form {
+            width: 100%;
+            max-width: 470px;
+            margin: 50px auto; } }
+        .main-section .authentication-block .content .login-form > input {
+          outline: none;
+          width: 100%;
+          height: 60px;
+          margin: 0 0 19px 0;
+          padding: 0 0 0 26px;
+          font-family: "Ubuntu", sans-serif;
+          font-size: 1.5em;
+          color: #d0d0d0;
+          border: 1px solid #000;
+          background-color: #484848; }
+          @media only screen and (max-width: 360px) {
+            .main-section .authentication-block .content .login-form > input {
+              font-size: 1.125em; } }
+          .main-section .authentication-block .content .login-form > input:last-child {
+            margin: 0; }
+          .main-section .authentication-block .content .login-form > input.password {
+            margin: 0 0 15px 0; }
+        .main-section .authentication-block .content .login-form .bottom {
+          display: -webkit-box;
+          display: -webkit-flex;
+          display: -ms-flexbox;
+          display: flex;
+          -webkit-box-pack: justify;
+          -webkit-justify-content: space-between;
+              -ms-flex-pack: justify;
+                  justify-content: space-between;
+          -webkit-box-align: center;
+          -webkit-align-items: center;
+              -ms-flex-align: center;
+                  align-items: center; }
+          @media only screen and (max-width: 388px) {
+            .main-section .authentication-block .content .login-form .bottom {
+              -webkit-box-orient: vertical;
+              -webkit-box-direction: normal;
+              -webkit-flex-direction: column;
+                  -ms-flex-direction: column;
+                      flex-direction: column; } }
+          .main-section .authentication-block .content .login-form .bottom .left {
+            margin: 5px 0 0 0; }
+            .main-section .authentication-block .content .login-form .bottom .left #remember {
+              position: absolute;
+              top: 0;
+              left: 0;
+              opacity: 0;
+              visibility: hidden; }
+              .main-section .authentication-block .content .login-form .bottom .left #remember:checked + label span svg {
+                opacity: 1; }
+            .main-section .authentication-block .content .login-form .bottom .left label {
+              display: -webkit-box;
+              display: -webkit-flex;
+              display: -ms-flexbox;
+              display: flex;
+              -webkit-box-align: center;
+              -webkit-align-items: center;
+                  -ms-flex-align: center;
+                      align-items: center;
+              font-family: "Ubuntu", sans-serif;
+              font-size: 1.25em;
+              color: #d0d0d0; }
+              .main-section .authentication-block .content .login-form .bottom .left label span {
+                display: -webkit-box;
+                display: -webkit-flex;
+                display: -ms-flexbox;
+                display: flex;
+                -webkit-box-pack: center;
+                -webkit-justify-content: center;
+                    -ms-flex-pack: center;
+                        justify-content: center;
+                -webkit-box-align: center;
+                -webkit-align-items: center;
+                    -ms-flex-align: center;
+                        align-items: center;
+                width: 28px;
+                height: 28px;
+                margin: 0 13px 0 0;
+                border: 3px solid #d0d0d0;
+                border-radius: 10px; }
+                .main-section .authentication-block .content .login-form .bottom .left label span svg {
+                  opacity: 0;
+                  width: 15px;
+                  height: 15px;
+                  fill: #c11a30; }
+          .main-section .authentication-block .content .login-form .bottom .right {
+            display: -webkit-box;
+            display: -webkit-flex;
+            display: -ms-flexbox;
+            display: flex;
+            -webkit-box-orient: vertical;
+            -webkit-box-direction: normal;
+            -webkit-flex-direction: column;
+                -ms-flex-direction: column;
+                    flex-direction: column;
+            -webkit-box-align: end;
+            -webkit-align-items: flex-end;
+                -ms-flex-align: end;
+                    align-items: flex-end; }
+            @media only screen and (max-width: 388px) {
+              .main-section .authentication-block .content .login-form .bottom .right {
+                margin: 20px 0 0 0; } }
+            .main-section .authentication-block .content .login-form .bottom .right a#forgot-pass {
+              font-family: "Ubuntu", sans-serif;
+              font-size: 1.25em;
+              color: #d0d0d0;
+              text-decoration: none; }
+            .main-section .authentication-block .content .login-form .bottom .right .submit {
+              cursor: pointer;
+              width: 170px;
+              height: 54px;
+              margin: 10px 0 0 0;
+              font-family: "Ubuntu Bold", sans-serif;
+              font-size: 1.5em;
+              color: #c11a30;
+              border: 4px solid #c11a30;
+              border-radius: 4px;
+              background-color: transparent; }
+        .main-section .authentication-block .content .login-form .other-logs {
+          margin: 15px 0 0 0; }
+          .main-section .authentication-block .content .login-form .other-logs__title {
+            font-family: "Ubuntu", sans-serif;
+            font-size: 1.25em;
+            color: #d0d0d0; }
+          .main-section .authentication-block .content .login-form .other-logs div {
+            display: -webkit-box;
+            display: -webkit-flex;
+            display: -ms-flexbox;
+            display: flex;
+            -webkit-box-align: center;
+            -webkit-align-items: center;
+                -ms-flex-align: center;
+                    align-items: center;
+            -webkit-box-pack: justify;
+            -webkit-justify-content: space-between;
+                -ms-flex-pack: justify;
+                    justify-content: space-between;
+            margin: 13px 0 0 0; }
+            @media only screen and (max-width: 466px) {
+              .main-section .authentication-block .content .login-form .other-logs div {
+                -webkit-box-orient: vertical;
+                -webkit-box-direction: normal;
+                -webkit-flex-direction: column;
+                    -ms-flex-direction: column;
+                        flex-direction: column; } }
+            .main-section .authentication-block .content .login-form .other-logs div a {
+              display: -webkit-box;
+              display: -webkit-flex;
+              display: -ms-flexbox;
+              display: flex;
+              -webkit-box-align: center;
+              -webkit-align-items: center;
+                  -ms-flex-align: center;
+                      align-items: center;
+              width: 223px;
+              height: 46px;
+              font-family: "Ubuntu Bold", sans-serif;
+              font-size: 1.25em;
+              color: #3b3b3b;
+              text-decoration: none;
+              border-radius: 4px;
+              background-color: #d0d0d0; }
+              @media only screen and (max-width: 466px) {
+                .main-section .authentication-block .content .login-form .other-logs div a {
+                  margin: 0 0 10px 0; } }
+              .main-section .authentication-block .content .login-form .other-logs div a .g {
+                width: 21px;
+                height: 21px;
+                margin: 0 10px;
+                fill: #3b3b3b; }
+              .main-section .authentication-block .content .login-form .other-logs div a .f {
+                width: 20px;
+                height: 20px;
+                margin: 0 10px;
+                fill: #3b3b3b; }
+              .main-section .authentication-block .content .login-form .other-logs div a span {
+                display: block;
+                padding: 0 0 0 35px;
+                text-align: center;
+                border-left: 2px solid #b8b8b8; }
+    @media (min-width: 1366px) and (max-width: 1600px) {
+      .main-section .authentication-block .guest-enter-block {
+        margin: 96px auto 0 auto; } }
+    @media (min-width: 1024px) and (max-width: 1300px) {
+      .main-section .authentication-block .guest-enter-block {
+        width: 400px;
+        height: 250px;
+        margin: 96px 0 0 0; } }
+    @media only screen and (max-width: 768px) {
+      .main-section .authentication-block .guest-enter-block {
+        width: 500px;
+        height: 200px;
+        margin: 100px auto 0 auto;
+        -webkit-background-size: contain;
+                background-size: contain; } }
+    @media only screen and (max-width: 580px) {
+      .main-section .authentication-block .guest-enter-block {
+        width: 320px;
+        height: 150px; } }
+    @media only screen and (max-width: 360px) {
+      .main-section .authentication-block .guest-enter-block {
+        width: 300px;
+        height: 120px; } }
+    @media (min-width: 1024px) and (max-width: 1600px) {
+      .main-section .authentication-block .guest-enter-block .link {
+        width: 400px;
+        height: 60px;
+        font-size: 1.6875em; } }
+    @media only screen and (max-width: 768px) {
+      .main-section .authentication-block .guest-enter-block .link {
+        width: 370px;
+        height: 60px;
+        font-size: 1.4375em; } }
+    @media only screen and (max-width: 580px) {
+      .main-section .authentication-block .guest-enter-block .link {
+        top: 30px;
+        width: 270px;
+        height: 40px;
+        font-size: 1em; } }
+    @media only screen and (max-width: 360px) {
+      .main-section .authentication-block .guest-enter-block .link {
+        width: 200px;
+        font-size: 0.75em;
+        left: 0; } }
+    @media only screen and (max-width: 580px) {
+      .main-section .authentication-block .guest-enter-block .link span {
+        padding: 0 40px 0 20px; } }
+    @media only screen and (max-width: 360px) {
+      .main-section .authentication-block .guest-enter-block .link span {
+        padding: 0 10px; } }
+    @media only screen and (max-width: 580px) {
+      .main-section .authentication-block .guest-enter-block .link svg {
+        width: 20px;
+        height: 20px; } }
+    @media (min-width: 1024px) and (max-width: 1600px) {
+      .main-section .authentication-block .guest-enter-block .arrows {
+        width: 200px;
+        top: 0;
+        right: -111px; } }
+    @media only screen and (max-width: 768px) {
+      .main-section .authentication-block .guest-enter-block .arrows {
+        width: 250px;
+        top: -16%;
+        right: -84px; } }
+    @media only screen and (max-width: 640px) {
+      .main-section .authentication-block .guest-enter-block .arrows {
+        width: 200px;
+        top: -5.3%;
+        right: -53px; } }
+    @media only screen and (max-width: 580px) {
+      .main-section .authentication-block .guest-enter-block .arrows {
+        width: 150px;
+        top: -10%;
+        right: -45px; } }
+    @media only screen and (max-width: 360px) {
+      .main-section .authentication-block .guest-enter-block .arrows {
+        width: 100px;
+        top: 5%;
+        right: 0; } }
+    @media (min-width: 1024px) and (max-width: 1600px) {
+      .main-section .authentication-block .guest-enter-block .car {
+        width: 520px;
+        top: 153px;
+        left: 0; } }
+    @media only screen and (max-width: 768px) {
+      .main-section .authentication-block .guest-enter-block .car {
+        width: 640px;
+        top: 120px;
+        left: -60px; } }
+    @media only screen and (max-width: 640px) {
+      .main-section .authentication-block .guest-enter-block .car {
+        width: 600px; } }
+    @media only screen and (max-width: 580px) {
+      .main-section .authentication-block .guest-enter-block .car {
+        width: 500px;
+        top: 72px;
+        left: -64px; } }
+    @media only screen and (max-width: 500px) {
+      .main-section .authentication-block .guest-enter-block .car {
+        width: 400px;
+        top: 76px; } }
+    @media only screen and (max-width: 436px) {
+      .main-section .authentication-block .guest-enter-block .car {
+        width: 310px;
+        top: 92px;
+        left: 0; } }
+    @media only screen and (max-width: 360px) {
+      .main-section .authentication-block .guest-enter-block .car {
+        width: 300px;
+        top: 70px; } }
+
+/*# sourceMappingURL=login.css.map*/
