@@ -13,11 +13,6 @@ class MenuHeaderItem(models.Model):
     """Пункт меню в хедере"""
     name = models.CharField(_(u'Название'),
                             max_length=50)
-    link = models.CharField(_(u'URL-адрес'),
-                            max_length=255,
-                            help_text=_(u"Используйте ссылку вида /#html_id "
-                                        "для блока лэндинга. Остальные ссылки "
-                                        "указывать полностью (https://...)"))
     order = models.IntegerField(_(u'Порядок'),
                                 default=0)
 
@@ -39,19 +34,12 @@ class MenuMainItem(MPTTModel):
                             null=True)
     name = models.CharField(_(u'Название'),
                             max_length=128)
-    link = models.CharField(_(u'URL-адрес'),
-                            max_length=255,
-                            blank=True,
-                            help_text=_(u"Используйте ссылку вида /#html_id "
-                                        "для блока лэндинга. Остальные ссылки "
-                                        "указывать полностью (https://...)"))
     order = models.IntegerField(_(u'Порядок'),
                                 default=0)
     image = models.ImageField(_(u'Картинка'),
                               upload_to="menu_items_images",
                               blank=True,
                               null=True)
-
 
     class Meta:
         verbose_name = _(u'Пункт/подпункт основного меню')
@@ -65,19 +53,6 @@ class MenuMainItem(MPTTModel):
         return self.name
 
 
-class PhoneNumber(models.Model):
-    number = models.CharField(_(u'Номер'),
-                              max_length=24,
-                              blank=True)
-
-    class Meta:
-        verbose_name = _(u'Номер телефона')
-        verbose_name_plural = _(u'Номера телефонов')
-
-    def __unicode__(self):
-        return self.number
-
-
 class DealerSection(SingletonModel):
     """Блок дилерам"""
     title = models.CharField(_(u"Заголовок блока дилер"),
@@ -89,11 +64,6 @@ class DealerSection(SingletonModel):
                               max_length=256,
                               default=_(u"С уважением, Коллектив интернет-магазина carav.com.ua"))
     content = RichTextField(_(u"Содержимое блока дилер"))
-    link = models.CharField(_(u'URL-адрес'),
-                            max_length=255,
-                            help_text=_(u"Используйте ссылку вида /#html_id "
-                                        "для блока лэндинга. Остальные ссылки "
-                                        "указывать полностью (https://...)"))
 
     class Meta:
         verbose_name = _(u"Блок дилерам")
@@ -123,17 +93,14 @@ class SocialNetwork(models.Model):
 
 class LandingProductBlock(models.Model):
     """Товар на главной части страницы"""
-    name = models.CharField(_(u"Название"),
-                            max_length=64)
+    category = models.OneToOneField('MenuMainItem',
+                                    verbose_name=_(u"Категория"),
+                                    null=True,
+                                    help_text=_(u"Выбирайте самые 'старшие' категории, у которых нету 'родителей'"))
     button_text = models.CharField(_(u"Текст в кнопке"),
                                    max_length=32)
     image = models.ImageField(_(u"Картинка на заднем фоне"),
                               upload_to="langing_products_images")
-    link = models.CharField(_(u"URL-адрес"),
-                            max_length=255,
-                            help_text=_(u"Используйте ссылку вида /#html_id "
-                                        "для блока лэндинга. Остальные ссылки "
-                                        "указывать полностью (https://...)"))
     order = models.IntegerField(_(u'Порядок'),
                                 default=0)
     
@@ -142,24 +109,19 @@ class LandingProductBlock(models.Model):
         verbose_name_plural = _(u"Блоки главной страницы")
 
     def __unicode__(self):
-        return self.name
+        return self.category.name
 
 
 class Blog(models.Model):
     title = models.CharField(_(u'Заголовок новости'),
                              max_length=128)
-    content = models.TextField(_(u'Содержимое'))
+    content = RichTextField(_(u'Содержимое'))
     date = models.DateField(_(u'Дата анонса'))
-    link = models.CharField(_(u'URL-адрес'),
-                            max_length=255,
-                            help_text=_(u"используйте ссылку вида /#html_id "
-                                        "для блока лэндинга. Остальные ссылки "
-                                        "указыватьполностью (https://...)"))
     active = models.BooleanField(_(u"Включить/отключить новость"),
                                  default=False)
     image = models.ImageField(_(u"Картинка"),
-                              upload_to="block_images",
-                              null=True)
+                              null=True,
+                              upload_to="blog_images")
 
     class Meta:
         verbose_name = _(u'Новость')
@@ -169,4 +131,108 @@ class Blog(models.Model):
         return self.title
 
 
+class InformationType(models.Model):
+    """Тип контактной информации.
+    Добавлять в админку нету смысла.
+    """
+    name = models.CharField(_(u"Тип информации"),
+                            max_length=64,
+                            help_text=_(u"Номер/Почта/Адрес/Расписание "
+                                        "Использовать именно такие имена"))
 
+    class Meta:
+        verbose_name = _(u"Тип информации")
+        verbose_name_plural = _(u"Типы информации")
+
+    def __unicode__(self):
+        return self.name
+
+
+class Information(models.Model):
+    """Контактная информация"""
+    information = models.TextField(_(u"Информация"),
+                                   help_text=_(u"Например: "
+                                               "Номер: "
+                                               "(063) 704-45-63 "
+                                               "Почта: "
+                                               "info@gmail.com "
+                                               "Адрес: "
+                                               "Киев,ул.Ушинского 14а "
+                                               "Расписание: "
+                                               "Пн-Пт:10.00-18.00 "
+                                               "Сб-Вс:Выходной"))
+    information_type = models.ForeignKey('InformationType',
+                                         verbose_name=_(u"Тип информации"),
+                                         related_name='information')
+
+    class Meta:
+        verbose_name = _(u"Контактная информация")
+        verbose_name_plural = _(u"Контактная информация")
+
+    def __unicode__(self):
+        return " ".join([self.information_type.name, self.information])
+
+
+class Product(models.Model):
+    """Товар"""
+    top_title = models.TextField(_(u"Заголовок над картинкой"))
+    image = models.ImageField(_(u"Картинка"),
+                              upload_to="products")
+    title = models.TextField(_(u"Заголовок под картинкой"))
+    code = models.CharField(_(u"Код товара"),
+                            max_length=128)
+    available = models.BooleanField(_(u"Наличие товара"),
+                                    default=False)
+    category = models.ForeignKey('MenuMainItem',
+                                verbose_name=_(u"Категория товара"),
+                                related_name="products",
+                                null=True,
+                                help_text=_(u"Указывайте самую нижнюю ступень категории. "
+                                            "Т.е. категория-родитель/подкатегория1 <-товар, "
+                                            "для товара указать подкатегорию1"))
+    price = models.FloatField(_(u"Цена в долларах"))
+    ppc_price = models.FloatField(_(u"РРС цена"),
+                                 null=True,
+                                 blank=True,
+                                 help_text=_(u"Необязательное поле"))
+    convert_price = models.FloatField(_(u"Цена в гривнах"))
+    credit = models.FloatField(_(u"Кредит в %"),
+                               null=True,
+                               blank=True,
+                               help_text=_(u"Необязательное поле"))
+
+    class Meta:
+        verbose_name = "Товар"
+        verbose_name_plural = "Товар"
+
+    def __unicode__(self):
+        return " | ".join([self.top_title,self.code])
+
+
+class PopularProduct(models.Model):
+    """Популярный товар"""
+    product = models.OneToOneField('Product',
+                                   verbose_name=_(u"Товар"),
+                                   related_name="popular")
+
+    class Meta:
+        verbose_name = _(u"Популярный товар")
+        verbose_name_plural = _(u"Популярные товары")
+
+    def __unicode__(self):
+        return self.product.__unicode__()
+
+
+class DiscountProduct(models.Model):
+    """Акционный товар"""
+    product = models.OneToOneField('Product',
+                                   verbose_name=_(u"Товар"),
+                                   related_name="discount")
+    discount = models.FloatField(_(u"Скидка в %"))
+
+    class Meta:
+        verbose_name = _(u"Акционный товар")
+        verbose_name_plural = _(u"Акционные товары")
+
+    def __unicode__(self):
+        return self.product.__unicode__()

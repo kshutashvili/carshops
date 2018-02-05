@@ -1,0 +1,104 @@
+{% extends "base.html" %}
+
+{% load static %}
+
+{% block title %}Article{% endblock %}
+
+{% block extrastyles %}
+<link href="{% static 'css/article.css' %}" rel="stylesheet">
+{% endblock %}
+    <!-- choose mark section start -->
+{% block content %}
+    <section class="choose-mark-section">
+        <div class="container">
+            <div class="choose-mark-search">
+                <div class="choose-mark-search__content">
+                    <p class="choose-mark-search__title">Выберите марку вашего авто</p>
+                    <form action="" name="choose-mark" class="choose-mark">
+                        <select type="text" class="select" name="" placeholder="Марка автомобиля">
+                            <option value="">Марка автомобиля</option>
+                            <option value="">Марка автомобиля1</option>
+                            <option value="">Марка автомобиля2</option>
+                            <option value="">Марка автомобиля3</option>
+                        </select>
+                        <select type="text" class="select" name="" placeholder="Марка автомобиля">
+                            <option value="">Модель автомобиля</option>
+                            <option value="">Модель автомобиля1</option>
+                            <option value="">Модель автомобиля2</option>
+                            <option value="">Модель автомобиля3</option>
+                        </select>
+                        <select type="text" class="select" name="" placeholder="Марка автомобиля">
+                            <option value="">Год выпуска</option>
+                            <option value="">Год выпуска1</option>
+                            <option value="">Год выпуска2</option>
+                            <option value="">Год выпуска3</option>
+                        </select>
+                        <button type="submit" class="btn">
+                            <div class="img-wrap">
+                                <svg class="img" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" version="1.1" id="Capa_1"
+                                    x="0px" y="0px" viewBox="0 0 250.313 250.313" style="enable-background:new 0 0 250.313 250.313;"
+                                    xml:space="preserve" width="512px" height="512px">
+                                    <g id="Search">
+                                        <path style="fill-rule:evenodd;clip-rule:evenodd;" d="M244.186,214.604l-54.379-54.378c-0.289-0.289-0.628-0.491-0.93-0.76   c10.7-16.231,16.945-35.66,16.945-56.554C205.822,46.075,159.747,0,102.911,0S0,46.075,0,102.911   c0,56.835,46.074,102.911,102.91,102.911c20.895,0,40.323-6.245,56.554-16.945c0.269,0.301,0.47,0.64,0.759,0.929l54.38,54.38   c8.169,8.168,21.413,8.168,29.583,0C252.354,236.017,252.354,222.773,244.186,214.604z M102.911,170.146   c-37.134,0-67.236-30.102-67.236-67.235c0-37.134,30.103-67.236,67.236-67.236c37.132,0,67.235,30.103,67.235,67.236   C170.146,140.044,140.043,170.146,102.911,170.146z"
+                                            fill="#FFFFFF" />
+                                    </g>
+                                </svg>
+                            </div>
+                            <div class="text">Найти запчасти</div>
+                        </button>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- choose mark section end -->
+
+    <!-- main section start -->
+
+    <section class="main-section">
+        <div class="container">
+            <!-- breadcrumbs start -->
+
+            <section class="breadcrumbs">
+                <a href="{% url 'home' %}" class="step main">Главная</a>
+                <a href="{% url 'blog' %}" class="step">Новости</a>
+            </section>
+
+            <!-- breadcrumbs end -->
+
+            <div class="content">
+                <article class="article">
+                    <div class="article__top">
+                        <div class="left">
+                            <h1>{{ article.title }}</h1>
+                            <div class="date">
+                                <img src="{% static 'img/calendar-with-a-clock-time-tools.png' %}" alt="calendar-with-a-clock-time-tools">
+                                <span>{{ article.date|date:"d.m.Y" }}</span>
+                            </div>
+                        </div>
+                        <div class="right">
+                        {% for obj in social_nets %}
+                            <a href="{{ obj.link }}">
+                                <img src="{{ obj.image.url }}" alt="instagram">
+                            </a>
+                        {% endfor %}
+                        </div>
+                    </div>
+                    <img src="{{ article.image.url }}" alt="article image">
+                    <div>
+                        {{ article.content|safe }}
+                    </div>
+                </article>
+            </div>
+
+        </div>
+    </section>
+
+    <!-- main section end -->
+{% endblock %}
+
+{% block extrascrypts %}
+<script type="text/javascript" src="{% static 'js/article.js' %}"></script>
+{% endblock %}
+</html>

@@ -1,3 +1,4 @@
+{% load static %}
 <!DOCTYPE html>
 <html lang="ru">
 
@@ -6,7 +7,7 @@
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    <link href="/css/style.css" rel="stylesheet">
+    <link href="{% static 'css/style.css' %}" rel="stylesheet">
     <!--[if lt IE 10]>
     <link href="/css/ie.css" rel="stylesheet">
       <script src="https://oss.maxcdn.com/html5shiv/3.7.3/html5shiv.min.js"></script>
@@ -164,7 +165,7 @@
                     <li>
 
                         <div class="search-logo">
-                            <img src="/img/car-search.png" alt="car-search.png">
+                            <img src="{% static 'img/car-search.png' %}" alt="car-search.png">
                         </div>
 
                     </li>
@@ -248,19 +249,19 @@
                     <div class="wrapper">
                         <div class="subcategories__block">
                             <a href="#!">
-                            <img class="subcategories__img" src="/img/subcategories.png" alt="subcategories.png">
+                            <img class="subcategories__img" src="{% static 'img/subcategories.png' %}" alt="subcategories.png">
                             <p class="subcategories__title">Переходник и разъемы</p>
                             </a>
                         </div>
                         <div class="subcategories__block">
                             <a href="#!">
-                            <img class="subcategories__img" src="/img/subcategories.png" alt="subcategories.png">
+                            <img class="subcategories__img" src="{% static 'img/subcategories.png' %}" alt="subcategories.png">
                             <p class="subcategories__title">Переходник и разъемы</p>
                             </a>
                         </div>
                         <div class="subcategories__block">
                             <a href="#!">
-                            <img class="subcategories__img" src="/img/subcategories.png" alt="subcategories.png">
+                            <img class="subcategories__img" src="{% static 'img/subcategories.png' %}" alt="subcategories.png">
                             <p class="subcategories__title">Переходник и разъемы</p>
                             </a>
                         </div>
@@ -498,7 +499,7 @@
                             <div class="product">
                                 <p class="product__code">Код товара: 11-041</p>
                                 <div class="product__img">
-                                    <img src="/img/product-img.png" alt="product-img.png">
+                                    <img src="{% static 'img/product-img.png' %}" alt="product-img.png">
                                 </div>
                                 <p class="product__title">Переходник ISO BMW, Land Rover,<br> Rover, Mini Carav 12-003</p>
                                 <p class="product__available">есть в наличии</p>
@@ -548,7 +549,7 @@
                             <div class="product">
                                 <p class="product__code">Код товара: 11-041</p>
                                 <div class="product__img">
-                                    <img src="/img/product-img.png" alt="product-img.png">
+                                    <img src="{% static 'img/product-img.png' %}" alt="product-img.png">
                                 </div>
                                 <p class="product__title">Переходник ISO BMW, Land Rover,<br> Rover, Mini Carav 12-003</p>
                                 <p class="product__available">есть в наличии</p>
@@ -598,7 +599,7 @@
                             <div class="product">
                                 <p class="product__code">Код товара: 11-041</p>
                                 <div class="product__img">
-                                    <img src="/img/product-img.png" alt="product-img.png">
+                                    <img src="{% static 'img/product-img.png' %}" alt="product-img.png">
                                 </div>
                                 <p class="product__title">Переходник ISO BMW, Land Rover,<br> Rover, Mini Carav 12-003</p>
                                 <p class="product__available">есть в наличии</p>
@@ -648,7 +649,7 @@
                             <div class="product">
                                 <p class="product__code">Код товара: 11-041</p>
                                 <div class="product__img">
-                                    <img src="/img/product-img.png" alt="product-img.png">
+                                    <img src="{% static 'img/product-img.png' %}" alt="product-img.png">
                                 </div>
                                 <p class="product__title">Переходник ISO BMW, Land Rover,<br> Rover, Mini Carav 12-003</p>
                                 <p class="product__available">есть в наличии</p>
@@ -698,7 +699,7 @@
                             <div class="product">
                                 <p class="product__code">Код товара: 11-041</p>
                                 <div class="product__img">
-                                    <img src="/img/product-img.png" alt="product-img.png">
+                                    <img src="{% static 'img/product-img.png' %}" alt="product-img.png">
                                 </div>
                                 <p class="product__title">Переходник ISO BMW, Land Rover,<br> Rover, Mini Carav 12-003</p>
                                 <p class="product__available">есть в наличии</p>
@@ -748,7 +749,7 @@
                             <div class="product">
                                 <p class="product__code">Код товара: 11-041</p>
                                 <div class="product__img">
-                                    <img src="/img/product-img.png" alt="product-img.png">
+                                    <img src="{% static 'img/product-img.png' %}" alt="product-img.png">
                                 </div>
                                 <p class="product__title">Переходник ISO BMW, Land Rover,<br> Rover, Mini Carav 12-003</p>
                                 <p class="product__available">есть в наличии</p>
@@ -843,7 +844,7 @@
             </div>
 
             <div class="dealer-section__img-block">
-                <img src="/img/dealer.png" alt="dealer.png">
+                <img src="{% static 'img/dealer.png' %}" alt="dealer.png">
             </div>
 
         </div>
@@ -987,7 +988,7 @@
     <!--footer end-->
 
     <!--scripts-->
-    <script src="/js/app.js"></script>
+    <script src="{% static 'js/app.js' %}"></script>
 </body>
 
 </html>

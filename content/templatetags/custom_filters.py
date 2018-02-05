@@ -69,3 +69,27 @@ def get_few_words(string,args):
         result = False
     return result
 
+
+@register.filter
+def recalculate_with_discount(digit,percent):
+    """Перерасчет цены с учетом скидки"""
+    try:
+        result = float(digit)*(1-float(percent)*0.01)
+    except Exception as e:
+        result = None
+    return result
+
+
+@register.filter
+def get_discount(product):
+    """Получить скидку"""
+    try:
+        result = product.discount.discount
+    except Exception as e:
+        result = 0
+    return result
+
+
+@register.filter
+def replace_comma_with_space(string):
+    return  str(string).replace(',',' ')
