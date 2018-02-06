@@ -423,13 +423,13 @@
                                                 {% if forloop.counter|modulo:13 == 1 %}
                                                 <div class="column">
                                                     <div class="block">
-                                                        <a href="#!" class="block__title">{{ node.name|get_last_character }}</a>
+                                                        <a href="#!" class="block__title">{{ node.name|get_first_character }}</a>
                                                         <div class="block__marks">
                                                 {% elif node.name|is_changed_character %}
                                                         </div>
                                                     </div>
                                                     <div class="block">
-                                                        <a href="#!" class="block__title">{{ node.name|get_last_character }}</a>
+                                                        <a href="#!" class="block__title">{{ node.name|get_first_character }}</a>
                                                         <div class="block__marks">
                                                 {% endif %}
 

@@ -19,14 +19,16 @@ from django.conf import settings
 from django.contrib import admin
 from django.views.generic import TemplateView
 
-from content.views import index, blog, article
+from content.views import index, blog, article, catalog
 
 urlpatterns = [
     url(r'^admin/', admin.site.urls),
     url(r'^$', index.index, name='home'),
     url(r'^blog/$', blog.BlogList.as_view(), name='blog'),
     url(r'^category/$', TemplateView.as_view(template_name="category.html")),
-    url(r'^blog/article/(?P<pk>\d+)/$', article.ArticleDetail.as_view(), name="article")
+    url(r'^blog/article/(?P<pk>\d+)/$', article.ArticleDetail.as_view(), name="article"),
+    url(r'^catalog/$', catalog.ProductList, name='catalog')
 ]
 if settings.DEBUG:
-	urlpatterns += static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
+    urlpatterns += static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
+

@@ -85,10 +85,10 @@
                         <div class="popular-slider">
                         {% for obj in products_pop %}
                             <div class="slide">
-                                <img src="{{ obj.product.image.url }}" alt="">
+                                <img src="{{ pop_images|get_first_image_url:obj.product.id }}" alt="">
                                 <div class="slide__info">
-                                    <p class="slide__info__title">{{ obj.product.top_title|get_few_words:'0,1' }}</p>
-                                    <div class="slide__info__name">{{ obj.product.title }}</div>
+                                    <p class="slide__info__title">{{ obj.product.name }}</p>
+                                    <div class="slide__info__name">{{ obj.product.information }}</div>
                                     <div class="price-wrap">
                                     {% if obj.product.discount %}
                                         {% with discount=obj.product|get_discount %}
@@ -135,17 +135,17 @@
                 <div class="tovar-list" id="sales-slider">
                 {% for obj in products_disc %}
                     <div class="tovar">
-                        <a href="#!" class="tovar__top-title">{{ obj.product.top_title }}</a>
+                        <a href="#!" class="tovar__top-title">{{ obj.product.name }}</a>
                         <div class="tovar__img-wrap">
                         {% if forloop.last %}
                             <div class="tovar__sale">Акция!</div>
                         {% endif %}
-                            <img class="tovar__img" src="{{ obj.product.image.url }}" alt="ramki.png">
+                            <img class="tovar__img" src="{{ disc_images|get_first_image_url:obj.product.id }}" alt="ramki.png">
                         {% if obj.product.credit %}
                             <div class="tovar__credit">Кредит {{ obj.product.credit }}%</div>
                         {% endif %}
                         </div>
-                        <div class="tovar__title">{{ obj.product.title }}
+                        <div class="tovar__title">{{ obj.product.information }}
                         </div>
                         <div class="tovar__middle-line">
                             <div class="code">Код: {{ obj.product.code }} </div>
@@ -157,13 +157,11 @@
                             </div>
                         </div>
                         {% if obj.discount %}
-                        <div class="tovar__old-price">{{ obj.product.convert_price|floatformat:2|intcomma|replace_comma_with_space }} грн</div>
-                        {% elif obj.product.ppc_price %}
-                        <div class="tovar__ppc">РРЦ: {{  obj.product.ppc_price|floatformat|intcomma|replace_comma_with_space }} грн</div>
+                        <div class="tovar__old-price">{{ obj.product.ppc_price|recalculate_with_course:obj.product.course|floatformat:2|intcomma|replace_comma_with_space }} грн</div>
                         {% endif %}
                         <div class="tovar__price-line">
-                            <div class="price">{{ obj.product.price|recalculate_with_discount:obj.discount|floatformat:2|intcomma|replace_comma_with_space }} $</div>
-                            <div class="convert">({{ obj.product.convert_price|recalculate_with_discount:obj.discount|floatformat:2|intcomma|replace_comma_with_space }} грн)</div>
+                            <div class="price" style="font-size: 1.6em;">{{ obj.product.ppc_price|recalculate_with_discount:obj.discount|floatformat:2|intcomma|replace_comma_with_space }} $</div>
+                            <div class="convert">({{ obj.product.ppc_price|recalculate_with_course:obj.product.course|recalculate_with_discount:obj.discount|floatformat:2|intcomma|replace_comma_with_space }} грн)</div>
                         </div>
                         <a href="#!" class="tovar__basket">
                             <span>В корзину</span>

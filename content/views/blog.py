@@ -7,11 +7,6 @@ from django.views.generic import ListView
 from content.models import Blog
 
 
-def blogs(request):
-	news = Blog.objects.order_by('date').filter(active=True).reverse()[:1]
-	return render(request,'blog.html',{'news':news})
-
-
 class BlogList(ListView):
 	model = Blog
 	context_object_name = "news"
