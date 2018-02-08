@@ -192,7 +192,10 @@ class Product(models.Model):
                             default='')
     information = models.TextField(_("Описание товара"),
                                    default='',
-                                   help_text=_("Особенности, тип..."))
+                                   help_text=_("Описание, особенности ..."))
+    type_size = models.CharField(_("Типоразмер"),
+                                default="",
+                                max_length=255)
     code = models.CharField(_("Код товара"),
                             max_length=128,
                             unique=True)
@@ -215,12 +218,16 @@ class Product(models.Model):
                                null=True,
                                blank=True,
                                help_text=_("Необязательное поле"))
-    car = models.ManyToManyField('MenuMainItem',
-                                 verbose_name=_("Совместимость с машинами"))
+    car_compatibility = models.ManyToManyField('ModelCar',
+                                               verbose_name=_("Совместимость с машинами"))
     rait = models.OneToOneField('Rait',
                                 verbose_name=_("Рейтинг товара"),
                                 related_name=_("product"),
                                 null=True)
+    currency = models.BooleanField(_("Валюта, в которой отображать цену"),
+                                   default=False,
+                                   help_text=_("Если включить, то UAH "
+                                               "Если отключить, то $"))
 
     class Meta:
         verbose_name = _("Товар")
@@ -228,6 +235,15 @@ class Product(models.Model):
 
     def __unicode__(self):
         return " | ".join([self.name, self.code])
+
+    def get_convert_ppc_price(self):
+        return self.ppc_price * self.course
+
+    def get_convert_price(self):
+        return self.price * self.course
+
+    def get_compatibility_models(self):
+        return self.car_compatibility.get_queryset()
 
 
 class PopularProduct(models.Model):
@@ -250,6 +266,10 @@ class DiscountProduct(models.Model):
                                    verbose_name=_("Товар"),
                                    related_name="discount")
     discount = models.FloatField(_("Скидка в %"))
+    percent = models.BooleanField(_("Вид скидки"),
+                                  default=False,
+                                  help_text=_("Если включено, то скидка в % "
+                                              "Если отключено, то скидка в UAH"),)
 
     class Meta:
         verbose_name = _("Акционный товар")
@@ -258,8 +278,37 @@ class DiscountProduct(models.Model):
     def __unicode__(self):
         return self.product
 
+    def get_new_ppc_price(self):
+        if self.percent:
+            disc_value = self.discount/100
+        else:
+            disc_value = self.discount/self.product.ppc_price
+        return self.product.ppc_price * (1 - disc_value)
+
+    def get_new_convert_ppc_price(self):
+        if self.percent:
+            disc_value = self.discount/100
+        else:
+            disc_value = self.discount/self.product.ppc_price
+        return self.product.get_convert_ppc_price() * (1 - disc_value)
+
+    def get_new_price(self):
+        if self.percent:
+            disc_value = self.discount/100
+        else:
+            disc_value = self.discount/self.product.price
+        return self.product.price * (1 - disc_value)
+
+    def get_new_convert_price(self):
+        if self.percent:
+            disc_value = self.discount/100
+        else:
+            disc_value = self.discount/self.product.price
+        return self.product.get_convert_price() * (1 - disc_value)
+
 
 class ProductImage(models.Model):
+    """Картинки для товара."""
     image = models.ImageField(_("Картинка"),
                               upload_to="product_photos")
     product = models.ForeignKey('Product',
@@ -307,4 +356,169 @@ class Banner(models.Model):
 
     def __unicode__(self):
         return self.content
+
+
+class TogetherCheaper(models.Model):
+    """'Вместе дешевле'."""
+    name = models.CharField(_("Название"),
+                            max_length=128,
+                            default="",
+                            help_text=_("Название для отображения в админке"))
+    products = models.ManyToManyField('Product',
+                                      verbose_name=_("Товары"))
+    discount = models.FloatField(_("Скидка"))
+    percent = models.BooleanField(_("Тип скидки"),
+                                 default=False,
+                                 help_text=_("Если включено, то в % "
+                                             "Если отключено, то в UAH"))
+
+    class Meta:
+        verbose_name = _("Модель 'вместе дешевле'")
+        verbose_name_plural = _("Модели 'вместе дешевле'")
+
+    def __unicode__(self):
+        if self.percent:
+            currency = '% '
+        else:
+            currency = 'UAH '
+        return ' '.join([self.name,str(self.discount),currency])
+
+
+class StampCar(models.Model):
+    name = models.CharField(_("Наименование"),
+                            max_length=64)
+    image = models.ImageField(_("Иконка"),
+                              upload_to="car_icons")
+    link = models.CharField(_("URL-адрес"),
+                            max_length=255,
+                            help_text=_("Используйте ссылку вида /#html_id "
+                                        "для блока лэндинга. Остальные ссылки "
+                                        "указывать полностью (https://...)"))
+    information = models.TextField(_("Описание"))
+
+    class Meta:
+        verbose_name = _("Марка автомобиля")
+        verbose_name_plural = _("Марки автомобилей")
+
+    def save(self):
+        if not self.image:
+            return
+        super(StampCar, self).save()
+        image = Image.open(self.image)
+        width,height = 80, 80
+        size = (width, height)
+        image = image.resize(size, Image.ANTIALIAS)
+        image.save(self.image.path)
+
+    def __unicode__(self):
+        return self.name
+
+
+class ModelCar(models.Model):
+    name = models.CharField(_("Наименование"),
+                            max_length=128)
+    stamp = models.ForeignKey('StampCar',
+                              verbose_name=_("Марка автомобиля"),
+                              related_name="models")
+    years = models.ManyToManyField('YearCar',
+                                   verbose_name=_("Года выпуска"))
+    link = models.CharField(_("URL-адрес"),
+                            max_length=255,
+                            help_text=_("Используйте ссылку вида /#html_id "
+                                        "для блока лэндинга. Остальные ссылки "
+                                        "указывать полностью (https://...)"))
+    information = models.TextField(_("Описание"))
+
+    class Meta:
+        verbose_name = _("Модель автомобиля")
+        verbose_name_plural = _("Модели автомобилей")
+
+    def __unicode__(self):
+        return ' '.join([self.stamp.name,self.name])
+
+
+class YearCar(models.Model):
+    year = models.CharField(_("Год выпуска"),
+                            max_length=4)
+
+    class Meta:
+        verbose_name = _("Год выпуска машины")
+        verbose_name_plural = _("Года выпуска машин")
+
+    def __unicode__(self):
+        return self.year
+
+
+DELIVERY_CHOICES = (
+    ('Самовывоз из магазина', 'Самовывоз из магазина'),
+    ('Отправка на себя', 'Отправка на себя'),
+    ('Отправка на клиента', 'Отправка на клиента'))
+
+
+class Basket(models.Model):
+    products = models.ManyToManyField('Product',
+                                      verbose_name=_("Товар"),
+                                      through='BasketProduct')
+    delivery = models.CharField(choices=DELIVERY_CHOICES,
+                                max_length=128,
+                                null=True)
+
+    class Meta:
+        verbose_name = _("Корзина")
+        verbose_name_plural = _("Корзины")
+
+    def __unicode__(self):
+        return ' '.join([self.delivery, str(self.id)])
+
+
+class BasketProduct(models.Model):
+    """Промежуточная таблица между Корзиной и Товаром"""
+    basket = models.ForeignKey('Basket',
+                               verbose_name=_("Корзина"))
+    product = models.ForeignKey('Product',
+                                verbose_name=_("Товар"))
+    amount = models.IntegerField(_("Количество"),
+                                 default=1)
+
+    class Meta:
+        verbose_name = _("Промежуточная таблица Корзина-Товар")
+        verbose_name_plural = _("Промежуточные таблицы Корзина-Товар")
+
+    def __unicode__(self):
+        bask = "ID корзины :"
+        prod = "Код товара :"
+        am = "Количество :"
+        return " ".join([bask, str(self.basket.id), "|", prod, str(self.product.code), "|", am, str(self.amount)])
+
+
+class DeliveryData(models.Model):
+    """Данные о доставке"""
+    first_name = models.CharField(_("Имя"),
+                                  max_length=64)
+    last_name = models.CharField(_("Фамилия"),
+                                 max_length=64)
+    city = models.CharField(_("Город"),
+                            max_length=128)
+    phone_number = models.CharField(_("Номер телефона"),
+                                    max_length=32)
+    is_sms = models.BooleanField(_("Отправить СМС с номером ТНН"),
+                                 default=False)
+    nova_poshta_stock = models.CharField(_('Склад "Новой Почты"'),
+                                         max_length=64)
+    cod_sum = models.FloatField(_("Сумма наложенного платежа"),
+                                null=True,
+                                blank=True)
+    is_cod = models.BooleanField(_("Отправка без денег"),
+                                 default=False)
+    email = models.EmailField(_("Электронная почта"))
+    commentary = models.TextField(_("Комментарий"),
+                                  null=True,
+                                  blank=True)
+
+    class Meta:
+        verbose_name = _("Данные о доставке")
+        verbose_name_plural = _("Данные о доставках")
+
+    def __unicode__(self):
+        return ' '.join([self.first_name,self.last_name,self.city,self.nova_poshta_stock])
 

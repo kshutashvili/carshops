@@ -1430,7 +1430,7 @@ body {
                     flex-wrap: wrap; } }
         .main-section .content .popular-products .slider-wrap .popular-slider .slide__info .price-wrap .price {
           font-family: "Ubuntu Bold", sans-serif;
-          font-size: 2.25em;
+          font-size: 1.7em;
           color: #3b3b3b; }
           @media only screen and (max-width: 320px) {
             .main-section .content .popular-products .slider-wrap .popular-slider .slide__info .price-wrap .price {

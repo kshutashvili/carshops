@@ -75,35 +75,6 @@ def get_few_words(string,args):
 
 
 @register.filter
-def recalculate_with_discount(digit,percent):
-    """Перерасчет цены с учетом скидки"""
-    try:
-        result = float(digit)*(1-float(percent)*0.01)
-    except Exception as e:
-        result = None
-    return result
-
-
-@register.filter
-def recalculate_with_course(price,cource):
-    try:
-        result = float(price)*float(cource)
-    except Exception as e:
-        result = 0
-    return result
-
-
-@register.filter
-def get_discount(product):
-    """Получить скидку"""
-    try:
-        result = product.discount.discount
-    except Exception as e:
-        result = 0
-    return result
-
-
-@register.filter
 def replace_comma_with_space(string):
     return  str(string).replace(',',' ')
 
@@ -112,6 +83,26 @@ def replace_comma_with_space(string):
 def get_first_image_url(images,key_id):
     try:
         result = images[key_id][0].image.url
+    except Exception as e:
+        result = e.message
+    return result
+
+
+@register.filter
+def create_id(string):
+    try:
+        result = string.lower().replace(' ','_')
+    except Exception as e:
+        result = ''
+    return result
+
+
+@register.filter
+def get_first_last_years(model):
+    """Результат в формате 1999-2000"""
+    try:
+        years = model.years.get_queryset()
+        result = '-'.join([years.first().year,years.last().year]) 
     except Exception as e:
         result = e.message
     return result

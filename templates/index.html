@@ -23,21 +23,21 @@
                         <form action="" name="choose-mark">
                             <select type="text" class="select" name="" placeholder="Марка автомобиля">
                                 <option value="">Марка автомобиля</option>
-                                <option value="">Марка автомобиля1</option>
-                                <option value="">Марка автомобиля2</option>
-                                <option value="">Марка автомобиля3</option>
+                                {% for obj in stamp_cars %}
+                                    <option value="">{{ obj.name }}</option>
+                                {% endfor %}
                             </select>
                             <select type="text" class="select" name="" placeholder="Марка автомобиля">
                                 <option value="">Модель автомобиля</option>
-                                <option value="">Модель автомобиля1</option>
-                                <option value="">Модель автомобиля2</option>
-                                <option value="">Модель автомобиля3</option>
+                                {% for obj in model_cars %}
+                                    <option value="">{{ obj.name }}</option>
+                                {% endfor %}                                
                             </select>
                             <select type="text" class="select" name="" placeholder="Марка автомобиля">
                                 <option value="">Год выпуска</option>
-                                <option value="">Год выпуска1</option>
-                                <option value="">Год выпуска2</option>
-                                <option value="">Год выпуска3</option>
+                                {% for obj in year_cars %}
+                                    <option value="">{{ obj.year }}</option>
+                                {% endfor %}
                             </select>
                             <button type="submit" class="btn">
                                 <div class="img-wrap">
@@ -91,11 +91,23 @@
                                     <div class="slide__info__name">{{ obj.product.information }}</div>
                                     <div class="price-wrap">
                                     {% if obj.product.discount %}
-                                        {% with discount=obj.product|get_discount %}
-                                        <div class="price">{{ obj.product.price|recalculate_with_discount:discount|floatformat:2|intcomma|replace_comma_with_space }} $</div>
+                                        <div class="price">
+                                        {% with discount_obj=obj.product.discount %} 
+                                            {% if obj.product.currency %}
+                                                {{ discount_obj.get_new_convert_ppc_price|floatformat:2|intcomma|replace_comma_with_space }} грн
+                                            {% else %}
+                                                 {{ discount_obj.get_new_ppc_price|floatformat:2|intcomma|replace_comma_with_space }} $
+                                            {% endif %}
                                         {% endwith %}
+                                        </div>
                                     {% else %}
-                                        <div class="price">{{ obj.product.price }} $</div>
+                                        <div class="price">
+                                        {% if obj.product.currency %}
+                                            {{ obj.product.get_convert_ppc_price|floatformat:2|intcomma|replace_comma_with_space }} грн
+                                        {% else %}
+                                            { obj.product.ppc_price|floatformat:2|intcomma|replace_comma_with_space }} $
+                                        {% endif %}
+                                        </div>
                                     {% endif %}
                                         <a href="#!" class="buy">
                                             <span>В корзину</span>
@@ -156,12 +168,21 @@
                                 <span>В наличии</span>
                             </div>
                         </div>
-                        {% if obj.discount %}
-                        <div class="tovar__old-price">{{ obj.product.ppc_price|recalculate_with_course:obj.product.course|floatformat:2|intcomma|replace_comma_with_space }} грн</div>
-                        {% endif %}
+                        <div class="tovar__old-price">
+                            {% if obj.product.currency %}
+                                {{ obj.product.get_convert_ppc_price|floatformat:2|intcomma|replace_comma_with_space }} грн
+                            {% else %}
+                                {{ obj.product.ppc_price|floatformat:2|intcomma|replace_comma_with_space }} $
+                            {% endif %}
+                        </div>
                         <div class="tovar__price-line">
-                            <div class="price" style="font-size: 1.6em;">{{ obj.product.ppc_price|recalculate_with_discount:obj.discount|floatformat:2|intcomma|replace_comma_with_space }} $</div>
-                            <div class="convert">({{ obj.product.ppc_price|recalculate_with_course:obj.product.course|recalculate_with_discount:obj.discount|floatformat:2|intcomma|replace_comma_with_space }} грн)</div>
+                            <div class="price" >
+                            {% if obj.product.currency %}
+                                {{ obj.get_new_convert_ppc_price|floatformat:2|intcomma|replace_comma_with_space }} грн
+                            {% else %}
+                                {{ obj.get_new_ppc_price|floatformat:2|intcomma|replace_comma_with_space }} $
+                            {% endif %}
+                            </div>
                         </div>
                         <a href="#!" class="tovar__basket">
                             <span>В корзину</span>
@@ -169,56 +190,15 @@
                         </a>
                         <div class="tovar__additions">
                             <ul>
+                            {% for model in obj.product.get_compatibility_models %}
                                 <li>
-                                    <a>3 Series (E30) 1987-1990</a>
+                                    <a>{{ model.name }} {{ model|get_first_last_years }}</a>
                                 </li>
-                                <li>
-                                    <a>3 Series (E36) 1991-1999</a>
-                                </li>
-                                <li>
-                                    <a>3 Series (E46) 1998-2003</a>
-                                </li>
-                                <li>
-                                    <a>5 Series (E39) 1995-2000</a>
-                                </li>
-                                <li>
-                                    <a>7 Series (E38) 1994-2000</a>
-                                </li>
-                                <li>
-                                    <a>X5 (E53) 1999-2001</a>
-                                </li>
-                                <li>
-                                    <a>Z3 1995-2002</a>
-                                </li>
-                                <li>
-                                    <a>Z8 2000-2003</a>
-                                </li>
-                            </ul>
-                            <ul>
-                                <li>
-                                    <a>3 Series (E30) 1987-1990</a>
-                                </li>
-                                <li>
-                                    <a>3 Series (E36) 1991-1999</a>
-                                </li>
-                                <li>
-                                    <a>3 Series (E46) 1998-2003</a>
-                                </li>
-                                <li>
-                                    <a>5 Series (E39) 1995-2000</a>
-                                </li>
-                                <li>
-                                    <a>7 Series (E38) 1994-2000</a>
-                                </li>
-                                <li>
-                                    <a>X5 (E53) 1999-2001</a>
-                                </li>
-                                <li>
-                                    <a>Z3 1995-2002</a>
-                                </li>
-                                <li>
-                                    <a>Z8 2000-2003</a>
-                                </li>
+                                {% if forloop.counter == 8 %}
+                                    </ul>
+                                    <ul>
+                                {% endif %}
+                            {% endfor %}
                             </ul>
                         </div>
                     </div>

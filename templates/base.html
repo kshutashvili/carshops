@@ -417,23 +417,22 @@
                                     {% for node in node.get_children %}
                                     <div class="sub big">
                                         <p class="sub__title">Выберите марку вашего авто</p>
-                                        {% if not node.is_leaf_node %}
                                         <div class="marks">
-                                        {% for node in node.get_children %}
+                                        {% for obj in stamp_cars %}
                                                 {% if forloop.counter|modulo:13 == 1 %}
                                                 <div class="column">
                                                     <div class="block">
-                                                        <a href="#!" class="block__title">{{ node.name|get_first_character }}</a>
+                                                        <a href="#!" class="block__title">{{ obj.name|get_first_character }}</a>
                                                         <div class="block__marks">
-                                                {% elif node.name|is_changed_character %}
+                                                {% elif obj.name|is_changed_character %}
                                                         </div>
                                                     </div>
                                                     <div class="block">
-                                                        <a href="#!" class="block__title">{{ node.name|get_first_character }}</a>
+                                                        <a href="#!" class="block__title">{{ obj.name|get_first_character }}</a>
                                                         <div class="block__marks">
                                                 {% endif %}
 
-                                                        <a href="{{ node.link }}">{{ node.name }}</a>
+                                                        <a href="{{ obj.link }}">{{ obj.name }}</a>
 
                                                 {% if forloop.counter|modulo:13 == 0 or forloop.last %}
                                                         </div>
@@ -441,9 +440,8 @@
                                                 </div>
                                                 {% endif %}
                                         {% endfor %}
-                                        {% endif %}
                                     {% endfor %}
-                                    {% endif %}      
+                                    {% endif %}
                                         </div>
                                     </div>
                                 </div>                           
@@ -492,14 +490,12 @@
                             <div class="menu-content menu-content-ramki">
                                 <p class="menu-content-ramki__title">{{ node.name }}:</p>
                                 <div class="menu-content-ramki__content">
-                                {% if not node.if_leaf_node %}
-                                {% for node in node.get_children %}
-                                    <a href="{{ node.link }}" class="mark">
-                                        <img src="{{ node.image.url }}" alt="" class="mark__img">
-                                        <p class="mark__name">{{ node.name }}</p>
+                                {% for obj in stamp_cars %}
+                                    <a href="{{ obj.link }}" class="mark">
+                                        <img src="{{ obj.image.url }}" alt="" class="mark__img">
+                                        <p class="mark__name">{{ obj.name }}</p>
                                     </a>
                                 {% endfor %}
-                                {% endif %}
                                 </div>
                             </div>
                             {% endfor %}
