@@ -257,7 +257,7 @@ class PopularProduct(models.Model):
         verbose_name_plural = _("Популярные товары")
 
     def __unicode__(self):
-        return self.product
+        return ' | '.join([self.product.name, self.product.code])
 
 
 class DiscountProduct(models.Model):
@@ -276,7 +276,7 @@ class DiscountProduct(models.Model):
         verbose_name_plural = _("Акционные товары")
 
     def __unicode__(self):
-        return self.product
+        return ' | '.join([self.product.name, self.product.code])
 
     def get_new_ppc_price(self):
         if self.percent:
