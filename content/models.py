@@ -449,23 +449,17 @@ class YearCar(models.Model):
         return self.year
 
 
-DELIVERY_CHOICES = (
-    ('Самовывоз из магазина', 'Самовывоз из магазина'),
-    ('Отправка на себя', 'Отправка на себя'),
-    ('Отправка на клиента', 'Отправка на клиента'))
-
-
-class Basket(models.Model):
+class ChipBasket(models.Model):
     products = models.ManyToManyField('Product',
                                       verbose_name=_("Товар"),
                                       through='BasketProduct')
-    delivery = models.CharField(choices=DELIVERY_CHOICES,
-                                max_length=128,
-                                null=True)
+    delivery_way = models.OneToOneField('Delivery',
+                                        verbose_name=_("Способ доставки"),
+                                        null=True)
 
     class Meta:
-        verbose_name = _("Корзина")
-        verbose_name_plural = _("Корзины")
+        verbose_name = _("Покупочная корзина")
+        verbose_name_plural = _("Покупочные корзины")
 
     def __unicode__(self):
         return ' '.join([self.delivery, str(self.id)])
@@ -473,7 +467,7 @@ class Basket(models.Model):
 
 class BasketProduct(models.Model):
     """Промежуточная таблица между Корзиной и Товаром"""
-    basket = models.ForeignKey('Basket',
+    basket = models.ForeignKey('ChipBasket',
                                verbose_name=_("Корзина"))
     product = models.ForeignKey('Product',
                                 verbose_name=_("Товар"))
@@ -522,3 +516,17 @@ class DeliveryData(models.Model):
     def __unicode__(self):
         return ' '.join([self.first_name,self.last_name,self.city,self.nova_poshta_stock])
 
+
+class Delivery(models.Model):
+    name = models.CharField(_("Наименование"),
+                            max_length=128)
+    price = models.FloatField(_("Стоимость"),
+                              null=True,
+                              blank=True)
+
+    class Meta:
+        verbose_name = _("Способ доставки")
+        verbose_name_plural = _("Способы доставки")
+
+    def __unicode__(self):
+        return self.name
