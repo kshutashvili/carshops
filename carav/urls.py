@@ -19,7 +19,7 @@ from django.conf import settings
 from django.contrib import admin
 from django.views.generic import TemplateView
 
-from content.views import index, blog, article, catalog
+from content.views import index, blog, article, catalog, login
 
 urlpatterns = [
     url(r'^admin/', admin.site.urls),
@@ -27,7 +27,11 @@ urlpatterns = [
     url(r'^blog/$', blog.BlogList.as_view(), name='blog'),
     url(r'^category/$', TemplateView.as_view(template_name="category.html")),
     url(r'^blog/article/(?P<pk>\d+)/$', article.ArticleDetail.as_view(), name="article"),
-    url(r'^catalog/$', catalog.ProductList, name='catalog')
+    url(r'^catalog/$', catalog.ProductList, name='catalog'),
+    url(r'^basket/$', TemplateView.as_view(template_name="basket.html"), name="basket"),
+    url(r'^personal/$', login.personal, name='personal'),
+    url(r'^login/$', login.user_login, name='login'),
+    url(r'^register/$', login.user_create, name='register')
 ]
 if settings.DEBUG:
     urlpatterns += static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)

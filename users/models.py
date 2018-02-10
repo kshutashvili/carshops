@@ -52,7 +52,7 @@ class User(AbstractUser):
     email = models.EmailField(_("Электронная почта"),
                               unique=True)
     phone_regex = RegexValidator(regex=r'^\+{0,1}\d{9,15}$',
-                                message=_("Номер может быть введён в одном из форматов: "
+                                 message=_("Номер может быть введён в одном из форматов: "
                                           "+380111111111, 380111111111, "
                                           "80111111111, 0111111111"))
     phone_number = models.CharField(validators=[phone_regex],

@@ -10261,13 +10261,13 @@ return jQuery;
 
 /***/ }),
 
-/***/ 27:
+/***/ 28:
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
 /* WEBPACK VAR INJECTION */(function($) {
 
-__webpack_require__(28);
+__webpack_require__(29);
 
 var formSwitch = function formSwitch() {
     var regLinksWrap = $(".reg-links");
@@ -10305,12 +10305,12 @@ $(window).on("load", function () {
 
 /***/ }),
 
-/***/ 28:
+/***/ 29:
 /***/ (function(module, exports) {
 
 // removed by extract-text-webpack-plugin
 
 /***/ })
 
-},[27]);
+},[28]);
 //# sourceMappingURL=login.js.map

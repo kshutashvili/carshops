@@ -10298,25 +10298,51 @@ Object.defineProperty(exports, "__esModule", {
 });
 
 exports.default = function () {
+    var api = {
+        $catalogWrap: $("#catalog-mobile-menu-wrap"),
+        $catalog: $("#catalog-mobile-nav"),
+        $catalogBtn: $("#mobile-catalog-main-btn"),
+        $catalogReturn: $("#mobile-catalog-catalog-return"),
+        $catalogReturnPage: $("#mobile-catalog-page-return")
+    };
 
-    var $wrap = $("#mb-menu-block");
-    var $menu = $("#mb-menu");
-    var $btn = $("#mb-menu-btn");
+    api.$catalogBtn.off("click");
+    api.$catalogBtn.on("click", function (e) {
+        e.preventDefault();
+        api.$catalogWrap.show();
 
-    $btn.off("click");
-    $btn.on("click", function (e) {
-        e.stopPropagation();
-        $wrap.show();
-        $menu.slideDown();
+        api.$catalogBtn.addClass("hide");
+        api.$catalogReturnPage.addClass("show");
+
+        api.$catalogReturnPage.off("click");
+        api.$catalogReturnPage.on("click", function (e) {
+            e.preventDefault();
+            api.$catalogReturnPage.removeClass("show");
+            api.$catalogBtn.removeClass("hide");
+            api.$catalogWrap.hide();
+        });
     });
-    $wrap.off("click");
-    $wrap.on("click", function (e) {
-        e.stopPropagation();
 
-        if ($(e.target).attr("id") === "mb-menu-block") {
-            $menu.slideUp();
-            $wrap.slideUp();
-        }
+    var $items = api.$catalog.find(".item-click");
+    //console.log("$items:", $items);
+    $items.each(function () {
+        $(this).off("click");
+        $(this).on("click", function () {
+            $(this).addClass("active");
+            var $sub = $(this).find(".sub");
+
+            api.$catalogBtn.addClass("hide");
+            api.$catalogReturnPage.removeClass("show");
+            api.$catalogReturn.addClass("show");
+
+            api.$catalogReturn.off("click");
+            api.$catalogReturn.on("click", function (e) {
+                e.preventDefault();
+                $items.removeClass("active");
+                api.$catalogReturn.removeClass("show");
+                api.$catalogReturnPage.addClass("show");
+            });
+        });
     });
 };
 
@@ -10325,23 +10351,27 @@ exports.default = function () {
 
 /***/ }),
 
-/***/ 25:
+/***/ 26:
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
 /* WEBPACK VAR INJECTION */(function($) {
 
-__webpack_require__(26);
+__webpack_require__(27);
 
 var _catalogMenu = __webpack_require__(1);
 
 var _catalogMenu2 = _interopRequireDefault(_catalogMenu);
 
-var _mb = __webpack_require__(2);
+var _catalogMobile = __webpack_require__(2);
+
+var _catalogMobile2 = _interopRequireDefault(_catalogMobile);
+
+var _mb = __webpack_require__(3);
 
 var _mb2 = _interopRequireDefault(_mb);
 
-var _search = __webpack_require__(3);
+var _search = __webpack_require__(4);
 
 var _search2 = _interopRequireDefault(_search);
 
@@ -10425,6 +10455,7 @@ var basketMobileSteps = function basketMobileSteps() {
 
 $(window).on("load", function () {
     (0, _catalogMenu2.default)();
+    (0, _catalogMobile2.default)();
     (0, _mb2.default)();
     (0, _search2.default)();
     basketMobileSteps();
@@ -10433,7 +10464,7 @@ $(window).on("load", function () {
 
 /***/ }),
 
-/***/ 26:
+/***/ 27:
 /***/ (function(module, exports) {
 
 // removed by extract-text-webpack-plugin
@@ -10441,6 +10472,44 @@ $(window).on("load", function () {
 /***/ }),
 
 /***/ 3:
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+/* WEBPACK VAR INJECTION */(function($) {
+
+Object.defineProperty(exports, "__esModule", {
+    value: true
+});
+
+exports.default = function () {
+
+    var $wrap = $("#mb-menu-block");
+    var $menu = $("#mb-menu");
+    var $btn = $("#mb-menu-btn");
+
+    $btn.off("click");
+    $btn.on("click", function (e) {
+        e.stopPropagation();
+        $wrap.show();
+        $menu.slideDown();
+    });
+    $wrap.off("click");
+    $wrap.on("click", function (e) {
+        e.stopPropagation();
+
+        if ($(e.target).attr("id") === "mb-menu-block") {
+            $menu.slideUp();
+            $wrap.slideUp();
+        }
+    });
+};
+
+;
+/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(0)))
+
+/***/ }),
+
+/***/ 4:
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -10473,5 +10542,5 @@ exports.default = function () {
 
 /***/ })
 
-},[25]);
+},[26]);
 //# sourceMappingURL=basket.js.map

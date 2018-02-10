@@ -10261,13 +10261,13 @@ return jQuery;
 
 /***/ }),
 
-/***/ 33:
+/***/ 34:
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
 /* WEBPACK VAR INJECTION */(function($) {
 
-__webpack_require__(34);
+__webpack_require__(35);
 
 var tableRowsSwitch = function tableRowsSwitch() {
     var $rows = $("#table").find(".row");
@@ -10314,12 +10314,12 @@ $(window).on("load", function () {
 
 /***/ }),
 
-/***/ 34:
+/***/ 35:
 /***/ (function(module, exports) {
 
 // removed by extract-text-webpack-plugin
 
 /***/ })
 
-},[33]);
+},[34]);
 //# sourceMappingURL=lk.orders.js.map

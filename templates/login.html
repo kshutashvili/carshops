@@ -18,7 +18,7 @@
         <div class="registration-block">
 
             <h1 class="title">
-                <a href="#!">Carav</a>
+                <a href="{% url 'home' %}">Carav</a>
             </h1>
 
             <h2 class="subtitle">Зарегистрируйтесь</h2>
@@ -44,35 +44,35 @@
 
             <div class="forms-wrap">
 
-                <form class="form" id="form-rzn" action="{% url 'login' %}" method="post" enctype="multipart/form-data">
+                <form class="form" id="form-rzn" action="{% url 'register' %}" method="post" enctype="multipart/form-data">
 
                     <p class="input-wrap">
-                        <input type="text" name="name" value="{{ request.POST.first_name }}" placeholder="Имя">
+                        {{ form.first_name }}
                         <span class='help-block'>{{ errors.first_name }}</span>
                     </p>
 
                     <p class="input-wrap">
-                        <input type="text" name="last_name" value="{{ request.POST.last_name }}" placeholder="Фамилия">
+                        {{ form.last_name }}
                         <span class='help-block'>{{ errors.last_name }}</span>                    
                     </p>
 
                     <p class="input-wrap"><!-- + 38 (0__) ___ - __ - __-->
-                        <input type="text" name="phone_number" value="{{ request.POST.phone_number }}" placeholder="+380_________">
+                        {{ form.phone_number }}
                         <span class='help-block'>{{ errors.phone_number }}</span>
                     </p>
 
                     <p class="input-wrap">
-                        <input type="text" name="email" value="{{ request.POST.email }}" placeholder="E-mail">
+                        {{ form.email }}                    
                         <span class='help-block'>{{ errors.email }}</span>
                     </p>
 
                     <p class="input-wrap">
-                        <input type="text" name="password" placeholder="Пароль">
+                        {{ form.password }}
                         <span class='help-block'>{{ errors.password }}</span>
                     </p>
                     {% csrf_token %}
                     <p class="input-wrap">
-                        <input type="text" name="rep_pass" placeholder="Повторить пароль">
+                        {{ form.rep_password }}
                         <span class='help-block'>{{ errors.password }}</span>
                     </p>
                     <button type="submit" class="submit" name="create">
@@ -106,60 +106,60 @@
                     </div>
                 </form>
 
-                <form class="form" id="form-opt" action="{% url 'login' %}" method="post" enctype="multipart/form-data">
+                <form class="form" id="form-opt" action="{% url 'register' %}" method="post" enctype="multipart/form-data">
 
                     <p class="input-wrap">
-                        <input type="text" name="name" value="{{ request.POST.first_name }}" placeholder="Имя">
+                        {{ form.first_name }}
                         <span class='help-block'>{{ errors.first_name }}</span>
                     </p>
 
                     <p class="input-wrap">
-                        <input type="text" name="last_name" value="{{ request.POST.last_name }}" placeholder="Фамилия">
+                        {{ form.last_name }}
                         <span class='help-block'>{{ errors.last_name }}</span>
                     </p>
 
                     <p class="input-wrap">
-                        <input type="text" name="phone_number" value="{{ request.POST.phone_number }}" placeholder="+380_________">
+                        {{ form.phone_number }}
                         <span class='help-block'>{{ errors.phone_number }}</span>
                     </p>
 
                     <p class="input-wrap">
-                        <input type="text" name="email" value="{{ request.POST.email }}" placeholder="E-mail">
+                        {{ form.email }}
                         <span class='help-block'>{{ errors.email }}</span>
                     </p>
                     {% csrf_token %}
                     <p class="input-wrap">
-                        <input type="text" name="website" value="{{ request.POST.website }}" placeholder="Ваш сайт">
-                        <span class='help-block'>{{ errors.website }}</span>
+                        {{ form.site }}
+                        <span class='help-block'>{{ errors.site }}</span>
                     </p>
 
                     <p class="input-wrap">
-                        <input type="text" name="information" value="{{ request.POST.information }}" placeholder="Расскажите о Вашей деятельности">
+                        {{ form.information }}
                         <span class='help-block'>{{ errors.information }}</span>
                     </p>
-
+                    <input type="text" hidden='True' name='opt'>
                     <div class="radio-wrap">
                         <p>Планируете ли Вы работать по системе дропшиппинг (отправка напрямую на клиента)?</p>
                         <div>
-                            <input type="radio" name="dropshipping" value="1" id="dropshiping1">
+                            <input type="radio" name="dropshipp" value="1" id="dropshiping1">
                             <label for="dropshiping1">Только
                                 <br> дропшиппинг</label>
-                            <input type="radio" name="dropshipping" value="2" id="dropshiping2">
+                            <input type="radio" name="dropshipp" value="2" id="dropshiping2">
                             <label for="dropshiping2">Иногда
                                 <br> планирую</label>
-                            <input type="radio" name="dropshipping" value="3" id="dropshiping3">
+                            <input type="radio" name="dropshipp" value="3" id="dropshiping3">
                             <label for="dropshiping3">Нет</label>
                         </div>
-                        <span class='help-block'>{{ errors.dropshipping }}</span>
+                        <span class='help-block'>{{ errors.dropshipp }}</span>
                     </div>
 
                     <p class="input-wrap">
-                        <input type="text" name="password" placeholder="Пароль">
+                        {{ form.password }}
                         <span class='help-block'>{{ errors.password }}</span>
                     </p>
 
                     <p class="input-wrap">
-                        <input type="text" name="rep_pass" placeholder="Повторить пароль">
+                        {{ form.rep_password }}
                         <span class='help-block'>{{ errors.password }}</span>
                     </p>
                     <button type="submit" class="submit" name="create">
@@ -214,12 +214,13 @@
                     </p>
                 </div>
 
-                <form class="login-form">
-                    <input type="text" class="login" name="login" placeholder="E-mail или номер телефона">
-                    <input type="text" class="password" name="password" placeholder="Пароль">
+                <form class="login-form" action="{% url 'login' %}" method="post" enctype="multipart/form-data">
+                    {{ login_form.username }}
+                    {{ login_form.password }}
                     <div class="bottom">
+                    {% csrf_token %}
                         <div class="left">
-                            <input type="checkbox" name="remember" id="remember">
+                            <input type="checkbox" name="remember_me" value="True" id="remember">
                             <label for="remember">
                                 <span>
                                     <svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" version="1.1" id="Capa_1" x="0px" y="0px"
@@ -282,7 +283,7 @@
                 </form>
             </main>
             <div class="guest-enter-block">
-                <a href="#!" class="link">
+                <a href="{% url 'home' %}" class="link">
                     <span>Перейти на сайт</span>
                     <svg version="1.1" id="Capa_1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px"
                         width="284.929px" height="284.929px" viewBox="0 0 284.929 284.929" style="enable-background:new 0 0 284.929 284.929;"

@@ -1,3 +1,4 @@
+{% load static %}
 <!DOCTYPE html>
 <html lang="en">
 
@@ -6,7 +7,7 @@
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    <link href="/css/style.css" rel="stylesheet">
+    <link href="{% static 'css/style.css' %}" rel="stylesheet">
     <!--[if lt IE 10]>
     <link href="/css/ie.css" rel="stylesheet">
       <script src="https://oss.maxcdn.com/html5shiv/3.7.3/html5shiv.min.js"></script>
@@ -163,7 +164,7 @@
                     <li>
 
                         <div class="search-logo">
-                            <img src="/img/car-search.png" alt="car-search.png">
+                            <img src="{% static 'img/car-search.png' %}" alt="car-search.png">
                         </div>
 
                     </li>
@@ -247,7 +248,7 @@
                 </div>
 
                 <article class="basket-item">
-                    <img class="basket-item__img" src="/img/product-img.png" alt="product">
+                    <img class="basket-item__img" src="{% static 'img/product-img.png' %}" alt="product">
 
                     <div class="basket-item__name">Переходник ISO BMW, Land Rover, Rover, Mini Carav 12-003</div>
 
@@ -267,7 +268,7 @@
                     <div class="basket-item__delete"><a href=""><i class="fa fa-trash-o" aria-hidden="true"></i></a></div>
                 </article>
                 <article class="basket-item">
-                    <img class="basket-item__img" src="/img/product-img.png" alt="product">
+                    <img class="basket-item__img" src="{% static 'img/product-img.png' %}" alt="product">
 
                     <div class="basket-item__name">Переходник ISO BMW, Land Rover, Rover, Mini Carav 12-003</div>
 
@@ -553,7 +554,7 @@
 
 
     <!--scripts-->
-    <script src="/js/app.js"></script>
+    <script src="{% static 'js/app.js' %}"></script>
 </body>
 
 </html>

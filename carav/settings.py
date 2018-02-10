@@ -114,7 +114,7 @@ AUTH_PASSWORD_VALIDATORS = [
 ]
 
 AUTHENTICATON_BACKENDS = [
-    ('users.backends.AuthBackend'),
+    ('users.backends.AuthBackend')
 ]
 
 # Internationalization
@@ -141,6 +141,9 @@ STATIC_URL = '/static/'
 STATIC_ROOT = os.path.join(os.path.dirname(BASE_DIR), 'static')
 
 STATICFILES_DIRS = [os.path.join(BASE_DIR, 'static')]
+
+LOGIN_URL = 'login'
+LOGOUT_URL = 'login'
 
 try:
     from local_settings import *

@@ -10295,6 +10295,69 @@ Object.defineProperty(exports, "__esModule", {
 });
 
 exports.default = function () {
+    var api = {
+        $catalogWrap: $("#catalog-mobile-menu-wrap"),
+        $catalog: $("#catalog-mobile-nav"),
+        $catalogBtn: $("#mobile-catalog-main-btn"),
+        $catalogReturn: $("#mobile-catalog-catalog-return"),
+        $catalogReturnPage: $("#mobile-catalog-page-return")
+    };
+
+    api.$catalogBtn.off("click");
+    api.$catalogBtn.on("click", function (e) {
+        e.preventDefault();
+        api.$catalogWrap.show();
+
+        api.$catalogBtn.addClass("hide");
+        api.$catalogReturnPage.addClass("show");
+
+        api.$catalogReturnPage.off("click");
+        api.$catalogReturnPage.on("click", function (e) {
+            e.preventDefault();
+            api.$catalogReturnPage.removeClass("show");
+            api.$catalogBtn.removeClass("hide");
+            api.$catalogWrap.hide();
+        });
+    });
+
+    var $items = api.$catalog.find(".item-click");
+    //console.log("$items:", $items);
+    $items.each(function () {
+        $(this).off("click");
+        $(this).on("click", function () {
+            $(this).addClass("active");
+            var $sub = $(this).find(".sub");
+
+            api.$catalogBtn.addClass("hide");
+            api.$catalogReturnPage.removeClass("show");
+            api.$catalogReturn.addClass("show");
+
+            api.$catalogReturn.off("click");
+            api.$catalogReturn.on("click", function (e) {
+                e.preventDefault();
+                $items.removeClass("active");
+                api.$catalogReturn.removeClass("show");
+                api.$catalogReturnPage.addClass("show");
+            });
+        });
+    });
+};
+
+;
+/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(0)))
+
+/***/ }),
+/* 3 */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+/* WEBPACK VAR INJECTION */(function($) {
+
+Object.defineProperty(exports, "__esModule", {
+    value: true
+});
+
+exports.default = function () {
 
     var $wrap = $("#mb-menu-block");
     var $menu = $("#mb-menu");
@@ -10321,7 +10384,7 @@ exports.default = function () {
 /* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(0)))
 
 /***/ }),
-/* 3 */
+/* 4 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -10353,7 +10416,6 @@ exports.default = function () {
 /* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(0)))
 
 /***/ }),
-/* 4 */,
 /* 5 */,
 /* 6 */,
 /* 7 */,
@@ -10366,23 +10428,28 @@ exports.default = function () {
 /* 14 */,
 /* 15 */,
 /* 16 */,
-/* 17 */
+/* 17 */,
+/* 18 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
 /* WEBPACK VAR INJECTION */(function($) {
 
-__webpack_require__(18);
+__webpack_require__(19);
 
 var _catalogMenu = __webpack_require__(1);
 
 var _catalogMenu2 = _interopRequireDefault(_catalogMenu);
 
-var _mb = __webpack_require__(2);
+var _catalogMobile = __webpack_require__(2);
+
+var _catalogMobile2 = _interopRequireDefault(_catalogMobile);
+
+var _mb = __webpack_require__(3);
 
 var _mb2 = _interopRequireDefault(_mb);
 
-var _search = __webpack_require__(3);
+var _search = __webpack_require__(4);
 
 var _search2 = _interopRequireDefault(_search);
 
@@ -10390,17 +10457,18 @@ function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { de
 
 $(window).on("load", function () {
     (0, _catalogMenu2.default)();
+    (0, _catalogMobile2.default)();
     (0, _mb2.default)();
     (0, _search2.default)();
 });
 /* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(0)))
 
 /***/ }),
-/* 18 */
+/* 19 */
 /***/ (function(module, exports) {
 
 // removed by extract-text-webpack-plugin
 
 /***/ })
-],[17]);
+],[18]);
 //# sourceMappingURL=blog.js.map

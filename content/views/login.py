@@ -5,105 +5,99 @@ import re
 
 from django.shortcuts import render
 from django.contrib import messages
+from django.contrib.auth import login, logout
 from django.http import HttpResponseRedirect
 from django.core.urlresolvers import reverse
 from django.utils.translation import ugettext_lazy as _
+from django.contrib.auth.decorators import login_required
 
 from users.models import User
+from users.backends import AuthBackend
+from users.forms import RegistrationForm, LoginForm
 
 def user_create(request):
     if request.method == 'POST':
-        if request.POST.get('create') is not None:
-            errors = {}
-            data = {}
+            form = RegistrationForm(request.POST)
+            login_form = LoginForm()
+            if form.is_valid():
 
-            first_name = request.POST.get('name').strip()
-            if not first_name:
-                errors['first_name'] = _('Это поле обязательно')
-            else:
-                data['first_name'] = first_name
+                errors = {}
 
-            last_name = request.POST.get('last_name').strip()
-            if not last_name:
-                errors['last_name'] = _('Это поле обязательно')
-            else:
-                data['last_name'] = last_name
-
-            phone_number = request.POST.get('phone_number').strip()
-            if re.match(r'^\+{0,1}\d{9,15}$', phone_number) == None:
-                errors['phone_number'] = _('Введите правильный номер телефона')
-            else:
-                data['phone_number'] = phone_number
-
-            email = request.POST.get('email').strip()
-            if re.match(r'^[A-z0-9\.\+_-]+@[A-Za-z0-9\_-]+\.[a-zA-Z]+$', email) == None:
-                errors['email'] = _('Введите правильный электронный адресс')
-            else:
-                data['email'] = email
-
-            password = request.POST.get('password')
-            rep_pass = request.POST.get('rep_pass')
-            if not password:
-                errors['password'] = _('Введите пароль')
-            elif len(password) < 8:
-                errors['password'] = _('Пароль должен состоять минимум из 8 символов')
-            elif re.match(r'^[A-z]+', password) == None:
-                errors['password'] = _('Пароль должен содержать хотя бы одну букву')
-            elif password != rep_pass:
-                errors['password'] = _('Пароли должны совпадать')
-            else:
-                data['password'] = password
-                pass
-
-            if 'website' not in request.POST.keys():
-                if not errors:
-                    user = User()
-                    user.first_name = data['first_name']
-                    user.last_name = data['last_name']
-                    user.phone_number = data['phone_number']
-                    user.email = data['email']
-                    user.set_password(data['password'])
-                    user.is_active = True
-                    user.save()
-                    return HttpResponseRedirect(reverse('home'))
+                if 'opt' not in request.POST.keys():
+                        user = User()
+                        user.first_name = request.POST['first_name']
+                        user.last_name = request.POST['last_name']
+                        user.phone_number = request.POST['phone_number']
+                        user.email = request.POST['email']
+                        user.set_password(request.POST['password'])
+                        user.is_active = True
+                        user.save()
+                        return HttpResponseRedirect(reverse('home'))
                 else:
-                    messages.success(request, _('Исправьте ошибки'))
-                    return render(request, 'login.html', {'errors':errors})
-            else:
 
-                site = request.POST.get('website')
-                if not site:
-                    errors['website'] = _('Это поле обязательно')
-                else:
-                    data['site'] = site
+                    site = request.POST.get('site')
+                    if not site:
+                        errors['site'] = _('Это поле обязательно')
 
-                information = request.POST.get('information')
-                if not information:
-                    errors['information'] = _('Это поле обязательно')
-                else:
-                    data['information'] = information
+                    information = request.POST.get('information')
+                    if not information:
+                        errors['information'] = _('Это поле обязательно')
 
-                dropshipping = request.POST.get('dropshipping')
-                if not dropshipping:
-                    errors['dropshipping'] = _('Это поле обязательно')
-                else:
-                    data['dropshipping'] = dropshipping
+                    dropshipp = request.POST.get('dropshipp')
+                    if not dropshipp:
+                        errors['dropshipp'] = _('Это поле обязательно')
                 
-                if not errors:
-                    user = User()
-                    user.first_name = data['first_name']
-                    user.last_name = data['last_name']
-                    user.phone_number = data['phone_number']
-                    user.email = data['email']
-                    user.set_password(data['password'])
-                    user.dropshipp = data['dropshipping']
-                    user.site = data['site']
-                    user.information = data['information']
-                    user.save()
-                    return HttpResponseRedirect(reverse('home'))
-                else:
-                    messages.success(request, _('Исправьте ошибки'))
-                    return render(request, 'login.html', {'errors':errors})
+                    if not errors:
+                        user = User()
+                        user.first_name = request.POST['first_name']
+                        user.last_name = request.POST['last_name']
+                        user.phone_number = request.POST['phone_number']
+                        user.email = request.POST['email']
+                        user.set_password(request.POST['password'])
+                        user.dropshipp = request.POST['dropshipp']
+                        user.site = request.POST['site']
+                        user.information = request.POST['information']
+                        user.save()
+                        return HttpResponseRedirect(reverse('home'))
+                    else:
+                        messages.success(request, _('Исправьте ошибки'))
+                        return render(request, 'login.html', {'form':form,
+                                                              'login_form':login_form,
+                                                              'errors':errors})
+            else:
+                messages.success(request, _('Исправьте ошибки'))
+                return render(request, 'login.html', {'form':form,
+                                                      'login_form':login_form,
+                                                      'errors':form.errors})
     else:
-        return render(request, 'login.html', {})
+        form = RegistrationForm()
+        login_form = LoginForm()
+        return render(request, 'login.html', {'form':form,
+                                              'login_form':login_form})
 
+
+def user_login(request):
+    if request.method == 'POST':
+        username = request.POST.get('username')
+        password = request.POST.get('password')
+        auth = AuthBackend()
+        user = auth.authenticate(username, password)
+        if user is not None:
+            login(request, user)
+            if request.POST.get('remember_me') is not None:
+                request.session.set_query(0)
+            return render(request, 'lk.personal.html', {})
+        else:
+            messages.success(request, _("Неправильный логин или пароль"))
+            return HttpResponseRedirect(reverse('login'),messages)
+    else:
+        logout(request)
+        form = RegistrationForm()
+        login_form = LoginForm()
+        return render(request,'login.html', {'form':form,
+                                             'login_form':login_form})
+
+
+@login_required
+def personal(request):
+    return render(request, 'lk.personal.html', {})
