@@ -19,7 +19,7 @@ from django.conf import settings
 from django.contrib import admin
 from django.views.generic import TemplateView
 
-from content.views import index, blog, article, catalog, login
+from content.views import index, blog, article, catalog, login, ajax
 
 urlpatterns = [
     url(r'^admin/', admin.site.urls),
@@ -27,11 +27,17 @@ urlpatterns = [
     url(r'^blog/$', blog.BlogList.as_view(), name='blog'),
     url(r'^category/$', TemplateView.as_view(template_name="category.html")),
     url(r'^blog/article/(?P<pk>\d+)/$', article.ArticleDetail.as_view(), name="article"),
+    url(r'^contacts/$', TemplateView.as_view(template_name='contacts.html'), name='contacts'),
     url(r'^catalog/$', catalog.ProductList, name='catalog'),
     url(r'^basket/$', TemplateView.as_view(template_name="basket.html"), name="basket"),
     url(r'^personal/$', login.personal, name='personal'),
     url(r'^login/$', login.user_login, name='login'),
-    url(r'^register/$', login.user_create, name='register')
+    url(r'^logout/$', login.user_logout, name='logout'),
+    url(r'^register/$', login.user_create, name='register'),
+    url(r'^ajax/add_product/$', ajax.basket_session, name='basket_session'),
+    url(r'^ajax/news_generate/$', ajax.news_generate, name='news_gen'),
+    url(r'^ajax/products_discount_generate/$', ajax.products_discount_generate, name='prod_disc_gen'),
+    url(r'^ajax/car_select/$', ajax.car_select, name='car_select')
 ]
 if settings.DEBUG:
     urlpatterns += static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)

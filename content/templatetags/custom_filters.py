@@ -3,6 +3,8 @@ from __future__ import unicode_literals
 
 from django import template
 
+from content.models import ChipBasket
+
 
 register = template.Library()
 
@@ -107,3 +109,29 @@ def get_first_last_years(model):
         result = e.message
     return result
 
+
+@register.filter
+def prod_count(basket_id):
+    try:
+        basket = ChipBasket.objects.get(id=basket_id)
+        result = basket.count()
+    except Exception as e:
+        result = 0
+    return result
+
+
+@register.filter
+def calculate_sum(basket_id, type_price):
+    try:
+        basket = ChipBasket.objects.get(id=basket_id)
+        if type_price == 'price':
+            result = basket.calculate_sum_price()
+        elif type_price == 'ppc_price':
+            result = basket.calculate_sum_ppc_price()
+        elif type_price == 'convert_price':
+            result = basket.calculate_sum_convert_price()
+        elif type_price == 'convert_ppc_price':
+            result = basket.calculate_sum_convert_ppc_price()
+    except Exception as e:
+        result = 0
+    return result

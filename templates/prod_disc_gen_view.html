@@ -1,0 +1,73 @@
+{% load static %}
+
+{% load custom_filters %}
+
+{% load humanize %}
+
+{% for obj in products %}
+    <div class="tovar">
+        <div class="tovar__img-wrap">
+            <div class="sale">Акция!</div>
+            <img class="tovar__img" src="{{ images|get_first_image_url:obj.product.id }}" alt="ramki.png">
+            {% if obj.product.credit %}
+                <div class="credit">Кредит {{ obj.product.credit }}%</div>
+            {% endif %}
+        </div>
+        <div class="tovar__info-wrap">
+            <div class="text-info-wrap">
+                <a href="#!" class="tovar__top-title">{{ obj.product.name }}</a>
+                <div class="tovar__title">{{ obj.product.information }}</div>
+                <div class="tovar__middle-line">
+                    <div class="code">Код: {{ obj.product.code }} </div>
+                    <div class="available">
+                        {% include "check_mark.html" %}
+                        <span>В наличии</span>
+                    </div>
+                </div>
+                <div class="tovar__additions">
+                    <ul>
+                        {% for model in obj.product.get_compatibility_models %}
+                            <li>
+                                <a>{{ model.name }} {{ model|get_first_last_years }}</a>
+                            </li>
+                            {% if forloop.counter == 8 %}
+                                </ul>
+                                <ul>
+                            {% endif %}
+                        {% endfor %}
+                    </ul>
+                </div>
+            </div>
+            <div class="controls-wrap">
+                <div class="tovar__old-price">
+                    {% if obj.product.currency %} 
+                        {{ obj.product.get_convert_ppc_price|floatformat:2|intcomma|replace_comma_with_space }} грн
+                    {% else %}
+                        {{ obj.product.ppc_price|floatformat:2|intcomma|replace_comma_with_space }} $
+                    {% endif %}
+                </div>
+                <div class="tovar__price-line">
+                    {% if obj.product.currency %}
+                        {{ obj.get_new_convert_ppc_price|floatformat:2|intcomma|replace_comma_with_space }} грн
+                    {% else %}
+                        {{ obj.get_new_ppc_price|floatformat:2|intcomma|replace_comma_with_space }} $
+                    {% endif %}
+                    <!-- <div class="convert">(25 243,40 грн)</div> -->
+                </div>
+                <div class="tovar__basket-wrap">
+                    <form method="post">
+                    {% csrf_token %}
+                        <a href="#!" class="basket" id="basket{{ obj.product.id }}" data-url="{% url 'basket_session' %}" data-product="{{ obj.product.id }}">
+                            <span>В корзину</span>
+                            {% include "basket_icon.html" %}
+                        </a>
+                    </form>
+                    <div class="available">
+                        {% include "check_mark.html" %}
+                        <span>В наличии</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+{% endfor %}  

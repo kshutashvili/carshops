@@ -44,7 +44,7 @@
 
             <div class="forms-wrap">
 
-                <form class="form" id="form-rzn" action="{% url 'register' %}" method="post" enctype="multipart/form-data">
+                <form class="form" id="form-rzn" action="{% url 'login' %}" method="post" enctype="multipart/form-data">
 
                     <p class="input-wrap">
                         {{ form.first_name }}
@@ -62,7 +62,7 @@
                     </p>
 
                     <p class="input-wrap">
-                        {{ form.email }}                    
+                        {{ form.email }}
                         <span class='help-block'>{{ errors.email }}</span>
                     </p>
 
@@ -106,7 +106,7 @@
                     </div>
                 </form>
 
-                <form class="form" id="form-opt" action="{% url 'register' %}" method="post" enctype="multipart/form-data">
+                <form class="form" id="form-opt" action="{% url 'login' %}" method="post" enctype="multipart/form-data">
 
                     <p class="input-wrap">
                         {{ form.first_name }}
@@ -137,7 +137,7 @@
                         {{ form.information }}
                         <span class='help-block'>{{ errors.information }}</span>
                     </p>
-                    <input type="text" hidden='True' name='opt'>
+
                     <div class="radio-wrap">
                         <p>Планируете ли Вы работать по системе дропшиппинг (отправка напрямую на клиента)?</p>
                         <div>
@@ -157,9 +157,9 @@
                         {{ form.password }}
                         <span class='help-block'>{{ errors.password }}</span>
                     </p>
-
+                    <input type="text" name="opt" hidden="True">
                     <p class="input-wrap">
-                        {{ form.rep_password }}
+                        {{ form.rep_passwords}}
                         <span class='help-block'>{{ errors.password }}</span>
                     </p>
                     <button type="submit" class="submit" name="create">
@@ -214,13 +214,13 @@
                     </p>
                 </div>
 
-                <form class="login-form" action="{% url 'login' %}" method="post" enctype="multipart/form-data">
+                <form class="login-form" action="{% url 'login' %}" method="post" >
                     {{ login_form.username }}
                     {{ login_form.password }}
-                    <div class="bottom">
                     {% csrf_token %}
+                    <div class="bottom">
                         <div class="left">
-                            <input type="checkbox" name="remember_me" value="True" id="remember">
+                            <input type="checkbox" name="remember_me" id="remember">
                             <label for="remember">
                                 <span>
                                     <svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" version="1.1" id="Capa_1" x="0px" y="0px"

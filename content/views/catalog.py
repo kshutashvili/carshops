@@ -5,7 +5,7 @@ from content.models import DiscountProduct, ProductImage, Banner
 
 
 def ProductList(request):
-    products = DiscountProduct.objects.all()
+    products = DiscountProduct.objects.all()[:2]
     images = ProductImage.objects.all()
     banners = Banner.objects.all()
     result = {}

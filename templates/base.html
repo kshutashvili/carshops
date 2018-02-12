@@ -18,6 +18,7 @@
 </head>
 {% block extrastyles %}{% endblock %}
 
+
 <body>
     <div class="mb-menu-block" id="mb-menu-block">
         <div class="mb-menu" id="mb-menu">
@@ -281,8 +282,9 @@
                             </g>
                         </svg>
                         <span>Личный кабинет</span>
+                    </a>
                     {% if user.is_authenticated %}
-                        <a href="{% url 'login' %}" class="reg-btn">Выйти</a>
+                        <a href="{% url 'logout' %}" class="reg-btn">Выйти</a>
                     {% else %}
                         <a href="{% url 'register' %}" class="reg-btn">Регистрация</a>
                     {% endif %}
@@ -351,11 +353,11 @@
                                     s16,7.156,16,16V448z" />
                             </g>
                         </svg>
-                        <span class="basket-wrap__amount">0</span>
+                        <span class="basket-wrap__amount" id="basket_number">{% if request.session.basket_id %}{{ request.session.basket_id|prod_count }}{% else %}0{% endif %}</span>
                     </div>
                     <div class="info-wrap">
-                        <a href="{% url 'basket' %}" class="info-wrap__title">В корзине</a>
-                        <p class="info-wrap__text">0 товаров на 0,00 грн</p>
+                        <a href="{% url 'basket' %} " class="info-wrap__title">В корзине</a>
+                        <p class="info-wrap__text" id="basket_template" >{% if request.session.basket_id %}{{ request.session.basket_id|prod_count }} товаров на {{ request.session.basket_id|calculate_sum:'convert_ppc_price' }} грн{% else %} 0 товаров на 0,00 грн{% endif %}</p>
                     </div>
                 </div>
             </section>
@@ -479,7 +481,374 @@
                                     {% endif %}
                                 </div>
                             {% endif %}
-                            {% endfor %}
+                            {% endfor %}                                    
+                            </div>
+                        </div>
+                    </div>
+                    <div class="catalog-mobile-menu-block">
+                        <div class="btns-wrap">
+                            <a href="#!" id="mobile-catalog-main-btn">Каталог товаров</a>
+                            <a href="#!" id="mobile-catalog-page-return">
+                                <svg version="1.1" id="Capa_1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px"
+                                    width="284.929px" height="284.929px" viewBox="0 0 284.929 284.929" style="enable-background:new 0 0 284.929 284.929;"
+                                    xml:space="preserve">
+                                    <g>
+                                        <path d="M282.082,76.511l-14.274-14.273c-1.902-1.906-4.093-2.856-6.57-2.856c-2.471,0-4.661,0.95-6.563,2.856L142.466,174.441
+                                       L30.262,62.241c-1.903-1.906-4.093-2.856-6.567-2.856c-2.475,0-4.665,0.95-6.567,2.856L2.856,76.515C0.95,78.417,0,80.607,0,83.082
+                                       c0,2.473,0.953,4.663,2.856,6.565l133.043,133.046c1.902,1.903,4.093,2.854,6.567,2.854s4.661-0.951,6.562-2.854L282.082,89.647
+                                       c1.902-1.903,2.847-4.093,2.847-6.565C284.929,80.607,283.984,78.417,282.082,76.511z"
+                                        />
+                                    </g>
+                                </svg>
+
+                                На главную
+                            </a>
+                            <a href="#!" id="mobile-catalog-catalog-return">
+                                <svg version="1.1" id="Capa_1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px"
+                                    width="284.929px" height="284.929px" viewBox="0 0 284.929 284.929" style="enable-background:new 0 0 284.929 284.929;"
+                                    xml:space="preserve">
+                                    <g>
+                                        <path d="M282.082,76.511l-14.274-14.273c-1.902-1.906-4.093-2.856-6.57-2.856c-2.471,0-4.661,0.95-6.563,2.856L142.466,174.441
+                                       L30.262,62.241c-1.903-1.906-4.093-2.856-6.567-2.856c-2.475,0-4.665,0.95-6.567,2.856L2.856,76.515C0.95,78.417,0,80.607,0,83.082
+                                       c0,2.473,0.953,4.663,2.856,6.565l133.043,133.046c1.902,1.903,4.093,2.854,6.567,2.854s4.661-0.951,6.562-2.854L282.082,89.647
+                                       c1.902-1.903,2.847-4.093,2.847-6.565C284.929,80.607,283.984,78.417,282.082,76.511z"
+                                        />
+                                    </g>
+                                </svg>
+
+                                В каталог
+                            </a>
+                        </div>
+                    </div>
+                    <div class="catalog-mobile-menu-wrap" id="catalog-mobile-menu-wrap">
+                        <div class="catalog-mobile-menu-wrap__title">Каталог товаров</div>
+                        <div class="nav" id="catalog-mobile-nav">
+                            <div class="nav__item item-click">
+                                <div class="img-wrap ramki">
+                                </div>
+                                <a href="#!" class="link">Переходные рамки</a>
+                                <div class="sub">
+                                    <div class="sub__title">Переходные рамки</div>
+                                    <div class="sub__subtitle">Марка вашего автомобиля:</div>
+                                    <div class="sub__marks">
+                                    {% for obj in stamp_cars %}
+                                        <a href="{{ obj.link }}" class="mark">
+                                            <img src="{{ obj.image.url }}" alt="" class="mark__img">
+                                            <p class="mark__name">{{ obj.name }}</p>
+                                        </a>
+                                    {% endfor %}
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="nav__item item-click">
+                                <div class="img-wrap razemi">
+                                </div>
+                                <a href="#!" class="link">Разъёмы для подключения</a>
+                                <div class="sub">
+                                    <div class="sub__title">Переходные рамки</div>
+                                    <div class="razemi-content">
+
+                                        <div class="block">
+                                            <div class="svg-wrap">
+                                                <svg class="magsafe" version="1.1" id="Layer_1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink"
+                                                    x="0px" y="0px" viewBox="0 0 511.9 511.9" style="enable-background:new 0 0 511.9 511.9;"
+                                                    xml:space="preserve">
+                                                    <g>
+                                                        <g>
+                                                            <g>
+                                                                <path d="M196.2,179.2c9.4,0,17.1-7.7,17.1-17.1s-7.7-17.1-17.1-17.1s-17.1,7.7-17.1,17.1S186.8,179.2,196.2,179.2z" />
+                                                                <path d="M281.5,511.9V324.3c9.4,0,17.1-7.7,17.1-17.1v-34.1h110.9c9.4,0,17.1-7.7,17.1-17.1V68.3c0-9.4-7.7-17.1-17.1-17.1H401
+                                                               V17c0-9.4-7.6-17-17-17H127.9c-9.4,0-17,7.6-17,17v34.2h-8.5c-9.4,0-17.1,7.7-17.1,17.1V256c0,9.4,7.7,17.1,17.1,17.1h110.9v34.1
+                                                               c0,9.4,7.7,17.1,17.1,17.1v187.6L281.5,511.9z M127.9,51.2l0-34.1l256,0v34.2H127.9z M221.8,162.1c0-18.8,15.3-34.1,34.1-34.1
+                                                               s34.1,15.3,34.1,34.1s-15.3,34.1-34.1,34.1S221.8,181,221.8,162.1z M238.9,307.2h-8.5v-34.1h51.2l0,34.1H273H238.9z"
+                                                                />
+                                                            </g>
+                                                        </g>
+                                                    </g>
+                                                </svg>
+                                            </div>
+                                            <div class="block__menu">
+                                                <div href="#!" class="block__menu__item item-click">Название подкатегории
+                                                    <div class="sub">
+                                                        <div class="sub__title">Разъёмы для подключения</div>
+                                                        <ul class="list">
+                                                            <li>
+                                                                <div class="item item-click">
+                                                                    <a href="#!">Первая категория товаров
+                                                                        <svg version="1.1" id="Capa_1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px"
+                                                                            width="284.929px" height="284.929px" viewBox="0 0 284.929 284.929"
+                                                                            style="enable-background:new 0 0 284.929 284.929;"
+                                                                            xml:space="preserve">
+                                                                            <g>
+                                                                                <path d="M282.082,76.511l-14.274-14.273c-1.902-1.906-4.093-2.856-6.57-2.856c-2.471,0-4.661,0.95-6.563,2.856L142.466,174.441
+                                                                               L30.262,62.241c-1.903-1.906-4.093-2.856-6.567-2.856c-2.475,0-4.665,0.95-6.567,2.856L2.856,76.515C0.95,78.417,0,80.607,0,83.082
+                                                                               c0,2.473,0.953,4.663,2.856,6.565l133.043,133.046c1.902,1.903,4.093,2.854,6.567,2.854s4.661-0.951,6.562-2.854L282.082,89.647
+                                                                               c1.902-1.903,2.847-4.093,2.847-6.565C284.929,80.607,283.984,78.417,282.082,76.511z"
+                                                                                />
+                                                                            </g>
+                                                                        </svg>
+                                                                    </a>
+                                                                    <div class="sub">qwe</div>
+                                                                </div>
+                                                            </li>
+                                                            <li>
+                                                                <div class="item item-click">
+                                                                    <a href="#!">Вторая категория товаров
+                                                                        <svg version="1.1" id="Capa_1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px"
+                                                                            width="284.929px" height="284.929px" viewBox="0 0 284.929 284.929"
+                                                                            style="enable-background:new 0 0 284.929 284.929;"
+                                                                            xml:space="preserve">
+                                                                            <g>
+                                                                                <path d="M282.082,76.511l-14.274-14.273c-1.902-1.906-4.093-2.856-6.57-2.856c-2.471,0-4.661,0.95-6.563,2.856L142.466,174.441
+                                                                               L30.262,62.241c-1.903-1.906-4.093-2.856-6.567-2.856c-2.475,0-4.665,0.95-6.567,2.856L2.856,76.515C0.95,78.417,0,80.607,0,83.082
+                                                                               c0,2.473,0.953,4.663,2.856,6.565l133.043,133.046c1.902,1.903,4.093,2.854,6.567,2.854s4.661-0.951,6.562-2.854L282.082,89.647
+                                                                               c1.902-1.903,2.847-4.093,2.847-6.565C284.929,80.607,283.984,78.417,282.082,76.511z"
+                                                                                />
+                                                                            </g>
+                                                                        </svg>
+                                                                    </a>
+                                                                </div>
+                                                            </li>
+                                                            <li>
+                                                                <div class="item item-click">
+                                                                    <a href="#!">Третья категория товаров
+                                                                        <svg version="1.1" id="Capa_1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px"
+                                                                            width="284.929px" height="284.929px" viewBox="0 0 284.929 284.929"
+                                                                            style="enable-background:new 0 0 284.929 284.929;"
+                                                                            xml:space="preserve">
+                                                                            <g>
+                                                                                <path d="M282.082,76.511l-14.274-14.273c-1.902-1.906-4.093-2.856-6.57-2.856c-2.471,0-4.661,0.95-6.563,2.856L142.466,174.441
+                                                                               L30.262,62.241c-1.903-1.906-4.093-2.856-6.567-2.856c-2.475,0-4.665,0.95-6.567,2.856L2.856,76.515C0.95,78.417,0,80.607,0,83.082
+                                                                               c0,2.473,0.953,4.663,2.856,6.565l133.043,133.046c1.902,1.903,4.093,2.854,6.567,2.854s4.661-0.951,6.562-2.854L282.082,89.647
+                                                                               c1.902-1.903,2.847-4.093,2.847-6.565C284.929,80.607,283.984,78.417,282.082,76.511z"
+                                                                                />
+                                                                            </g>
+                                                                        </svg>
+                                                                    </a>
+                                                                </div>
+                                                            </li>
+                                                            <li>
+                                                                <div class="item item-click">
+                                                                    <a href="#!">Четвертая категория товаров
+                                                                        <svg version="1.1" id="Capa_1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px"
+                                                                            width="284.929px" height="284.929px" viewBox="0 0 284.929 284.929"
+                                                                            style="enable-background:new 0 0 284.929 284.929;"
+                                                                            xml:space="preserve">
+                                                                            <g>
+                                                                                <path d="M282.082,76.511l-14.274-14.273c-1.902-1.906-4.093-2.856-6.57-2.856c-2.471,0-4.661,0.95-6.563,2.856L142.466,174.441
+                                                                               L30.262,62.241c-1.903-1.906-4.093-2.856-6.567-2.856c-2.475,0-4.665,0.95-6.567,2.856L2.856,76.515C0.95,78.417,0,80.607,0,83.082
+                                                                               c0,2.473,0.953,4.663,2.856,6.565l133.043,133.046c1.902,1.903,4.093,2.854,6.567,2.854s4.661-0.951,6.562-2.854L282.082,89.647
+                                                                               c1.902-1.903,2.847-4.093,2.847-6.565C284.929,80.607,283.984,78.417,282.082,76.511z"
+                                                                                />
+                                                                            </g>
+                                                                        </svg>
+                                                                    </a>
+                                                                </div>
+                                                            </li>
+                                                            <li>
+                                                                <div class="item item-click">
+                                                                    <a href="#!">Пятая категория товаров
+                                                                        <svg version="1.1" id="Capa_1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px"
+                                                                            width="284.929px" height="284.929px" viewBox="0 0 284.929 284.929"
+                                                                            style="enable-background:new 0 0 284.929 284.929;"
+                                                                            xml:space="preserve">
+                                                                            <g>
+                                                                                <path d="M282.082,76.511l-14.274-14.273c-1.902-1.906-4.093-2.856-6.57-2.856c-2.471,0-4.661,0.95-6.563,2.856L142.466,174.441
+                                                                               L30.262,62.241c-1.903-1.906-4.093-2.856-6.567-2.856c-2.475,0-4.665,0.95-6.567,2.856L2.856,76.515C0.95,78.417,0,80.607,0,83.082
+                                                                               c0,2.473,0.953,4.663,2.856,6.565l133.043,133.046c1.902,1.903,4.093,2.854,6.567,2.854s4.661-0.951,6.562-2.854L282.082,89.647
+                                                                               c1.902-1.903,2.847-4.093,2.847-6.565C284.929,80.607,283.984,78.417,282.082,76.511z"
+                                                                                />
+                                                                            </g>
+                                                                        </svg>
+                                                                    </a>
+                                                                </div>
+                                                            </li>
+                                                            <li>
+                                                                <div class="item item-click">
+                                                                    <a href="#!">Шестая категория товаров
+                                                                        <svg version="1.1" id="Capa_1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px"
+                                                                            width="284.929px" height="284.929px" viewBox="0 0 284.929 284.929"
+                                                                            style="enable-background:new 0 0 284.929 284.929;"
+                                                                            xml:space="preserve">
+                                                                            <g>
+                                                                                <path d="M282.082,76.511l-14.274-14.273c-1.902-1.906-4.093-2.856-6.57-2.856c-2.471,0-4.661,0.95-6.563,2.856L142.466,174.441
+                                                                               L30.262,62.241c-1.903-1.906-4.093-2.856-6.567-2.856c-2.475,0-4.665,0.95-6.567,2.856L2.856,76.515C0.95,78.417,0,80.607,0,83.082
+                                                                               c0,2.473,0.953,4.663,2.856,6.565l133.043,133.046c1.902,1.903,4.093,2.854,6.567,2.854s4.661-0.951,6.562-2.854L282.082,89.647
+                                                                               c1.902-1.903,2.847-4.093,2.847-6.565C284.929,80.607,283.984,78.417,282.082,76.511z"
+                                                                                />
+                                                                            </g>
+                                                                        </svg>
+                                                                    </a>
+                                                                </div>
+                                                            </li>
+                                                            <li>
+                                                                <div class="item item-click">
+                                                                    <a href="#!">Седьмая категория товаров
+                                                                        <svg version="1.1" id="Capa_1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px"
+                                                                            width="284.929px" height="284.929px" viewBox="0 0 284.929 284.929"
+                                                                            style="enable-background:new 0 0 284.929 284.929;"
+                                                                            xml:space="preserve">
+                                                                            <g>
+                                                                                <path d="M282.082,76.511l-14.274-14.273c-1.902-1.906-4.093-2.856-6.57-2.856c-2.471,0-4.661,0.95-6.563,2.856L142.466,174.441
+                                                                               L30.262,62.241c-1.903-1.906-4.093-2.856-6.567-2.856c-2.475,0-4.665,0.95-6.567,2.856L2.856,76.515C0.95,78.417,0,80.607,0,83.082
+                                                                               c0,2.473,0.953,4.663,2.856,6.565l133.043,133.046c1.902,1.903,4.093,2.854,6.567,2.854s4.661-0.951,6.562-2.854L282.082,89.647
+                                                                               c1.902-1.903,2.847-4.093,2.847-6.565C284.929,80.607,283.984,78.417,282.082,76.511z"
+                                                                                />
+                                                                            </g>
+                                                                        </svg>
+                                                                    </a>
+                                                                </div>
+                                                            </li>
+                                                            <li>
+                                                                <div class="item item-click">
+                                                                    <a href="#!">Восьмая категория товаров
+                                                                        <svg version="1.1" id="Capa_1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px"
+                                                                            width="284.929px" height="284.929px" viewBox="0 0 284.929 284.929"
+                                                                            style="enable-background:new 0 0 284.929 284.929;"
+                                                                            xml:space="preserve">
+                                                                            <g>
+                                                                                <path d="M282.082,76.511l-14.274-14.273c-1.902-1.906-4.093-2.856-6.57-2.856c-2.471,0-4.661,0.95-6.563,2.856L142.466,174.441
+                                                                               L30.262,62.241c-1.903-1.906-4.093-2.856-6.567-2.856c-2.475,0-4.665,0.95-6.567,2.856L2.856,76.515C0.95,78.417,0,80.607,0,83.082
+                                                                               c0,2.473,0.953,4.663,2.856,6.565l133.043,133.046c1.902,1.903,4.093,2.854,6.567,2.854s4.661-0.951,6.562-2.854L282.082,89.647
+                                                                               c1.902-1.903,2.847-4.093,2.847-6.565C284.929,80.607,283.984,78.417,282.082,76.511z"
+                                                                                />
+                                                                            </g>
+                                                                        </svg>
+                                                                    </a>
+                                                                </div>
+                                                            </li>
+                                                            <li>
+                                                                <div class="item item-click">
+                                                                    <a href="#!">Девятая категория товаров
+                                                                        <svg version="1.1" id="Capa_1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px"
+                                                                            width="284.929px" height="284.929px" viewBox="0 0 284.929 284.929"
+                                                                            style="enable-background:new 0 0 284.929 284.929;"
+                                                                            xml:space="preserve">
+                                                                            <g>
+                                                                                <path d="M282.082,76.511l-14.274-14.273c-1.902-1.906-4.093-2.856-6.57-2.856c-2.471,0-4.661,0.95-6.563,2.856L142.466,174.441
+                                                                               L30.262,62.241c-1.903-1.906-4.093-2.856-6.567-2.856c-2.475,0-4.665,0.95-6.567,2.856L2.856,76.515C0.95,78.417,0,80.607,0,83.082
+                                                                               c0,2.473,0.953,4.663,2.856,6.565l133.043,133.046c1.902,1.903,4.093,2.854,6.567,2.854s4.661-0.951,6.562-2.854L282.082,89.647
+                                                                               c1.902-1.903,2.847-4.093,2.847-6.565C284.929,80.607,283.984,78.417,282.082,76.511z"
+                                                                                />
+                                                                            </g>
+                                                                        </svg>
+                                                                    </a>
+                                                                </div>
+                                                            </li>
+                                                            <li>
+                                                                <div class="item item-click">
+                                                                    <a href="#!">Десятая категория товаров
+                                                                        <svg version="1.1" id="Capa_1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px"
+                                                                            width="284.929px" height="284.929px" viewBox="0 0 284.929 284.929"
+                                                                            style="enable-background:new 0 0 284.929 284.929;"
+                                                                            xml:space="preserve">
+                                                                            <g>
+                                                                                <path d="M282.082,76.511l-14.274-14.273c-1.902-1.906-4.093-2.856-6.57-2.856c-2.471,0-4.661,0.95-6.563,2.856L142.466,174.441
+                                                                               L30.262,62.241c-1.903-1.906-4.093-2.856-6.567-2.856c-2.475,0-4.665,0.95-6.567,2.856L2.856,76.515C0.95,78.417,0,80.607,0,83.082
+                                                                               c0,2.473,0.953,4.663,2.856,6.565l133.043,133.046c1.902,1.903,4.093,2.854,6.567,2.854s4.661-0.951,6.562-2.854L282.082,89.647
+                                                                               c1.902-1.903,2.847-4.093,2.847-6.565C284.929,80.607,283.984,78.417,282.082,76.511z"
+                                                                                />
+                                                                            </g>
+                                                                        </svg>
+                                                                    </a>
+                                                                </div>
+                                                            </li>
+                                                        </ul>
+                                                    </div>
+                                                </div>
+                                                <div href="#!" class="block__menu__item item-click">Название второй подкатегории</div>
+                                                <div href="#!" class="block__menu__item item-click">Название третьей подкатегории</div>
+                                                <div href="#!" class="block__menu__item item-click">Название четвертой подкатегории</div>
+                                            </div>
+                                        </div>
+
+                                        <div class="block reverse">
+                                            <div class="svg-wrap">
+                                                <svg class="antena" version="1.1" id="Layer_1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink"
+                                                    x="0px" y="0px" viewBox="0 0 503.6 503.6" style="enable-background:new 0 0 503.6 503.6;"
+                                                    xml:space="preserve">
+                                                    <g>
+                                                        <g>
+                                                            <g>
+                                                                <path d="M280.8,50.4h-59.6c5,9.2,5,15.9,0,25.2h59.6C275.7,66.3,275.7,59.6,280.8,50.4z" />
+                                                            </g>
+                                                        </g>
+                                                        <g>
+                                                            <g>
+                                                                <rect x="217.8" y="92.3" width="67.1" height="16.8" />
+                                                            </g>
+                                                        </g>
+                                                        <g>
+                                                            <g>
+                                                                <path d="M267.3,5c-1.7-3.4-4.2-5-7.6-5H243c-3.4,0-5.9,1.7-7.6,5l-14.3,28.5h60.4L267.3,5z" />
+                                                            </g>
+                                                        </g>
+                                                        <g>
+                                                            <g>
+                                                                <path d="M226.2,503.6h51.2v-94.8c0,0,8.4-8.4,8.4-14.3v-33.6h8.4c5,0,8.4-3.4,8.4-8.4V235c0-5-3.4-8.4-8.4-8.4v-25.2
+                                                               c0-5-3.4-8.4-8.4-8.4v-67.1h-68V193c-5,0-8.4,3.4-8.4,8.4v25.2c-5,0-8.4,3.4-8.4,8.4v117.5c0,5,3.4,8.4,8.4,8.4h8.4v33.6
+                                                               c0,6.7,8.4,14.3,8.4,14.3V503.6z M268.2,394.5h-33.6v-33.6h33.6V394.5z M276.6,226.6h-50.4v-16.8h50.4L276.6,226.6L276.6,226.6z"
+                                                                />
+                                                            </g>
+                                                        </g>
+                                                    </g>
+                                                </svg>
+                                            </div>
+                                            <div class="block__menu">
+                                                <div href="#!" class="block__menu__item">Название подкатегории</div>
+                                                <div href="#!" class="block__menu__item">Название второй подкатегории</div>
+                                                <div href="#!" class="block__menu__item">Название третьей подкатегории</div>
+                                                <div href="#!" class="block__menu__item">Название четвертой подкатегории</div>
+                                            </div>
+                                        </div>
+
+                                        <div class="block">
+                                            <div class="svg-wrap">
+                                                <svg class="cable" version="1.1" id="Layer_1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink"
+                                                    x="0px" y="0px" viewBox="0 0 503.7 503.7" style="enable-background:new 0 0 503.7 503.7;"
+                                                    xml:space="preserve">
+                                                    <g>
+                                                        <g>
+                                                            <g>
+                                                                <path d="M293.8,227.3v-18.1c0-8.9-7.2-16.1-16.1-16.1H226c-8.9,0-16.1,7.2-16.1,16.1v18.1c0,8.9,7.2,16.1,16.1,16.1h51.7
+                                                               C286.6,243.4,293.8,236.2,293.8,227.3z" />
+                                                                <path d="M277,503.7V386.2c9.3,0,16.8-7.5,16.8-16.8v-33.7h134.3c9.3,0,16.8-7.5,16.8-16.8V117.5c0-9.3-7.5-16.8-16.8-16.8h-8.4
+                                                               V42c4.6,0,8.4-3.8,8.4-8.4c0-4.6-3.8-8.4-8.4-8.4v-8.4c0-9.3-7.5-16.8-16.8-16.8h-33.6v58.8c0,4.6-3.8,8.4-8.4,8.4
+                                                               c-4.6,0-8.4-3.8-8.4-8.4V0h-16.8v58.8c0,4.6-3.8,8.4-8.4,8.4c-4.6,0-8.4-3.8-8.4-8.4V0H184.7v58.8c0,4.6-3.8,8.4-8.4,8.4
+                                                               c-4.6,0-8.4-3.8-8.4-8.4V0h-16.8v58.8c0,4.6-3.8,8.4-8.4,8.4c-4.6,0-8.4-3.8-8.4-8.4V0h-33.6C91.5,0,84,7.5,84,16.8v8.4
+                                                               c-4.6,0-8.4,3.8-8.4,8.4c0,4.6,3.8,8.4,8.4,8.4v58.8h-8.4c-9.3,0-16.8,7.5-16.8,16.8V319c0,9.3,7.5,16.8,16.8,16.8h134.3v33.7
+                                                               c0,9.3,7.5,16.8,16.8,16.8v117.5L277,503.7z M218.3,319H75.6V117.5h16.8h319h16.8l0,201.4H285.4H218.3z M235.1,369.4h-8.4v-33.7
+                                                               H277l0,33.7h-8.4L235.1,369.4L235.1,369.4z" />
+                                                            </g>
+                                                        </g>
+                                                    </g>
+                                                </svg>
+                                            </div>
+                                            <div class="block__menu">
+                                                <div href="#!" class="block__menu__item">Название подкатегории</div>
+                                                <div href="#!" class="block__menu__item">Название второй подкатегории</div>
+                                                <div href="#!" class="block__menu__item">Название третьей подкатегории</div>
+                                                <div href="#!" class="block__menu__item">Название четвертой подкатегории</div>
+                                            </div>
+                                        </div>
+
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="nav__item item-click">
+                                <div class="img-wrap adapteri">
+                                </div>
+                                <a href="#!" class="link">Адаптеры кнопок на руле</a>
+                            </div>
+                            <div class="nav__item item-click">
+                                <div class="img-wrap aksessuari">
+                                </div>
+                                <a href="#!" class="link aksessuari">Аксессуары для установки</a>
+                            </div>
+                            <div class="nav__item item-click">
+                                <div class="img-wrap zvyk">
+                                </div>
+                                <a href="#!" class="link">Аксессуары для установки</a>
                             </div>
                         </div>
                     </div>
@@ -578,8 +947,8 @@
 
         </section>
     </header>
-    <!-- header end -->
 
+    <!-- header end -->
     {% block content %}{% endblock %}
 
     <!-- footer start -->
@@ -589,16 +958,17 @@
                 <div class="block-carav">
                     <div class="block-carav__title">CARAV</div>
                     <ul class="block-carav__list">
-                    {% for obj in addresses %}
+                        {% for obj in addresses %}
                         <li>
                             <a href="#!">{{ obj.information }}</a>
                         </li>
-                    {% endfor %}
-                    {% for obj in schedules %}
+                        {% endfor %}
+                        {% for obj in schedules %}
                         <li>
                             <a href="#!">{{ obj.information }}</a>
                         </li>
-                    {% endfor %}
+                        {% endfor %}
+                    </ul>
                     </ul>
                 </div>
                 <div class="socials-mobile">
@@ -673,47 +1043,47 @@
                 <div class="block block--catalog">
                     <div class="block__title">Каталог товаров</div>
                     <ul class="block__list">
-                    {%  for obj in menu_main_nodes %}
+                        {%  for obj in menu_main_nodes %}
                         <li>
                             <a href="{{ obj.link }}">{{ obj.name }}</a>
                         </li>
-                    {% endfor %}
+                        {% endfor %}
                     </ul>
                 </div>
                 <div class="block block--help">
                     <div class="block__title">Помощь</div>
                     <ul class="block__list">
-                     {% for obj in menu_header %}
+                        {% for obj in menu_header %}
                         <li>
                             <a href="{{ obj.link }}">{{ obj.name }}</a>
                         </li>
-                    {% endfor %}
+                        {% endfor %}
                     </ul>
                 </div>
                 <div class="block block--contact">
                     <div class="block__title">Связаться с нами</div>
                     <ul class="block__list">
-                    {% for obj in phones %}
+                        {% for obj in phones %}
                         <li>
                             <a>{{ obj.information }}</a>
                         </li>
-                    {% endfor %}
-                    {% for obj in emails %}
+                        {% endfor %}
+                        {% for obj in emails %}
                         <li>
                             <a>{{ obj.information }}</a>
                         </li>
-                    {% endfor %}
+                        {% endfor %}
                     </ul>
                 </div>
             </div>
             <div class="footer__bottom">
                 <div class="tm">Carav &copy; 2017</div>
                 <div class="social">
-                {% for obj in social_nets %}
+                    {% for obj in social_nets %}
                     <a href="{{ obj.link }}">
                         <img src="{{ obj.image.url }}" %}" alt="">
                     </a>
-                {% endfor %}
+                    {% endfor %}
                 </div>
             </div>
         </div>
@@ -721,7 +1091,10 @@
     <!-- footer end -->
 
     <!--scripts-->
+<script src="https://code.jquery.com/jquery-3.1.0.min.js"></script>
 <script type="text/javascript" src="{% static 'js/common.js' %}"></script>
-</body>
+<script type="text/javascript" src="{% static 'js/ajax.js' %}" ></script>
 {% block extrascripts %}{% endblock %}
+</body>
+
 </html>

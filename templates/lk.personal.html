@@ -13,13 +13,13 @@
     <section class="main-section">
         <div class="bg-side">
             <h1 class="title">
-                <a href="#!">Carav</a>
+                <a href="{% url 'home' %}">Carav</a>
             </h1>
         </div>
         <div class="content-side">
             <div class="top-line">
                 <div class="login-wrap">
-                    <a href="{% url 'login' %}" class="log-out">Выйти</a>
+                    <a href="{% url 'logout' %}" class="log-out">Выйти</a>
                     <div class="name">Здравствуйте,Антон</div>
                 </div>
                 <div class="balance-wrap">
@@ -157,11 +157,11 @@
                                 <div>
                                     <div class="input-wrap">
                                         <label for="name">Имя:</label>
-                                        <input type="text" id="name" value="Антон">
+                                        <input type="text" id="name" value="{{ request.user.first_name }}">
                                     </div>
                                     <div class="input-wrap">
                                         <label for="last_name">Фамилия:</label>
-                                        <input type="text" id="last_name" value="Швейнов">
+                                        <input type="text" id="last_name" value="{{ request.user.last_name }}">
                                     </div>
                                     <div class="input-wrap">
                                         <label for="third_name">Отчество:</label>
@@ -173,7 +173,7 @@
                                     </div>
                                     <div class="input-wrap">
                                         <label for="email">E-mail:</label>
-                                        <input type="text" id="email" value="example144@gmail.com">
+                                        <input type="text" id="email" value="{{ request.user.email }}">
                                     </div>
                                 </div>
                                 <div>

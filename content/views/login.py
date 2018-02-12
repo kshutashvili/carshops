@@ -11,6 +11,7 @@ from django.core.urlresolvers import reverse
 from django.utils.translation import ugettext_lazy as _
 from django.contrib.auth.decorators import login_required
 
+from content.models import ChipBasket
 from users.models import User
 from users.backends import AuthBackend
 from users.forms import RegistrationForm, LoginForm
@@ -85,19 +86,31 @@ def user_login(request):
         if user is not None:
             login(request, user)
             if request.POST.get('remember_me') is not None:
-                request.session.set_query(0)
+                request.session.set_expiry(0)
             return render(request, 'lk.personal.html', {})
         else:
             messages.success(request, _("Неправильный логин или пароль"))
             return HttpResponseRedirect(reverse('login'),messages)
     else:
-        logout(request)
         form = RegistrationForm()
         login_form = LoginForm()
-        return render(request,'login.html', {'form':form,
-                                             'login_form':login_form})
+        return render(request, 'login.html', {'form':form,
+                                              'login_form':login_form})
+
+
+def user_logout(request):
+    if request.session.has_key('basket_id'):
+        basket = ChipBasket.objects.get(id=request.session['basket_id'])
+        if not basket.delivery_way:
+            basket.delete()
+    logout(request)
+    form = RegistrationForm()
+    login_form = LoginForm()
+    return render(request,'login.html', {'form':form,
+                                         'login_form':login_form})
 
 
 @login_required
 def personal(request):
     return render(request, 'lk.personal.html', {})
+

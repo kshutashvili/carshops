@@ -1,0 +1,4 @@
+<option value="0">Модель автомобиля</option>
+{% for obj in model_cars %}
+    <option value="{{ obj.id }}">{{ obj.name }}</option>
+{% endfor %}

@@ -6,6 +6,8 @@
 
 {% load custom_filters %}
 
+{% load custom_tags %}
+
 {% load static %}
 
 
@@ -21,23 +23,18 @@
                     <div class="choose-mark-search__content">
                         <p class="choose-mark-search__title">Выберите марку вашего автомобиля</p>
                         <form action="" name="choose-mark">
-                            <select type="text" class="select" name="" placeholder="Марка автомобиля">
-                                <option value="">Марка автомобиля</option>
+                            {% csrf_token %}
+                            <select type="text" class="select" data-url="{% url 'car_select' %}" data-name="model" name="" id="stamp_cars" placeholder="Марка автомобиля">
+                                <option value="0" >Марка автомобиля</option>
                                 {% for obj in stamp_cars %}
-                                    <option value="">{{ obj.name }}</option>
+                                    <option value="{{ obj.id }}">{{ obj.name }}</option>
                                 {% endfor %}
                             </select>
-                            <select type="text" class="select" name="" placeholder="Марка автомобиля">
-                                <option value="">Модель автомобиля</option>
-                                {% for obj in model_cars %}
-                                    <option value="">{{ obj.name }}</option>
-                                {% endfor %}                                
+                            <select type="text" class="select" data-url="{% url 'car_select' %}" data-name="year" name="" id="model_cars" placeholder="Модель автомобиля">
+                                {% model_cars_generate model_cars %}                                
                             </select>
-                            <select type="text" class="select" name="" placeholder="Марка автомобиля">
-                                <option value="">Год выпуска</option>
-                                {% for obj in year_cars %}
-                                    <option value="">{{ obj.year }}</option>
-                                {% endfor %}
+                            <select type="text" class="select" name="" id="year_cars" placeholder="Год выпуска автомобиля">
+                                {% year_cars_generate year_cars %}
                             </select>
                             <button type="submit" class="btn">
                                 <div class="img-wrap">
@@ -109,10 +106,13 @@
                                         {% endif %}
                                         </div>
                                     {% endif %}
-                                        <a href="#!" class="buy">
-                                            <span>В корзину</span>
-                                            {% include "basket_icon.html" %}
-                                        </a>
+                                    <form method="post">
+                                    {% csrf_token %}
+                                            <a class="buy" href="#!" id="add_product" data-url="{% url 'basket_session' %}"  data-product="{{ obj.product.id }}" >
+                                                <span>В корзину</span>
+                                                {% include "basket_icon.html" %}
+                                            </a>
+                                    </form>
                                     </div>
                                 </div>
                             </div>
@@ -184,10 +184,12 @@
                             {% endif %}
                             </div>
                         </div>
-                        <a href="#!" class="tovar__basket">
-                            <span>В корзину</span>
-                            {% include "basket_icon.html" %}
-                        </a>
+                        <form method="post">
+                            <a href="#!" class="tovar__basket" data-url="{% url 'basket_session' %}" data-product="{{ obj.product.id }}" >
+                                <span>В корзину</span>
+                                {% include "basket_icon.html" %}
+                            </a>
+                        </form>
                         <div class="tovar__additions">
                             <ul>
                             {% for model in obj.product.get_compatibility_models %}
@@ -237,7 +239,7 @@
                 <div class="news-grid">
                     {% for obj in news %}
                     <article class="news-block">
-                        <div class="news-block__img-wrap" style="background-color: #FFFFFF;">
+                        <div class="news-block__img-wrap">
                              <img src="{{ obj.image.url }}" alt=""> 
                         </div>
                         <a href="{% url 'article' obj.id %}" class="news-block__title">

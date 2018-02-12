@@ -144,6 +144,14 @@ class Blog(models.Model):
     def __unicode__(self):
         return self.title
 
+    def as_dict(self):
+        return {"id":self.id,
+                "title":self.title,
+                "content":self.content,
+                "date":str(self.date),
+                "active":self.active,
+                "image.url":self.image.url}
+
 
 class InformationType(models.Model):
     """Тип контактной информации."""
@@ -265,7 +273,7 @@ class DiscountProduct(models.Model):
     product = models.OneToOneField('Product',
                                    verbose_name=_("Товар"),
                                    related_name="discount")
-    discount = models.FloatField(_("Скидка в %"))
+    discount = models.FloatField(_("Скидка"))
     percent = models.BooleanField(_("Вид скидки"),
                                   default=False,
                                   help_text=_("Если включено, то скидка в % "
@@ -326,8 +334,8 @@ class ProductImage(models.Model):
         image = Image.open(self.image)
         (width, height) = image.size
         factor = max(width,height)
-        if factor > 600:
-            k_factor = 600./factor
+        if factor > 300:
+            k_factor = 300./factor
             size = (int(width * k_factor), int(height * k_factor))
             image = image.resize(size, Image.ANTIALIAS)
             image.save(self.image.path)
@@ -462,7 +470,61 @@ class ChipBasket(models.Model):
         verbose_name_plural = _("Покупочные корзины")
 
     def __unicode__(self):
-        return ' '.join([self.delivery, str(self.id)])
+        if self.delivery_way:
+            result = ' '.join([self.delivery_way.name, str(self.id)])
+        else:
+            result = str(self.id)
+        return result
+
+    def calculate_sum_ppc_price(self):
+        summ = 0
+        try:
+            for obj in self.basketproduct_set.iterator():
+                summ += obj.product.discount.get_new_ppc_price() * obj.amount
+        except DiscountProduct.DoesNotExist as e:
+            summ = 0
+            for obj in self.basketproduct_set.iterator():
+                summ += obj.product.ppc_price * obj.amount
+        return summ
+
+    def calculate_sum_price(self):
+        summ = 0
+        try:
+            for obj in self.basketproduct_set.iterator():
+                summ += obj.product.discount.get_new_price() * obj.amount
+        except DiscountProduct.DoesNotExist as e:
+            summ = 0
+            for obj in self.basketproduct_set.iterator():
+                summ += obj.product.price * obj.amount
+        return summ
+
+    def calculate_sum_convert_ppc_price(self):
+        summ = 0
+        try:
+            for obj in self.basketproduct_set.iterator():
+                summ += obj.product.discount.get_new_convert_ppc_price() * obj.amount
+        except DiscountProduct.DoesNotExist as e:
+            summ = 0
+            for obj in self.basketproduct_set.iterator():
+                summ += obj.get_convert_ppc_price() * obj.amount
+        return summ
+
+    def calculate_sum_convert_price(self):
+        summ = 0
+        try:
+            for obj in self.basketproduct_set.iterator():
+                summ += obj.product.get_new_convert_price() * obj.amount
+        except DiscountProduct.DoesNotExist as e:    
+            summ = 0
+            for obj in self.basketproduct_set.iterator():
+                summ += obj.product.get_convert_price() * obj.amount
+        return summ
+
+    def count(self):
+        count = 0
+        for obj in self.basketproduct_set.iterator():
+            count += obj.amount
+        return count
 
 
 class BasketProduct(models.Model):

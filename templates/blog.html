@@ -4,6 +4,8 @@
 
 {% load custom_filters %}
 
+{% load custom_tags %}
+
 {% block title %}Blog{% endblock %}
 
 {% block extrastyles %}
@@ -21,21 +23,21 @@
                     <form action="" name="choose-mark" class="choose-mark">
                         <select type="text" class="select" name="" placeholder="Марка автомобиля">
                             <option value="">Марка автомобиля</option>
-                            <option value="">Марка автомобиля1</option>
-                            <option value="">Марка автомобиля2</option>
-                            <option value="">Марка автомобиля3</option>
+                            {% for obj in stamp_cars %}
+                                <option value="">{{ obj.name }}</option>
+                            {% endfor %}
                         </select>
                         <select type="text" class="select" name="" placeholder="Марка автомобиля">
                             <option value="">Модель автомобиля</option>
-                            <option value="">Модель автомобиля1</option>
-                            <option value="">Модель автомобиля2</option>
-                            <option value="">Модель автомобиля3</option>
+                            {% for obj in model_cars %}
+                                <option value="">{{ obj.name }}</option>
+                            {% endfor %}
                         </select>
                         <select type="text" class="select" name="" placeholder="Марка автомобиля">
                             <option value="">Год выпуска</option>
-                            <option value="">Год выпуска1</option>
-                            <option value="">Год выпуска2</option>
-                            <option value="">Год выпуска3</option>
+                            {% for obj in year_cars %}
+                                <option value="">{{ obj.name }}</option>
+                            {% endfor %}
                         </select>
                         <button type="submit" class="btn">
                             <div class="img-wrap">
@@ -72,30 +74,21 @@
             <!-- breadcrumbs end -->
             <main class="content">
                 <h1 class="content__title">Новости</h1>
-                <div class="news-container">
-                {% for obj in news %}
-                    <article class="news">
-                        <img class="news__img" src="{{ obj.image.url }}" alt="image">
-                        <div class="info-block">
-                            <a href="{% url 'article' obj.id %}" class="link">
-                                <div class="info-block__title">{{ obj.title }}</div>
-                                <div class="info-block__text">{{ obj.content|get_few_words:"0,5"|safe }}...</div>
-                                <div class="info-block__date">
-                                    <img src="{% static 'img/calendar-with-a-clock-time-tools.png' %}" alt="">
-                                    <span>{{ obj.date|date:"d.m.Y" }}</span>
-                                </div>
-                            </a>
-                        </div>
-                    </article>
-                {% endfor %}
+                <div class="news-container" id="news-container" >
+                {% news_generate news %}
                 </div>
-                <a href="#!" class="more">Показать еще</a>
+                <form method="post">
+                    {% csrf_token %}
+                    <a href="#!" class="more" id="more" data-url="{% url 'news_gen' %}" data-length="{{ news|length }}" >Показать еще</a>
+                </form>
             </main>
         </div>
     </section>
 
     <!-- main section end -->
-{% endblock %}
+    {% endblock %}
+
 {% block extrascripts %}
-<script type="text/javascript" src="{% static 'js/blog.js' %}"></script>
+<script type="text/javascript" src="{% static 'js/blog.js' %}"></script></body>
 {% endblock %}
+

@@ -1,0 +1,19 @@
+{% load static %}
+
+{% load custom_filters %}
+
+{% for obj in news %}
+    <article class="news">
+        <img class="news__img" src="{{ obj.image.url }}" alt="image">
+        <div class="info-block">
+            <a href="{% url 'article' obj.id %}" class="link">
+                <div class="info-block__title">{{ obj.title }}</div>
+                <div class="info-block__text">{{ obj.content|get_few_words:"0,5"|safe }}...</div>
+                <div class="info-block__date">
+                    <img src="{% static 'img/calendar-with-a-clock-time-tools.png' %}" alt="">
+                    <span>{{ obj.date|date:"d.m.Y" }}</span>
+                </div>
+            </a>
+        </div>
+    </article>
+{% endfor %}

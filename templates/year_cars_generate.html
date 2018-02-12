@@ -1,0 +1,4 @@
+<option value="">Год выпуска автомобиля</option>
+{% for obj in year_cars %}
+    <option value="{{ obj.id }}">{{ obj.year }}</option>
+{% endfor %}
