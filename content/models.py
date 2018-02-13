@@ -9,6 +9,8 @@ from PIL import Image
 from django.db import models
 from django.utils.translation import ugettext_lazy as _
 
+from users.models import User
+
 
 class MenuHeaderItem(models.Model):
     """Пункт меню в хедере"""
@@ -461,19 +463,17 @@ class ChipBasket(models.Model):
     products = models.ManyToManyField('Product',
                                       verbose_name=_("Товар"),
                                       through='BasketProduct')
-    delivery_way = models.OneToOneField('Delivery',
-                                        verbose_name=_("Способ доставки"),
-                                        null=True)
+    is_framed = models.BooleanField(_('Связана с заказом'),
+                                    default=False)
 
     class Meta:
         verbose_name = _("Покупочная корзина")
         verbose_name_plural = _("Покупочные корзины")
 
     def __unicode__(self):
-        if self.delivery_way:
-            result = ' '.join([self.delivery_way.name, str(self.id)])
-        else:
-            result = str(self.id)
+        result = ' '.join(['Корзина ID:', str(self.id)])
+        if self.is_framed:
+            result = ''.join([result, ' | Связана с заказом'])
         return result
 
     def calculate_sum_ppc_price(self):
@@ -513,11 +513,11 @@ class ChipBasket(models.Model):
         summ = 0
         try:
             for obj in self.basketproduct_set.iterator():
-                summ += obj.product.get_new_convert_price() * obj.amount
+                summ += obj.product.discount.get_new_convert_price() * obj.amount
         except DiscountProduct.DoesNotExist as e:    
             summ = 0
             for obj in self.basketproduct_set.iterator():
-                summ += obj.product.get_convert_price() * obj.amount
+                summ += obj.product.discount.get_convert_price() * obj.amount
         return summ
 
     def count(self):
@@ -579,16 +579,68 @@ class DeliveryData(models.Model):
         return ' '.join([self.first_name,self.last_name,self.city,self.nova_poshta_stock])
 
 
-class Delivery(models.Model):
-    name = models.CharField(_("Наименование"),
+class DeliveryWay(models.Model):
+    name = models.CharField(_('Наименование'),
                             max_length=128)
-    price = models.FloatField(_("Стоимость"),
-                              null=True,
-                              blank=True)
 
     class Meta:
-        verbose_name = _("Способ доставки")
-        verbose_name_plural = _("Способы доставки")
+        verbose_name = _('Способ доставки')
+        verbose_name_plural = _('Способы доставки')
 
     def __unicode__(self):
         return self.name
+
+
+class Delivery(models.Model):
+    delivery_way = models.ForeignKey('DeliveryWay',
+                                     verbose_name=_('Способ доставки'),
+                                     null=True)
+    price = models.FloatField(_("Стоимость"),
+                              null=True,
+                              blank=True)
+    class Meta:
+        verbose_name = _("Доставка")
+        verbose_name_plural = _("Доставки")
+
+    def __unicode__(self):
+        return self.delivery_way.name
+
+
+ORDER_STATUS_CHOICES = (
+    ('Оформлен','Оформлен'),
+    ('В обработке','В обработке'),
+    ('Оплачен','Оплачен'),
+    ('Закончен','Закончен')
+)
+
+class Order(models.Model):
+    status = models.CharField(_('Статус заказа'),
+                              max_length=128,
+                              choices=ORDER_STATUS_CHOICES,
+                              default='Создан')
+    cod = models.CharField(_('ТНН'),
+                           max_length=32,
+                           null=True,
+                           blank=True)
+    basket = models.OneToOneField('ChipBasket',
+                                  verbose_name=_('Корзина'),
+                                  related_name='order')
+    delivery = models.OneToOneField('Delivery',
+                                    verbose_name=_('Доставка'),
+                                    null=True)
+    delivery_data = models.OneToOneField('DeliveryData',
+                                         verbose_name=_('Данные о доставке'))
+    user = models.ForeignKey(User,
+                            verbose_name=_('Зарегестрированный клиент'),
+                            null=True,
+                            blank=True)
+
+    class Meta:
+        verbose_name = _("Заказ")
+        verbose_name_plural = _("Заказы")
+
+    def __unicode__(self):
+        return ' | '.join([str(self.id), self.status])
+
+
+

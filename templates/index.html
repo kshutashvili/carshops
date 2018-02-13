@@ -15,6 +15,9 @@
 <link href="{% static 'css/index.css' %}" rel="stylesheet">
 {% endblock %}
 {% block content %}
+    {% if request.GET.status_message %}
+        <div>{{request.GET.status_message}}</div>
+    {% endif %}
     <!-- main section start -->
     <main class="main-section">
         <section class="container">
@@ -71,7 +74,11 @@
                 <div class="zvuk shadow masonry-item" style="background-image: url({{ obj.image.url }});" >
                     <p class="zvuk__title">{{ obj.category.name }}</p>
                 {% endif %}
+                {% if not obj.categoty.link %}
+                    <a href="#!" class="link">{{ obj.button_text }}
+                {% else %}
                     <a href="{{ obj.category.link }}" class="link">{{ obj.button_text }}
+                {% endif %}
                         {% include "right_arrow.html" %}
                     </a>
                 </div>
@@ -154,7 +161,7 @@
                         {% endif %}
                             <img class="tovar__img" src="{{ disc_images|get_first_image_url:obj.product.id }}" alt="ramki.png">
                         {% if obj.product.credit %}
-                            <div class="tovar__credit">Кредит {{ obj.product.credit }}%</div>
+                            <div class="tovar__credit"> Кредит {{ obj.product.credit }}%</div>
                         {% endif %}
                         </div>
                         <div class="tovar__title">{{ obj.product.information }}
@@ -213,7 +220,7 @@
                         <div class="sales-block__bottom">
                             СКИДКИ НА ВСЕ ТОВАРЫ
                         </div>
-                        <a href="#!" class="link">Подробнее
+                        <a href="{% url 'catalog' %}" class="link">Подробнее
                             {% include "right_arrow.html" %}
                         </a>
                     </div>
@@ -237,10 +244,10 @@
                     </a>
                 </div>
                 <div class="news-grid">
-                    {% for obj in news %}
+                {% for obj in news %}
                     <article class="news-block">
                         <div class="news-block__img-wrap">
-                             <img src="{{ obj.image.url }}" alt=""> 
+                             <img src="{{ obj.image.url }}" style="height: 140px;" alt=""> 
                         </div>
                         <a href="{% url 'article' obj.id %}" class="news-block__title">
                             <span>{{ obj.title }}</span>

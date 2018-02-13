@@ -22,6 +22,9 @@ BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 # SECURITY WARNING: keep the secret key used in production secret!
 SECRET_KEY = '!2sus_8f#e5z(zlrovmji6olv%3(cz09y$06ec=i7t&^8l9xxq'
 
+SOCIAL_AUTH_FACEBOOK_KEY = '396987517411123'
+SOCIAL_AUTH_FACEBOOK_SECRET = '072e7556266ffb8dba9015aedc648179'
+
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = False
 
@@ -42,6 +45,7 @@ INSTALLED_APPS = [
     'solo',
     'ckeditor',
     'mptt',
+    'social_django',
     # own
     'users',
     'content',
@@ -55,6 +59,7 @@ MIDDLEWARE = [
     'django.contrib.auth.middleware.AuthenticationMiddleware',
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
+    'social_django.middleware.SocialAuthExceptionMiddleware'
 ]
 
 ROOT_URLCONF = 'carav.urls'
@@ -71,6 +76,8 @@ TEMPLATES = [
                 'django.contrib.auth.context_processors.auth',
                 'django.contrib.messages.context_processors.messages',
                 'content.context_processors.menu_processor',
+                'social_django.context_processors.backends',
+                'social_django.context_processors.login_redirect',
             ],
         },
     },
@@ -114,7 +121,8 @@ AUTH_PASSWORD_VALIDATORS = [
 ]
 
 AUTHENTICATON_BACKENDS = [
-    ('users.backends.AuthBackend')
+    'users.backends.AuthBackend',
+    'social_core.backends.facebook.FacebookOAuth2'
 ]
 
 # Internationalization
@@ -144,6 +152,7 @@ STATICFILES_DIRS = [os.path.join(BASE_DIR, 'static')]
 
 LOGIN_URL = 'login'
 LOGOUT_URL = 'logout'
+LOGIN_REDIRECT_URL = 'personal'
 
 try:
     from local_settings import *

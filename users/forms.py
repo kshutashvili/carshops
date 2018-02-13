@@ -10,8 +10,6 @@ from django.core.exceptions import ValidationError
 from django.contrib.auth.password_validation import validate_password
 from django.utils.translation import ugettext, ugettext_lazy as _
 
-from users.models import User
-
 
 class RegistrationForm(forms.Form):
     first_name = forms.CharField(widget=forms.TextInput(attrs={'placeholder':_('Имя')}))

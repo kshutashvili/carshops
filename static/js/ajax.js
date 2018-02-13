@@ -26,14 +26,9 @@ function basket_session(name, id){
 }
 
 
-function delete_handler(name){
-    $("." + name).off('click');
-}
-
-
-function objects_generate(length, container){
-    $("#more").click(function(event){
-        var more = $("#more");
+function objects_generate_block(length){
+    $("#more_prod").click(function(event){
+        var more = $(this);
         $.ajax(more.data('url'),{
             'type':'GET',
             'async':true,
@@ -41,19 +36,45 @@ function objects_generate(length, container){
             'data':{
                 'start':more.data('length'),
                 'length':length,
-                'container':container,
+                'container':'block',
                 'csrfmiddlewaretoken': $('input[name="csrfmiddlewaretoken"]').val()
             },
             'success':function(data,status,xhr){
-                $("#" + container).append(data);
+                $("#tovar-list-block").append(data);
+                for(var i=more.data('length')+1;i<more.data('length')+length;i++){
+                    basket_session('tovar__basket'+i, true);
+                }
+            },
+            'error':function(xhr,status,error){
+                console.log(status);
+            }
+        });
+    });
+}
+
+
+function objects_generate_view(length){
+    $("#more_prod").click(function(event){
+        var more = $(this);
+        $.ajax(more.data('url'),{
+            'type':'GET',
+            'async':true,
+            'dataType':'html',
+            'data':{
+                'start':more.data('length'),
+                'length':length,
+                'container':'view',
+                'csrfmiddlewaretoken': $('input[name="csrfmiddlewaretoken"]').val()
+            },
+            'success':function(data,status,xhr){
+                $("#tovar-list-view").append(data);
                 for(var i=more.data('length')+1;i<more.data('length')+length;i++){
                     basket_session('basket'+i, true);
-                    basket_session('tovar__basket'+i, true);
                 }
                 more.data("length", more.data('length') + length);
             },
             'error':function(xhr,status,error){
-                //console.log(status);
+                console.log(status);
             }
         });
     });
@@ -82,7 +103,31 @@ function cars_generate(container_changed, container, optional_container_to_clean
                 //console.log(status);
             },
             'error':function(xhr,status,error){
-                //console.log(status);
+                console.log(status);
+            }
+        });
+    });
+}
+
+
+function objects_generate_news(length){
+    $("#more_news").click(function(event){
+        var more = $(this);
+        $.ajax(more.data('url'),{
+            'type':'GET',
+            'async':true,
+            'dataType':'html',
+            'data':{
+                'start':more.data('length'),
+                'length':length,
+                'csrfmiddlewaretoken': $('input[name="csrfmiddlewaretoken"]').val()
+            },
+            'success':function(data,status,xhr){
+                $("#news-container").append(data);
+                more.data("length", more.data('length') + length);
+            },
+            'error':function(xhr,status,error){
+                console.log(status);
             }
         });
     });
@@ -93,10 +138,10 @@ $(document).ready(function(){
     basket_session('buy',false);
     basket_session('tovar__basket',false);
     basket_session('basket',false);
-    objects_generate(3,'news-container');
-    objects_generate(2,'tovar-list-block');
-    objects_generate(2,'tovar-list-view');
-
+    objects_generate_block(2);
+    objects_generate_view(2);
+    objects_generate_news(3);
+// btn minus   btn plus
     cars_generate('stamp_cars', 'model_cars', 'year_cars');
     cars_generate('model_cars', 'year_cars');
 });

@@ -3,6 +3,7 @@ from __future__ import unicode_literals
 
 from django.http import HttpResponse, JsonResponse
 from django.shortcuts import render
+from django.template.loader import render_to_string
 
 from content.models import Blog, DiscountProduct, ChipBasket, BasketProduct,\
                            ProductImage, StampCar, ModelCar, YearCar, Product
@@ -10,14 +11,25 @@ from content.models import Blog, DiscountProduct, ChipBasket, BasketProduct,\
 
 def basket_session(request):
     if request.method == 'POST':
+        if not request.session.has_key('basket_id'):
+            basket = ChipBasket()
+            basket.save()
+            request.session['basket_id'] = basket.id
         data = request.POST
         response = dict()
-
-        product = Product.objects.get(pk=data['pk'])
         basket = ChipBasket.objects.get(pk=request.session['basket_id'])
-        inter = BasketProduct(product=product,basket=basket)
-        inter.save()
-        # basket.save()
+        am = 0    
+        for obj in basket.basketproduct_set.iterator():
+                am = 1
+                if obj.product.pk == int(data['pk']):
+                    am = 2
+                    obj.amount += 1
+                    obj.save()
+                    break
+        if am != 2:
+            product = Product.objects.get(pk=data['pk'])
+            inter = BasketProduct(product=product,basket=basket)
+            inter.save()
 
         response['amount'] = basket.count()
         response['sum'] = basket.calculate_sum_convert_ppc_price()
@@ -47,6 +59,7 @@ def news_generate(request):
 def products_discount_generate(request):
     if request.method == 'GET':
         data = request.GET
+        block = data['container']
         start = int(data['start'])
         end = start + int(data['length'])
         products = DiscountProduct.objects.all()[start:end]
@@ -54,13 +67,14 @@ def products_discount_generate(request):
         for obj in products:
             images[obj.product.id]=ProductImage.objects.filter(product_id=obj.product.id)
 
-        templ = ''.join(['prod_disc_gen_', data['container'].split('-')[-1], '.html'])
+        templ = ''.join(['prod_disc_gen_', block, '.html'])
         html = render(request, templ, {'products':products,
-                                        'images':images})
+                                       'images':images})
         return HttpResponse(html)
     else:
-        html = render(request, 'prod_disc_gen.html', {})
-        return HttpResponse(html)
+        templ = ''.join(['prod_disc_gen_', block, '.html'])
+        html2 = render(request, templ, {}) 
+        return HttpResponse(html2)
 
 
 def car_select(request):
@@ -82,4 +96,38 @@ def car_select(request):
             return HttpResponse(html)
     else:
         return HttpResponse('')
+
+
+def change_amount(request):
+    if request.method == 'POST':
+        data = request.POST
+        response = dict()
+        basket_product = BasketProduct.objects.get(id=data['id'])
+        if data['action'] == '-' and basket_product.amount > 0:
+            response['not_last'] = True
+            basket_product.amount -= 1
+        elif data['action'] == '+':
+            basket_product.amount += 1
+        else:
+            pass
+        basket_product.save()
+        response['amount'] = basket_product.amount
+        response['sum'] = basket_product.basket.calculate_sum_convert_ppc_price()
+        return JsonResponse(response)
+
+
+def clear_basket(request):
+    if request.method == 'POST':
+        if request.session.has_key('basket_id'):
+            basket = ChipBasket.objects.get(id=request.session['basket_id'])
+            for obj in basket.basketproduct_set.iterator():
+                obj.delete()
+            response = render(request, 'basket_gen.html', {'basket':basket})
+            return HttpResponse(response)
+        else:
+            response = ' '
+            return HttpResponse(response)
+    else:
+        response = ' '
+        return HttpResponse(response)
 

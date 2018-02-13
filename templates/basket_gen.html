@@ -1,0 +1,79 @@
+{% load custom_filters %}
+
+<p class="title">
+    <span>Наименование и код товара</span>
+    <span>Цена</span>
+</p>
+<div class="content-wrap">
+{% for obj in basket.basketproduct_set.iterator %}
+    <article class="item">
+        <div class="wrap-for-info">
+            <div class="left">
+                <div class="item__input-block">
+                    <input type="checkbox" name="item" id="item1">
+                    <label for="item1">
+                        <svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" version="1.1" id="Capa_1" x="0px" y="0px"
+                            width="512px" height="512px" viewBox="0 0 442.533 442.533" style="enable-background:new 0 0 442.533 442.533;"
+                            xml:space="preserve">
+                            <g>
+                                <path d="M434.539,98.499l-38.828-38.828c-5.324-5.328-11.799-7.993-19.41-7.993c-7.618,0-14.093,2.665-19.417,7.993L169.59,247.248   l-83.939-84.225c-5.33-5.33-11.801-7.992-19.412-7.992c-7.616,0-14.087,2.662-19.417,7.992L7.994,201.852   C2.664,207.181,0,213.654,0,221.269c0,7.609,2.664,14.088,7.994,19.416l103.351,103.349l38.831,38.828   c5.327,5.332,11.8,7.994,19.414,7.994c7.611,0,14.084-2.669,19.414-7.994l38.83-38.828L434.539,137.33   c5.325-5.33,7.994-11.802,7.994-19.417C442.537,110.302,439.864,103.829,434.539,98.499z"
+                                />
+                            </g>
+                        </svg>
+                    </label>
+                </div>
+                <div class="item__img-wrap">
+                    <img src="{{ images|get_first_image_url:obj.product.id }}" alt="ramki">
+                </div>
+            </div>
+            <div class="middle">
+                <p class="item__code">Код: {{ obj.product.code }} </p>
+                <div class="item__name">
+                    {{ obj.product.name }}
+                </div>
+                <div class="item__desc">
+                    {{ obj.product.information }}
+                </div>
+            </div>
+        </div>
+        <div class="right">
+        {% if obj.product.discount %}
+            <div class="item__price">{{ obj.product.discount.get_new_ppc_price }}$</div>
+        {% else %}
+            <div class="item__price">{{ obj.product.ppc_price }}$</div>
+        {% endif %}
+            <div class="item__amount">
+                <p class="item__amount__title">Количество товара</p>
+                {% csrf_token %}
+                <div class="amount-inputs">
+                    <a href="#!" class="btn minus" data-amount="{{ obj.amount }}" data-url="{% url 'change_amount' %}" data-action="-" data-id="{{ obj.id }}" >-</a>
+                    <input type="text" class="amount-input" id="amount{{ obj.id }}" name="amount" value="{{ obj.amount }}">
+                    <a href="#!" class="btn plus" data-amount="{{ obj.amount }}" data-url="{% url 'change_amount' %}" data-action="+" data-id="{{ obj.id }}" >+</a>
+                </div>
+            </div>
+        </div>
+    </article>
+    {% endfor %}
+</div>
+<div class="conversion">
+    <div class="conversion__title">Курсовой пересчет:</div>
+    {% if not basket %}
+        <div class="conversion__sum" id="convert"> 0 грн </div>
+    {% else %}
+        <div class="conversion__sum" id="convert" >{{ basket.calculate_sum_convert_ppc_price }} грн</div>
+    {% endif %}
+</div>
+<div class="bottom">
+    <div class="left">
+        <a href="#!" class="check-all">Выделить все позиции</a>
+        <a href="#!" data-url="{% url 'clear_basket' %}" id="clear-basket" class="clear-basket">Очистить корзину</a>
+    </div>
+    <div class="right">
+        <p class="right__title">Сумма к оплате</p>
+        {% if not basket %}
+            <div class="right__sum" id="sum"> 0 грн </div>
+        {% else %}    
+            <div class="right__sum" id="sum">{{ basket.calculate_sum_convert_ppc_price }} грн</div>
+        {% endif %}
+    </div>
+</div>

@@ -101,7 +101,7 @@ def user_login(request):
 def user_logout(request):
     if request.session.has_key('basket_id'):
         basket = ChipBasket.objects.get(id=request.session['basket_id'])
-        if not basket.delivery_way:
+        if not basket.is_framed:
             basket.delete()
     logout(request)
     form = RegistrationForm()
@@ -109,8 +109,4 @@ def user_logout(request):
     return render(request,'login.html', {'form':form,
                                          'login_form':login_form})
 
-
-@login_required
-def personal(request):
-    return render(request, 'lk.personal.html', {})
 

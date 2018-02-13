@@ -79,7 +79,7 @@
                 </div>
                 <form method="post">
                     {% csrf_token %}
-                    <a href="#!" class="more" id="more" data-url="{% url 'news_gen' %}" data-length="{{ news|length }}" >Показать еще</a>
+                    <a href="#!" class="more" id="more_news" data-url="{% url 'news_gen' %}" data-length="{{ news|length }}" >Показать еще</a>
                 </form>
             </main>
         </div>

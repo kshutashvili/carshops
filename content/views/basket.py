@@ -1,0 +1,88 @@
+# -*- coding: utf-8 -*-
+from __future__ import unicode_literals
+
+from django.shortcuts import render
+from django.http import HttpResponse, HttpResponseRedirect
+from django.core.urlresolvers import reverse
+from django.utils.translation import ugettext_lazy as _
+
+from content.models import DeliveryWay, ChipBasket, ProductImage, Delivery,\
+                           Order, DeliveryData
+from content.forms import DeliveryDataForm
+
+
+def basket(request):
+    if request.method == "GET":
+        delivery_ways = DeliveryWay.objects.all()
+        images = ProductImage.objects.all()
+        result = dict()
+        if request.session.has_key('basket_id'):
+            basket = ChipBasket.objects.get(id=request.session['basket_id'])
+            for obj in basket.basketproduct_set.iterator():
+                if obj.amount == 0:
+                    obj.delete()
+                    continue
+                result[obj.product.id] = images.filter(product_id=obj.product.id)
+        else:
+            basket = None
+            result = None
+        delivery_data_form = DeliveryDataForm()
+        return render(request, 'basket.html', {'delivery_ways':delivery_ways,
+                                               'delivery_data_form':delivery_data_form,
+                                               'basket':basket,
+                                               'images':result})
+    elif request.method == 'POST':
+        data = request.POST
+        delivery_data_form = DeliveryDataForm(data)
+        if delivery_data_form.is_valid():
+            if request.session.has_key('basket_id'):
+
+                basket = ChipBasket.objects.get(id=request.session['basket_id'])
+                has_products = False
+                for obj in basket.basketproduct_set.iterator():
+                    has_products = True
+                    break
+                if has_products:
+
+                   delivery = Delivery()
+                   delivery.delivery_way = DeliveryWay.objects.get(name=data['method'])
+                   delivery.save()
+
+                   delivery_data = DeliveryData()
+                   delivery_data.first_name = delivery_data_form.cleaned_data['first_name']
+                   delivery_data.last_name = delivery_data_form.cleaned_data['last_name']
+                   delivery_data.city = delivery_data_form.cleaned_data['city']
+                   delivery_data.phone_number = delivery_data_form.cleaned_data['phone_number']
+                   delivery_data.is_sms = delivery_data_form.cleaned_data['is_sms']
+                   delivery_data.nova_poshta_stock = delivery_data_form.cleaned_data['nova_poshta_stock']
+                   delivery_data.is_cod = delivery_data_form.cleaned_data['is_cod']
+                   delivery_data.cod_sum = delivery_data_form.cleaned_data['cod_sum']
+                   delivery_data.email = delivery_data_form.cleaned_data['email']
+                   delivery_data.commentary = delivery_data_form.cleaned_data['commentary']
+                   delivery_data.save()
+
+                   order = Order(basket=basket)
+                   order.status = 'Оформлен'
+                   order.delivery = delivery
+                   order.basket = basket
+                   order.delivery_data = delivery_data 
+                   if request.user.is_authenticated:
+                       order.user = request.user
+                   order.save()
+                   basket.is_framed = True
+                   basket.save()
+
+                   return HttpResponseRedirect('%s?status_message=%s' % (reverse('home'),_('Заказ успешно оформлен')))
+                else:
+                    return HttpResponseRedirect('%s?status_message=%s' % (reverse('basket'),_('Корзина пуста')))
+            else:
+                return HttpResponseRedirect('%s?status_message=%s' % (reverse('basket'),_('Корзина пуста')))
+        else:
+            return HttpResponseRedirect('%s?status_message=%s' % (reverse('basket'),_('Исправьте, пожалуйста, ошибки в данных')))
+
+
+
+            
+       
+
+

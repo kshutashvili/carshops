@@ -22,4 +22,6 @@ admin.site.register(models.ChipBasket)
 admin.site.register(models.BasketProduct)
 admin.site.register(models.DeliveryData)
 admin.site.register(models.Delivery)
+admin.site.register(models.DeliveryWay)
+admin.site.register(models.Order)
 
