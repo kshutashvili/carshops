@@ -56,6 +56,11 @@
                         <span class='help-block'>{{ errors.last_name }}</span>                    
                     </p>
 
+                    <p class="input-wrap">
+                        {{ form.middle_name }}
+                        <span class='help-block'>{{ errors.middle_name }}</span>
+                    </p>
+                    
                     <p class="input-wrap"><!-- + 38 (0__) ___ - __ - __-->
                         {{ form.phone_number }}
                         <span class='help-block'>{{ errors.phone_number }}</span>
@@ -116,6 +121,11 @@
                     <p class="input-wrap">
                         {{ form.last_name }}
                         <span class='help-block'>{{ errors.last_name }}</span>
+                    </p>
+
+                    <p class="input-wrap">
+                        {{ form.middle_name }}
+                        <span class='help-block'>{{ errors.middle_name }}</span>
                     </p>
 
                     <p class="input-wrap">
@@ -264,7 +274,7 @@
                                 </svg>
                                 <span>Google+</span>
                             </a>
-                            <a href="{% url 'social:begin' 'facebook' %}">
+                            <a href="#!">
                                 <svg class="f" version="1.1" id="Capa_1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px"
                                     y="0px" width="430.113px" height="430.114px" viewBox="0 0 430.113 430.114" style="enable-background:new 0 0 430.113 430.114;"
                                     xml:space="preserve">

@@ -15,8 +15,8 @@
         </div>
         <div class="tovar__info-wrap">
             <div class="text-info-wrap">
-                <a href="#!" class="tovar__top-title">{{ obj.product.name }}</a>
-                <div class="tovar__title">{{ obj.product.information }}</div>
+                <a href="#!" class="tovar__top-title">{{ obj.product.category.name }}</a>
+                <div class="tovar__title">{{ obj.product.information|safe }}</div>
                 <div class="tovar__middle-line">
                     <div class="code">Код: {{ obj.product.code }} </div>
                     <div class="available">

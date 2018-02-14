@@ -24,4 +24,6 @@ admin.site.register(models.DeliveryData)
 admin.site.register(models.Delivery)
 admin.site.register(models.DeliveryWay)
 admin.site.register(models.Order)
+admin.site.register(models.PersonalAccount)
+
 

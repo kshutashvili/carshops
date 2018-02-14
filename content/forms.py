@@ -61,3 +61,9 @@ class DeliveryDataForm(forms.Form):
 
         return cleaned_data
 
+
+
+class ContactForm(forms.Form):
+    message = forms.CharField(max_length=2560,
+                              widget=forms.Textarea(attrs={'name':'message'}))
+

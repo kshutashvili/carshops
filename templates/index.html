@@ -91,8 +91,8 @@
                             <div class="slide">
                                 <img src="{{ pop_images|get_first_image_url:obj.product.id }}" alt="">
                                 <div class="slide__info">
-                                    <p class="slide__info__title">{{ obj.product.name }}</p>
-                                    <div class="slide__info__name">{{ obj.product.information }}</div>
+                                    <p class="slide__info__title">{{ obj.product.category.name }}</p>
+                                    <div class="slide__info__name">{{ obj.product.information|safe }}</div>
                                     <div class="price-wrap">
                                     {% if obj.product.discount %}
                                         <div class="price">
@@ -154,7 +154,7 @@
                 <div class="tovar-list" id="sales-slider">
                 {% for obj in products_disc %}
                     <div class="tovar">
-                        <a href="#!" class="tovar__top-title">{{ obj.product.name }}</a>
+                        <a href="#!" class="tovar__top-title">{{ obj.product.category.name }}</a>
                         <div class="tovar__img-wrap">
                         {% if forloop.last %}
                             <div class="tovar__sale">Акция!</div>
@@ -164,7 +164,7 @@
                             <div class="tovar__credit"> Кредит {{ obj.product.credit }}%</div>
                         {% endif %}
                         </div>
-                        <div class="tovar__title">{{ obj.product.information }}
+                        <div class="tovar__title">{{ obj.product.information|safe }}
                         </div>
                         <div class="tovar__middle-line">
                             <div class="code">Код: {{ obj.product.code }} </div>

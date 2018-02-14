@@ -11,7 +11,7 @@ from django.core.urlresolvers import reverse
 from django.utils.translation import ugettext_lazy as _
 from django.contrib.auth.decorators import login_required
 
-from content.models import ChipBasket
+from content.models import ChipBasket, PersonalAccount
 from users.models import User
 from users.backends import AuthBackend
 from users.forms import RegistrationForm, LoginForm
@@ -25,6 +25,7 @@ def user_create(request):
                 errors = {}
 
                 if 'opt' not in request.POST.keys():
+                        account = PersonalAccount()
                         user = User()
                         user.first_name = request.POST['first_name']
                         user.last_name = request.POST['last_name']
@@ -33,6 +34,8 @@ def user_create(request):
                         user.set_password(request.POST['password'])
                         user.is_active = True
                         user.save()
+                        account.user = user
+                        account.save()
                         return HttpResponseRedirect(reverse('home'))
                 else:
 
@@ -50,6 +53,7 @@ def user_create(request):
                 
                     if not errors:
                         user = User()
+                        account = PersonalAccount()
                         user.first_name = request.POST['first_name']
                         user.last_name = request.POST['last_name']
                         user.phone_number = request.POST['phone_number']
@@ -58,6 +62,8 @@ def user_create(request):
                         user.dropshipp = request.POST['dropshipp']
                         user.site = request.POST['site']
                         user.information = request.POST['information']
+                        user.save()
+                        account.user = user
                         user.save()
                         return HttpResponseRedirect(reverse('home'))
                     else:
@@ -87,7 +93,7 @@ def user_login(request):
             login(request, user)
             if request.POST.get('remember_me') is not None:
                 request.session.set_expiry(0)
-            return render(request, 'lk.personal.html', {})
+            return HttpResponseRedirect(reverse('personal'))
         else:
             messages.success(request, _("Неправильный логин или пароль"))
             return HttpResponseRedirect(reverse('login'),messages)

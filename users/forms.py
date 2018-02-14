@@ -14,6 +14,7 @@ from django.utils.translation import ugettext, ugettext_lazy as _
 class RegistrationForm(forms.Form):
     first_name = forms.CharField(widget=forms.TextInput(attrs={'placeholder':_('Имя')}))
     last_name = forms.CharField(widget=forms.TextInput(attrs={'placeholder':_('Фамилия')}))
+    middle_name = forms.CharField(widget=forms.TextInput(attrs={'placeholder':_('Отчество')}))
     email = forms.CharField(validators=[validate_email],
                             widget=forms.TextInput(attrs={'placeholder':_('E-mail')}))
     password = forms.CharField(validators=[validate_password],
@@ -60,3 +61,5 @@ class LoginForm(forms.Form):
     password = forms.CharField(widget=forms.PasswordInput(attrs={'placeholder':_('Пароль'),
                                                                  'class':'password',
                                                                  'name':'password'}))
+
+

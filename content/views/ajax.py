@@ -6,8 +6,9 @@ from django.shortcuts import render
 from django.template.loader import render_to_string
 
 from content.models import Blog, DiscountProduct, ChipBasket, BasketProduct,\
-                           ProductImage, StampCar, ModelCar, YearCar, Product
-    
+                           ProductImage, StampCar, ModelCar, YearCar, Product,\
+                           PersonalAccount, DeliveryWay
+
 
 def basket_session(request):
     if request.method == 'POST':
@@ -130,4 +131,43 @@ def clear_basket(request):
     else:
         response = ' '
         return HttpResponse(response)
+
+
+def change_data_lk(request):
+    if request.method == 'POST':
+        data = request.POST
+        errors = dict()
+        if not data['first_name']:
+            errors['first_name'] = _('Это поле обязательно')
+        if not data['last_name']:
+            errors['last_name'] = _('Это поле обязательно')
+        if not data['middle_name']:
+            errors['middle_name'] = _('Это поле обязательно')
+        if not data['email']:
+            errors['email'] = _('Это поле обязательно')
+        if not data['phone_number']:
+            errors['phone_number'] = _('Это поле обязательно')
+        if not data['delivery_city']:
+            errors['delivery_city'] = _('Это поле обязательно')
+        if not data['delivery_address']:
+            errors['delivery_address'] = _('Это поле обязательно')
+
+        if not errors:
+            request.user.first_name = data['first_name']
+            request.user.last_name = data['last_name']
+            request.user.middle_name = data['middle_name']
+            request.user.phone_number = data['phone_number']
+            request.user.email = data['email']
+            account = PersonalAccount.objects.get(user=request.user)
+            account.delivery_city = data['delivery_city']
+            account.delivery_address = data['delivery_address']
+            delivery_way = DeliveryWay.objects.get(name=data['delivery_way'])
+            account.delivery_way = delivery_way
+            request.user.save()
+            account.save()
+
+            delivery_ways = DeliveryWay.objects.all()
+            html = render(request, 'lk_pers_data.html', {'account':account,
+                                                         'delivery_ways':delivery_ways})
+            return HttpResponse(html)
 

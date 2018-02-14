@@ -86,8 +86,17 @@ def get_first_image_url(images,key_id):
     try:
         result = images[key_id][0].image.url
     except Exception as e:
-        result = e.message
+        result = None
     return result
+
+
+@register.filter
+def get_basket_products_set(orders_baskets,key_id):
+    try:
+        result = orders_baskets[key_id]
+    except Exception as e:
+        result = None
+    return result    
 
 
 @register.filter

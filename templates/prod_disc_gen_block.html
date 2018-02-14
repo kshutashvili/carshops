@@ -7,13 +7,13 @@
 {% for obj in products %}
     <div class="tovar">
         <div class="tovar__img-wrap">
-            <a href="#!" class="tovar__top-title">{{ obj.product.name }}</a>
+            <a href="#!" class="tovar__top-title">{{ obj.product.category.name }}</a>
             <img class="tovar__img" src="{{ images|get_first_image_url:obj.product.id }}" alt="ramki.png">
             {% if obj.product.credit %}
                     <div class="tovar__credit">Кредит {{ obj.product.credit }}%</div>
             {% endif %}
         </div>
-    <div class="tovar__title">{{ obj.product.information }}</div>
+    <div class="tovar__title">{{ obj.product.information|safe }}</div>
     <div class="tovar__middle-line">
         <div class="code">Код: {{ obj.product.code }} </div>
         <div class="available">

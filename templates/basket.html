@@ -205,9 +205,11 @@
                                 <p class="title">Личный баланс</p>
                                 <div class="content-wrap">
                                     <p class="title">Ваш баланс:</p>
-                                    <div class="balance">427,00$
-                                        <span>(11 358,20 грн)</span>
-                                    </div>
+                                    {% if user.is_authenticated %}
+                                        <div class="balance">{{ account.balance }}$
+                                            <span>(11 358,20 грн)</span>
+                                        </div>
+                                    {% endif %}
                                     <p class="text">Для пополнения личного баланса перейдите в личный кабинет.</p>
                                 </div>
                             </div>

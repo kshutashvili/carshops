@@ -45,7 +45,6 @@ INSTALLED_APPS = [
     'solo',
     'ckeditor',
     'mptt',
-    'social_django',
     # own
     'users',
     'content',
@@ -59,7 +58,6 @@ MIDDLEWARE = [
     'django.contrib.auth.middleware.AuthenticationMiddleware',
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
-    'social_django.middleware.SocialAuthExceptionMiddleware'
 ]
 
 ROOT_URLCONF = 'carav.urls'
@@ -76,8 +74,6 @@ TEMPLATES = [
                 'django.contrib.auth.context_processors.auth',
                 'django.contrib.messages.context_processors.messages',
                 'content.context_processors.menu_processor',
-                'social_django.context_processors.backends',
-                'social_django.context_processors.login_redirect',
             ],
         },
     },
@@ -122,7 +118,6 @@ AUTH_PASSWORD_VALIDATORS = [
 
 AUTHENTICATON_BACKENDS = [
     'users.backends.AuthBackend',
-    'social_core.backends.facebook.FacebookOAuth2'
 ]
 
 # Internationalization
@@ -137,6 +132,14 @@ USE_I18N = True
 USE_L10N = True
 
 USE_TZ = True
+
+# Email settings
+
+ADMIN_EMAIL = ''
+EMAIL_HOST = 'smtp.gmail.com'
+EMAIL_PORT = 587
+EMAIL_USE_TLS = True
+EMAIL_SSL = False
 
 
 # Static files (CSS, JavaScript, Images)

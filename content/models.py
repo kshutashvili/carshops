@@ -8,6 +8,7 @@ from PIL import Image
 
 from django.db import models
 from django.utils.translation import ugettext_lazy as _
+from django.core.validators import MinValueValidator
 
 from users.models import User
 
@@ -197,12 +198,12 @@ class Information(models.Model):
 
 class Product(models.Model):
     """Товар"""
-    name = models.CharField(_("Название"),
-                            max_length=128,
-                            default='')
-    information = models.TextField(_("Описание товара"),
-                                   default='',
-                                   help_text=_("Описание, особенности ..."))
+    category = models.ForeignKey("MenuHeaderItem",
+                                 verbose_name=_('Категория'),
+                                 null=True)
+    information = RichTextField(_("Описание товара"),
+                                default='',
+                                help_text=_("Описание, особенности ..."))
     type_size = models.CharField(_("Типоразмер"),
                                 default="",
                                 max_length=255)
@@ -244,7 +245,7 @@ class Product(models.Model):
         verbose_name_plural = _("Товар")
 
     def __unicode__(self):
-        return " | ".join([self.name, self.code])
+        return " | ".join([self.category.name, self.code])
 
     def get_convert_ppc_price(self):
         return self.ppc_price * self.course
@@ -267,7 +268,7 @@ class PopularProduct(models.Model):
         verbose_name_plural = _("Популярные товары")
 
     def __unicode__(self):
-        return ' | '.join([self.product.name, self.product.code])
+        return ' | '.join([self.product.category.name, self.product.code])
 
 
 class DiscountProduct(models.Model):
@@ -286,7 +287,7 @@ class DiscountProduct(models.Model):
         verbose_name_plural = _("Акционные товары")
 
     def __unicode__(self):
-        return ' | '.join([self.product.name, self.product.code])
+        return ' | '.join([self.product.category.name, self.product.code])
 
     def get_new_ppc_price(self):
         if self.percent:
@@ -343,7 +344,7 @@ class ProductImage(models.Model):
             image.save(self.image.path)
 
     def __unicode__(self):
-        return " | ".join([self.product.name, self.product.code])
+        return " | ".join([self.product.category.name, self.product.code])
 
 
 class Rait(models.Model):
@@ -634,6 +635,11 @@ class Order(models.Model):
                             verbose_name=_('Зарегестрированный клиент'),
                             null=True,
                             blank=True)
+    created = models.DateField(_('Дата заказа'),
+                               auto_now_add=True)
+    delivered = models.DateField(_('Дата доставки'),
+                                 null=True,
+                                 blank=True)
 
     class Meta:
         verbose_name = _("Заказ")
@@ -643,4 +649,31 @@ class Order(models.Model):
         return ' | '.join([str(self.id), self.status])
 
 
+class PersonalAccount(models.Model):
+    delivery_city = models.CharField(_("Город доставки"),
+                                     max_length=128,
+                                     null=True,
+                                     blank=True)
+    delivery_address = models.CharField(_("Адрес доставки"),
+                                        max_length=128,
+                                        null=True,
+                                        blank=True)
+    delivery_way = models.ForeignKey('DeliveryWay',
+                                     verbose_name=_('Способ доставки'),
+                                     null=True,
+                                     blank=True)
+    user = models.OneToOneField(User,
+                                verbose_name=_('Пользователь'))
+    balance = models.DecimalField(_('Баланс в $'),
+                                  decimal_places=2,
+                                  max_digits=20,
+                                  validators=[MinValueValidator(0.00)],
+                                  default=0)
+
+    class Meta:
+        verbose_name = _('Персональный аккаунт')
+        verbose_name_plural = _('Персональные аккаунты')
+
+    def __unicode__(self):
+        return ' '.join([self.user.first_name, self.user.last_name, self.user.middle_name])
 

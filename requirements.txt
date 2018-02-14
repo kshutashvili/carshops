@@ -4,6 +4,5 @@ django-js-asset==1.0.0
 django-mptt==0.8.7
 django-solo==1.1.2
 MySQL-python==1.2.5
-olefile==0.44
 Pillow==4.2.1
-pytz==2017.2
+pytz==2018.3

@@ -7,7 +7,7 @@ from django.core.urlresolvers import reverse
 from django.utils.translation import ugettext_lazy as _
 
 from content.models import DeliveryWay, ChipBasket, ProductImage, Delivery,\
-                           Order, DeliveryData
+                           Order, DeliveryData, BasketProduct, PersonalAccount
 from content.forms import DeliveryDataForm
 
 
@@ -15,9 +15,14 @@ def basket(request):
     if request.method == "GET":
         delivery_ways = DeliveryWay.objects.all()
         images = ProductImage.objects.all()
+        if request.user.is_authenticated():
+            account = PersonalAccount.objects.get(user=request.user)
+        else:
+            account = None
         result = dict()
         if request.session.has_key('basket_id'):
             basket = ChipBasket.objects.get(id=request.session['basket_id'])
+            basket_product = BasketProduct.objects.filter(basket=basket)
             for obj in basket.basketproduct_set.iterator():
                 if obj.amount == 0:
                     obj.delete()
@@ -25,12 +30,15 @@ def basket(request):
                 result[obj.product.id] = images.filter(product_id=obj.product.id)
         else:
             basket = None
+            basket_product = None
             result = None
         delivery_data_form = DeliveryDataForm()
         return render(request, 'basket.html', {'delivery_ways':delivery_ways,
                                                'delivery_data_form':delivery_data_form,
                                                'basket':basket,
-                                               'images':result})
+                                               'images':result,
+                                               'basket_product':basket_product,
+                                               'account':account})
     elif request.method == 'POST':
         data = request.POST
         delivery_data_form = DeliveryDataForm(data)

@@ -141,7 +141,6 @@ $(document).ready(function(){
     objects_generate_block(2);
     objects_generate_view(2);
     objects_generate_news(3);
-// btn minus   btn plus
     cars_generate('stamp_cars', 'model_cars', 'year_cars');
     cars_generate('model_cars', 'year_cars');
 });

@@ -37,7 +37,6 @@ class UserManager(BaseUserManager):
         return self._create_user(email, password, **extra_fields)
 
 
-
 DROPSHIPPING_CHOICES = (
     ('1','Только дропшиппинг'),
     ('2','Иногда планирую'),
@@ -49,6 +48,9 @@ class User(AbstractUser):
                                   max_length=64)
     last_name = models.CharField(_("Фамилия"),
                                  max_length=64)
+    middle_name = models.CharField(_("Отчество"),
+                                   max_length=64,
+                                   null=True)
     email = models.EmailField(_("Электронная почта"),
                               unique=True)
     phone_regex = RegexValidator(regex=r'^\+{0,1}\d{9,15}$',
@@ -84,6 +86,4 @@ class User(AbstractUser):
 
     def __unicode__(self):
         return self.email
-
-
 

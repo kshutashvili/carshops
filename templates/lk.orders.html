@@ -1,0 +1,214 @@
+{% extends 'lk_base.html' %}
+
+{% load static %}
+
+{% load custom_filters %}
+
+{% block title %}LK Orders{% endblock %}
+
+{% block extrastyles %}
+<link href="{% static 'css/lk.orders.css' %}" rel="stylesheet"></head>
+{% endblock %}
+
+{% block content %}
+                    <div class="orders-wrap">
+                        <p class="orders-wrap__title">Список заказов</p>
+                        <div class="form-filters-wrap">
+                            <p class="form-filters-wrap__title">Сортировка</p>
+                            <form action="" class="form-filters">
+                                <div class="filters">
+                                    <select name="date_filter" id="date_filter">
+                                        <option value="">По Дате</option>
+                                        <option value="">По Дате1</option>
+                                        <option value="">По Дате12</option>
+                                    </select>
+                                    <select name="status_filter" id="status_filter">
+                                        <option value="">По Статус</option>
+                                        <option value="">По Статус1</option>
+                                        <option value="">По Статус12</option>
+                                    </select>
+                                    <select name="sum_filter" id="sum_filter">
+                                        <option value="">По сумме заказа</option>
+                                        <option value="">По сумме заказа1</option>
+                                        <option value="">По сумме заказа12</option>
+                                    </select>
+                                </div>
+                                <button type="submit" class="submit">Применить
+                                    <span class="icon circle big">
+                                        <span class="circle medium">
+                                            <span class="circle small">
+                                                <svg version="1.1" id="Capa_1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px"
+                                                    viewBox="0 0 512 512" style="enable-background:new 0 0 512 512;" xml:space="preserve">
+                                                    <g>
+                                                        <g>
+                                                            <polygon points="0,29.509 0,101.003 200.784,301.787 200.784,454.883 311.216,482.491 311.216,301.786 512,101.002 512,29.509 		
+                                                       " />
+                                                        </g>
+                                                    </g>
+                                                </svg>
+
+                                            </span>
+                                        </span>
+                                    </span>
+                                </button>
+                            </form>
+                            <div class="reset-form">Сбросить настройки фильтра</div>
+                        </div>
+                        <div class="nav">
+                            <a href="#!" class="check-all" id="check-all">Выделить все заказы</a>
+                            <a href="#!" class="check-out" id="check-out">Снять выделения</a>
+                        </div>
+                        <div class="orders-wrap__table-wrap">
+                            <div class="table" id="table">
+                            {% for obj in orders %}
+                                <div class="row">
+                                    <div class="arrow" id="arrow-btn">
+                                        <img src="{% static 'img/angle-arrow-down-small.png' %}" alt="">
+                                    </div>
+                                    <div class="main">
+
+                                        <div class="input-wrap">
+                                            <input type="checkbox" id="item">
+                                            <label for="item">
+                                                <svg version="1.1" id="Capa_1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px"
+                                                    width="284.929px" height="284.929px" viewBox="0 0 284.929 284.929" style="enable-background:new 0 0 284.929 284.929;"
+                                                    xml:space="preserve">
+                                                    <g>
+                                                        <path d="M282.082,76.511l-14.274-14.273c-1.902-1.906-4.093-2.856-6.57-2.856c-2.471,0-4.661,0.95-6.563,2.856L142.466,174.441
+                                                       L30.262,62.241c-1.903-1.906-4.093-2.856-6.567-2.856c-2.475,0-4.665,0.95-6.567,2.856L2.856,76.515C0.95,78.417,0,80.607,0,83.082
+                                                       c0,2.473,0.953,4.663,2.856,6.565l133.043,133.046c1.902,1.903,4.093,2.854,6.567,2.854s4.661-0.951,6.562-2.854L282.082,89.647
+                                                       c1.902-1.903,2.847-4.093,2.847-6.565C284.929,80.607,283.984,78.417,282.082,76.511z"
+                                                        />
+                                                    </g>
+                                                </svg>
+
+                                            </label>
+                                        </div>
+                                        <div class="cell number">
+                                            {{ obj.id }}</div>
+                                        <div class="cell type">{{ obj.delivery.delivery_way.name }}</div>
+                                        <div class="cell amount">{{ obj.basket.count }}</div>
+                                        <div class="cell sum">{{ obj.basket.calculate_sum_ppc_price }} $
+                                            <span> ({{ obj.basket.calculate_sum_convert_ppc_price }} грн)</span>
+                                        </div>
+                                        <div class="cell status green">{{ obj.status }}</div>
+                                        {% if not obj.cod %}
+                                            <div class="cell tth"></div>
+                                        {% else %}
+                                            <div class="cell tth">{{ obj.cod }}</div>
+                                        {% endif %}
+                                    </div>
+                                    <div class="full" id="full-block">
+                                        <div class="full__top">
+                                            <div class="cell name">Товар</div>
+                                            <div class="cell category">Категория</div>
+                                            <div class="cell code">Артикуль</div>
+                                            <div class="cell amount">Кол-во</div>
+                                            <div class="cell price">Цена</div>
+                                        </div>
+                                        <div class="full__body">
+                                            <ul class="list">
+                                            {% with id=obj.id %}
+                                            {% for row in basket_products|get_basket_products_set:id %}
+                                                <li class="list__item">
+                                                    <div class="tovar">
+                                                        <div class="preview">
+                                                            <div class="img">
+                                                                <img src="{{ images|get_first_image_url:row.product.id }}" alt="">
+                                                            </div>
+                                                            <div class="name">{{ row.product.information|safe }}</div>
+                                                        </div>
+                                                        <div class="category">
+                                                            {{ row.product.category.name }}
+                                                        </div>
+                                                        <div class="code">{{ row.product.code }}</div>
+                                                        <div class="amount">{{ row.amount }}</div>
+                                                        <div class="price">{{ row.product.ppr_price }}$
+                                                            <br> ({{ row.product.get_convert_ppc_price }} грн)</div>
+                                                    </div>
+                                                </li>
+                                            {% endfor %}
+                                            {% endwith %}
+                                            </ul>
+                                        </div>
+                                        <div class="full__order-information">
+                                            <div class="full__order-information__top">
+                                                <div class="cell date_order">Дата заказа</div>
+                                                <div class="cell date_delivery">Дата доставки</div>
+                                                <div class="cell delivery_method">Способ доставки</div>
+                                                <div class="cell payment_method">Способ оплаты</div>
+                                                <div class="cell docs">
+                                                    Документы
+                                                </div>
+                                            </div>
+                                            <div class="full__order-information__body">
+                                                <div class="cell date_order">{{ obj.created|date:'d.m.Y' }}</div>
+                                                {% if not obj.delivered %}
+                                                    <div class="cell date_delivery">В обработке</div>
+                                                {% else %}    
+                                                    <div class="cell date_delivery">{{ obj.delivered|date:'d.m.Y' }}</div>
+                                                {% endif %}
+                                                <div class="cell delivery_method">{{ obj.delivery.delivery_way.name }}</div>
+                                                <div class="cell payment_method">Отправка без денег</div>
+                                                <div class="cell docs">
+                                                    <a href="#!">Скачать</a>
+                                                    <span>
+                                                        В перечень входят приходные и расходные касовые ордеры, возвратные накладные, расходные по товарам.
+                                                    </span>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="full__delivery-information">
+                                            <div class="full__delivery-information__top">Данные доставки</div>
+                                            <div class="full__delivery-information__body">
+                                                <div class="left">
+                                                    <div class="field">
+                                                        <div class="label">Имя:</div>
+                                                        <div class="text">{{ obj.delivery_data.first_name }}</div>
+                                                    </div>
+                                                    <div class="field">
+                                                        <div class="label">Фамилия:</div>
+                                                        <div class="text">{{ obj.delivery_data.last_name }}</div>
+                                                    </div>
+                                                    <div class="field">
+                                                        <div class="label">Город:</div>
+                                                        <div class="text">{{ obj.delivery_data.city }}</div>
+                                                    </div>
+                                                    <div class="field">
+                                                        <div class="label">Телефон:</div>
+                                                        <div class="text">{{ obj.delivery_data.phone_number }}</div>
+                                                    </div>
+                                                    <div class="field phone">
+                                                        <div class="label grey">E-mail:</div>
+                                                        <div class="text">{{ obj.delivery_data.email }}</div>
+                                                    </div>
+                                                    <div class="field">
+                                                        <div class="label grey">Комментарии:</div>
+                                                        <div class="text">{{ obj.delivery_data.comment }}</div>
+                                                    </div>
+                                                </div>
+                                                <div class="right">
+                                                    <div class="field">
+                                                        <div class="label">Склад НП:</div>
+                                                        <div class="text">№58
+                                                            <span>(г. {{ obj.delivery_data.city }}, ул. {{ obj.nova_poshta_stock }})</span>
+                                                        </div>
+                                                    </div>
+                                                    <div class="field">
+                                                        <div class="label">Сумма платежа::</div>
+                                                        <div class="text">{{ obj.basket.calculate_sum_convert_ppc_price }} грн</div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            {% endfor %}
+                            </div>
+                        </div>
+                    </div>
+{% endblock %}
+
+{% block extrascripts %}
+<script type="text/javascript" src="{% static 'js/lk.orders.js' %}"></script>
+{% endblock %}
