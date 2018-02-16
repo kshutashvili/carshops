@@ -20,7 +20,7 @@ from django.contrib import admin
 from django.views.generic import TemplateView
 
 from content.views import index, blog, article, catalog, login, ajax, basket,\
-                          personal
+                          personal, tovar
 
 urlpatterns = [
     url(r'^admin/', admin.site.urls),
@@ -36,7 +36,7 @@ urlpatterns = [
     url(r'^personal/orders/$', personal.orders, name='lk_orders'),
     url(r'^personal/contact/$', personal.contact, name='lk_contact'),
     url(r'^personal/waiting/$', personal.waiting, name='lk_waiting'),
-    url(r'^product/$', TemplateView.as_view(template_name='tovar.html'), name='product'),
+    url(r'^product/(?P<pk>\d+)/$', tovar.tovar, name='product'),
     url(r'^login/$', login.user_login, name='login'),
     url(r'^logout/$', login.user_logout, name='logout'),
     url(r'^register/$', login.user_create, name='register'),
@@ -46,7 +46,7 @@ urlpatterns = [
     url(r'^ajax/products_discount_generate/$', ajax.products_discount_generate, name='prod_disc_gen'),
     url(r'^ajax/car_select/$', ajax.car_select, name='car_select'),
     url(r'^ajax/change_amount/$', ajax.change_amount, name='change_amount'),
-    url(r'^ajax/clear_basket/$', ajax.clear_basket, name='clear_basket')
+    url(r'^ajax/clear_basket/$', ajax.clear_basket, name='clear_basket'),
 ]
 if settings.DEBUG:
     urlpatterns += static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)

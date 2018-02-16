@@ -2,13 +2,18 @@
 
 {% load static %}
 
+{% load humanize %}
+
+{% load custom_filters %}
+
 {% block title %}Tovar Page{% endblock %}
 
 {% block extrastyles %}
-<link href="{% static 'css/tovar.css' %}" rel="stylesheet">
+<link href="{% static 'css/tovar.css' %}" rel="stylesheet"></head>
 {% endblock %}
 
 {% block content %}
+
     <!-- choose mark section start -->
 
     {% include 'section_mark.html' %}
@@ -21,9 +26,9 @@
             <!-- breadcrumbs start -->
 
             <section class="breadcrumbs">
-                <a href="#!" class="step main">Главная</a>
-                <a href="#!" class="step">Переходные рамки BMW</a>
-                <a href="#!" class="step">Переходник ISO BMW, Land Rover, Rover, Mini Carav Переходник ISO BMW, Land Rover, Rover, Mini Carav 12-003</a>
+                <a href="{% url 'home' %}" class="step main">Главная</a>
+                <a href="#!" class="step">{{ product.category.name }} BMW</a>
+                <a href="{% url 'product' product.id %}" class="step">{{ product.name }}</a>
             </section>
 
             <!-- breadcrumbs end -->
@@ -78,10 +83,10 @@
                 <div class="product-block">
                     <main class="main-block">
                         <div class="tovar-information-mobile">
-                            <div class="title">Переходник ISO BMW, Land Rover, Rover, Mini Carav Переходник ISO BMW 12-003</div>
+                            <div class="title">{{ product.name }}</div>
                             <div class="rating-wrap">
                                 <div class="rating-wrap__title">Рейтинг:
-                                    <span class="rating-count">5 из 5</span>
+                                    <span class="rating-count">{{ product.rait.value }} из {{ raits.last.value }}</span>
                                     <span class="votes">(17 голосов)</span>
                                 </div>
                                 <div class="rating-starts-wrap">
@@ -104,88 +109,105 @@
                                     <p>10% скидку</p>
                                 </div>
                                 <div class="main-slider" id="main-slider">
+                                {% for obj in prod_images %}
                                     <div class="slide">
-                                        <img src="{% static 'img/product.jpg' %}" alt="">
+                                        <img src="{{ obj.image.url }}" alt="">
                                     </div>
-                                    <div class="slide">
-                                        <img src="{% static 'img/ramki.png' %}" alt="">
-                                    </div>
-                                    <div class="slide">
-                                        <img src="{% static 'img/ramki.png' %}" alt="">
-                                    </div>
-                                    <div class="slide">
-                                        <img src="{% static 'img/ramki.png' %}" alt="">
-                                    </div>
+                                {% endfor %}
                                 </div>
                             </div>
                             <div class="main-slider-nav-wrap">
                                 <div class="main-slider-nav" id="main-slider-nav">
+                                {% for obj in prod_images %}
                                     <div class="slide">
-                                        <img src="{% static 'img/product.jpg' %}" alt="">
+                                        <img src="{{ obj.image.url }}" alt="">
                                     </div>
-                                    <div class="slide">
-                                        <img src="{% static 'img/ramki.png' %}" alt="">
-                                    </div>
-                                    <div class="slide">
-                                        <img src="{% static 'img/ramki.png' %}" alt="">
-                                    </div>
-                                    <div class="slide">
-                                        <img src="{% static 'img/ramki.png' %}" alt="">
-                                    </div>
+                                {% endfor %}
                                 </div>
                             </div>
                         </div>
                         <div class="information-wrap">
-                            <h1 class="product-title">Переходник ISO BMW, Land Rover, Rover, Mini Carav Переходник ISO BMW 12-003</h1>
+                            <h1 class="product-title">{{ product.name }}</h1>
                             <div class="rating-wrap">
                                 <div class="rating-wrap__title">Рейтинг:
-                                    <span class="rating-count">5 из 5</span>
+                                    <span class="rating-count">{{ product.rait.value }} из {{ raits.last.value }}</span>
                                     <span class="votes">(17 голосов)</span>
                                 </div>
                                 <div class="rating-starts-wrap">
                                     <form action="start">
                                         <select class="starts-select">
-                                            <option value="1">1</option>
-                                            <option value="2">2</option>
-                                            <option value="3">3</option>
-                                            <option value="4">4</option>
-                                            <option value="5">5</option>
+                                        {% for obj in raits %}
+                                            <option value="{{ obj.value }}">{{ obj.value }}</option>
+                                        {% endfor %}
                                         </select>
                                     </form>
                                 </div>
                             </div>
                             <div class="price-wrap">
                                 <div class="prices">
-                                    <p class="old">999 грн</p>
-                                    <p class="new">799 грн</p>
+                                    <p class="old">
+                                    {% if product.currency %}
+                                        {% if request.user.is_authenticated %}
+                                            {% if request.user.site %}
+                                                {{ product.get_convert_price|floatformat:2|intcomma|replace_comma_with_space }} грн
+                                            {% else %}
+                                                {{ product.get_convert_ppc_price|floatformat:2|intcomma|replace_comma_with_space }} грн
+                                            {% endif %}
+                                        {% else %}
+                                            {{ product.get_convert_ppc_price|floatformat:2|intcomma|replace_comma_with_space }} грн
+                                        {% endif %}
+                                    {% else %}
+                                        {% if request.user.is_authenticated %}
+                                            {% if request.user.site %}
+                                                {{ product.price|floatformat:2|intcomma|replace_comma_with_space }} $
+                                            {% else %}
+                                                {{ product.ppc_price|floatformat:2|intcomma|replace_comma_with_space }} $
+                                            {% endif %}
+                                        {% else %}
+                                            {{ product.ppc_price|floatformat:2|intcomma|replace_comma_with_space }} $
+                                        {% endif %}
+                                    {% endif %}
+                                    </p>
+                                    <p class="new">
+                                    {% if product.currency %}
+                                        {% if request.user.is_authenticated %}
+                                            {% if request.user.site %}
+                                                {{ product.discount.get_new_convert_price|floatformat:2|intcomma|replace_comma_with_space }} грн
+                                            {% else %}
+                                                {{ product.discount.get_new_convert_ppc_price|floatformat:2|intcomma|replace_comma_with_space }} грн
+                                            {% endif %}
+                                        {% else %}
+                                            {{ product.discount.get_new_convert_ppc_price|floatformat:2|intcomma|replace_comma_with_space }} грн
+                                        {% endif %}
+                                    {% else %}
+                                        {% if request.user.is_authenticated %}
+                                            {% if request.user.site %}
+                                                {{ product.discount.get_new_price|floatformat:2|intcomma|replace_comma_with_space }} $
+                                            {% else %}
+                                                {{ product.discount.get_new_ppc_price|floatformat:2|intcomma|replace_comma_with_space }} $
+                                            {% endif %}
+                                        {% else %}
+                                            {{ product.discount.get_new_ppc_price|floatformat:2|intcomma|replace_comma_with_space }} $
+                                        {% endif %}
+                                    {% endif %}
+                                    </p>
                                 </div>
                                 <div class="codes">
-                                    <div class="code">Код: 11-0q524</div>
+                                    <div class="code">Код: {{ product.code }}</div>
                                     <a href="#!" class="order">Под заказ</a>
                                 </div>
                                 <div class="trade-price">
                                     <p class="trade-price__title">Ваша оптовая цена:</p>
-                                    <div class="trade-price__price">14.32$
-                                        <span>(379 грн)</span>
+                                    <div class="trade-price__price">{{ product.price }}$
+                                        <span>({{ product.get_convert_price }} грн)</span>
                                     </div>
                                 </div>
                             </div>
                             <div class="ordering">
                                 <a href="#!" class="individual-order">Оформить под заказ</a>
-                                <a href="#!" class="basket">
+                                <a href="#!" class="basket" data-url="{% url 'basket_session' %}" data-product="{{ product.id }}" >
                                     <span>В корзину</span>
-                                    <svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" version="1.1" id="Capa_1" x="0px" y="0px"
-                                        width="512px" height="512px" viewBox="0 0 32.028 32.028" style="enable-background:new 0 0 32.028 32.028;"
-                                        xml:space="preserve">
-                                        <g>
-                                            <g id="Cart">
-                                                <g>
-                                                    <path d="M31.998,0.772c-0.133-0.535-0.677-0.863-1.213-0.728l-4.004,1c-0.39,0.098-0.684,0.418-0.746,0.813l-0.507,3.208     L0.878,8.022c-0.019,0.002-0.034,0.016-0.055,0.02C0.8,8.046,0.779,8.039,0.755,8.045c-0.057,0.014-0.1,0.049-0.15,0.071     c-0.057,0.024-0.11,0.043-0.16,0.076C0.375,8.24,0.318,8.302,0.263,8.365C0.234,8.396,0.198,8.414,0.173,8.448     c-0.006,0.008-0.006,0.018-0.01,0.026C0.109,8.558,0.078,8.652,0.05,8.748c-0.01,0.035-0.03,0.065-0.036,0.101     C-0.006,8.981-0.006,9.12,0.028,9.258l3.004,12l1,4c0.008,0.029,0.025,0.052,0.035,0.079c0.016,0.048,0.037,0.092,0.061,0.137     c0.033,0.065,0.074,0.125,0.122,0.182c0.029,0.034,0.06,0.068,0.093,0.101c0.061,0.053,0.125,0.094,0.194,0.131     c0.036,0.021,0.068,0.043,0.107,0.059c0.112,0.042,0.232,0.068,0.357,0.068h21.022c0.553,0,1-0.447,1-0.999     c0-0.553-0.447-1.001-1-1.001H5.783l-0.5-2h18.739c0.123,0,0.242-0.021,0.352-0.063c0.045-0.018,0.08-0.047,0.121-0.069     c0.062-0.033,0.126-0.062,0.179-0.107c0.039-0.033,0.065-0.078,0.102-0.119c0.042-0.051,0.089-0.095,0.122-0.15     c0.027-0.053,0.039-0.113,0.059-0.172c0.021-0.053,0.047-0.103,0.059-0.158l0.004-0.021v-0.011L27.91,2.824l3.36-0.839     C31.808,1.851,32.133,1.308,31.998,0.772z M4.783,20.014L2.244,9.873l3.104-0.372l1.505,10.513H4.783z M8.873,20.014L7.336,9.263     l3.119-0.374l0.505,11.125H8.873z M15.056,20.014h-2.089L12.449,8.649l3.116-0.373L15.056,20.014z M19.133,20.014H17.06     l0.52-11.98l3.102-0.371L19.133,20.014z M23.146,20.014h-1.994l1.576-12.598l2.133-0.255L23.146,20.014z M9.005,28.014     c-1.104,0-2.002,0.896-2.002,2.001c0,1.105,0.897,1.999,2.002,1.999c1.106,0,2.002-0.895,2.002-1.999     C11.007,28.912,10.111,28.014,9.005,28.014z M22.021,28.014c-1.105,0-2.002,0.896-2.002,2.001c0,1.105,0.896,1.999,2.002,1.999     c1.104,0,2.002-0.895,2.002-1.999C24.021,28.911,23.125,28.014,22.021,28.014z"
-                                                        fill="#FFFFFF"></path>
-                                                </g>
-                                            </g>
-                                        </g>
-                                    </svg>
+                                    {% include 'basket_icon.html' %}
                                 </a>
                                 <a href="#!" class="one-click-buy">Купить в 1 клик</a>
                             </div>
@@ -194,78 +216,23 @@
                                     <p class="compatibility__title">Совместимость с автомобилями</p>
                                     <div class="blocks">
                                         <div class="column">
+                                    {% for obj in compatibilities %}
                                             <div class="block">
-                                                <p>BMW</p>
-                                                <ul>
-                                                    <li>3 Series (E30) 1987-1990</li>
-                                                    <li>3 Series (E36) 1991-1999 </li>
-                                                    <li>3 Series (E46) 1998-2003</li>
-                                                    <li>5 Series (E39) 1995-2000</li>
-                                                    <li>7 Series (E38) 1994-2000</li>
-                                                    <li>X5 (E53) 1999-2001</li>
-                                                    <li>Z3 1995-2002</li>
-                                                    <li>Z8 2000-2003</li>
+                                            {% for model in obj %}
+                                                {% if forloop.first %}
+                                                    <p>{{ model }}</p>
+                                                    <ul>
+                                                {% else %}
+                                                    <li>{{ model.name }} {{ model|get_first_last_years }}</li>
+                                                {% endif %}
+                                            {% endfor %}
                                                 </ul>
                                             </div>
-                                            <div class="block">
-                                                <p>Mini</p>
-                                                <ul>
-                                                    <li>2000-2002</li>
-                                                </ul>
-                                            </div>
-                                            <div class="block">
-                                                <p>Land Rover</p>
-                                                <ul>
-                                                    <li>Defender 2 2001+</li>
-                                                    <li>Discovery 2 2001-2004</li>
-                                                    <li>Freelander 2001-2003</li>
-                                                </ul>
-                                            </div>
-                                            <div class="block">
-                                                <p>Rover</p>
-                                                <ul>
-                                                    <li>25 2000+</li>
-                                                    <li>45 1999+</li>
-                                                    <li>75 1999+</li>
-                                                </ul>
-                                            </div>
-                                        </div>
-                                        <div class="column">
-                                            <div class="block">
-                                                <p>BMW</p>
-                                                <ul>
-                                                    <li>3 Series (E30) 1987-1990</li>
-                                                    <li>3 Series (E36) 1991-1999 </li>
-                                                    <li>3 Series (E46) 1998-2003</li>
-                                                    <li>5 Series (E39) 1995-2000</li>
-                                                    <li>7 Series (E38) 1994-2000</li>
-                                                    <li>X5 (E53) 1999-2001</li>
-                                                    <li>Z3 1995-2002</li>
-                                                    <li>Z8 2000-2003</li>
-                                                </ul>
-                                            </div>
-                                            <div class="block">
-                                                <p>Mini</p>
-                                                <ul>
-                                                    <li>2000-2002</li>
-                                                </ul>
-                                            </div>
-                                            <div class="block">
-                                                <p>Land Rover</p>
-                                                <ul>
-                                                    <li>Defender 2 2001+</li>
-                                                    <li>Discovery 2 2001-2004</li>
-                                                    <li>Freelander 2001-2003</li>
-                                                </ul>
-                                            </div>
-                                            <div class="block">
-                                                <p>Rover</p>
-                                                <ul>
-                                                    <li>25 2000+</li>
-                                                    <li>45 1999+</li>
-                                                    <li>75 1999+</li>
-                                                </ul>
-                                            </div>
+                                            {% if forloop.counter|modulo:15 == 0 and not forloop.last %}
+                                                </div>
+                                                <div class="column">
+                                            {% endif %}
+                                    {% endfor %}
                                         </div>
                                     </div>
                                 </div>
@@ -438,23 +405,13 @@
                         <section class="descriptions-wrap">
                             <div class="block">
                                 <h2 class="block__title">Типоразмер</h2>
-                                <div class="block__text">Внутренний размер 2DIN: 188x118 мм или 1DIN при установке с карманом (в комплекте).</div>
+                                <div class="block__text">{{ product.type_size }}</div>
                             </div>
                             <div class="block">
                                 <h2 class="block__title">Описание</h2>
-                                <h3 class="block__subtitle">Переходник ISO для замены магнитолы Carav 12-003</h3>
+                                <h3 class="block__subtitle">{{ product.name }}</h3>
                                 <ul class="block__list">
-                                    <li>Предназначен для замены автомагнитолы без вмешательства в штатную автомобильную проводку</li>
-                                    <li>Разъемы выполнены в соответсвии с заводскими стандартами</li>
-                                    <li>Медные провода обеспечивают качественную передачу сигнала.</li>
-                                </ul>
-                            </div>
-                            <div class="block">
-                                <h2 class="block__title">Особенности</h2>
-                                <ul class="block__list">
-                                    <li>Предназначен для замены автомагнитолы без вмешательства в штатную автомобильную проводку</li>
-                                    <li>Разъемы выполнены в соответсвии с заводскими стандартами</li>
-                                    <li>Медные провода обеспечивают качественную передачу сигнала.</li>
+                                    {{ product.information|safe }}
                                 </ul>
                             </div>
                         </section>
@@ -542,91 +499,89 @@
             <!-- content end -->
 
             <!-- cheaper start  -->
+            {% if promotions %}
             <section class="cheaper-section">
                 <p class="title">Вместе дешевле</p>
                 <ul class="list">
-                    <li class="active">
-                        <a href="#!">Переходные рамки</a>
+                {% for obj in menu_main_nodes %}
+                    <li><!-- TODO:  class="active"-->
+                    {% if not obj.link %}
+                        <a href="#!">{{ obj.name }}</a>
+                    {% else %}
+                        <a href="{{ obj.link }}">{{ obj.name }}</a>
+                    {% endif %}
                     </li>
-                    <li>
-                        <a href="#!">Разъемы для подключения</a>
-                    </li>
-                    <li>
-                        <a href="#!">Адаптеры кнопок на руле</a>
-                    </li>
-                    <li>
-                        <a href="#!">Аксессуары для установки</a>
-                    </li>
-                    <li>
-                        <a href="#!">Автозвук и электроника</a>
-                    </li>
+                {% endfor %}
                 </ul>
                 <div class="slider-wrap">
                     <div class="cheaper-slider" id="cheaper-slider">
+                    {% for obj in promotions %}
                         <div class="slide">
                             <div class="items-wrap">
+                            {% for prod in obj|get_products_together_cheaper %}
                                 <div class="item">
                                     <div class="img-wrap">
                                         <img src="{% static 'img/ramki.png' %}" alt="">
                                     </div>
                                     <div class="info">
                                         <p class="title">Ваш товар</p>
-                                        <a href="#!" class="name">Переходник ISO BMW, Land Rover, Rover, Mini Carav Переходник IS</a>
-                                        <div class="old-price">21999 грн</div>
-                                        <div class="price">14799 грн</div>
+                                        <a href="{% url 'product' prod.id %}" class="name">{{ prod.name }}</a>
+                                        <div class="old-price">
+                                            {% if request.user.is_authenticated %}
+                                                {% if request.user.site %}
+                                                    {{ prod.get_convert_price|floatformat:2|intcomma|replace_comma_with_space }} грн
+                                                {% else %}
+                                                    {{ prod.get_convert_ppc_price|floatformat:2|intcomma|replace_comma_with_space }} грн
+                                                {% endif %}
+                                            {% else %}
+                                                {{ prod.get_convert_ppc_price|floatformat:2|intcomma|replace_comma_with_space }} грн
+                                            {% endif %}
+                                        </div>
+                                        <div class="price">
+                                            {% if request.user.is_authenticated %}
+                                                {% if request.user.site %}
+                                                    {{ prod.discount.get_new_convert_price|floatformat:2|intcomma|replace_comma_with_space }} $
+                                                {% else %}
+                                                    {{ prod.discount.get_new_convert_ppc_price|floatformat:2|intcomma|replace_comma_with_space }} $
+                                                {% endif %}
+                                            {% else %}
+                                                {{ prod.discount.get_new_convert_ppc_price|floatformat:2|intcomma|replace_comma_with_space }} $
+                                            {% endif %}
+                                        </div>
                                     </div>
                                 </div>
-                                <div class="item">
-                                    <div class="img-wrap">
-                                        <img src="{% static 'img/ramki.png' %}" alt="">
-                                    </div>
-                                    <div class="info">
-                                        <a href="#!" class="name">Переходник ISO BMW, Land Rover, Rover, Mini Carav Переходник IS</a>
-                                        <div class="old-price">21999 грн</div>
-                                        <div class="price">14799 грн</div>
-                                    </div>
-                                </div>
+                            {% endfor %}  
                             </div>
                             <div class="summury">
                                 <div class="saving">Экономия:
-                                    <span>598 грн</span>
+                                    <span>
+                                    {% if request.user.is_authenticated %}
+                                        {% if request.user.site %}
+                                            {{ obj|discount:'opt'}}грн
+                                        {% else %}
+                                            {{ obj|discount:'rozn'}}грн
+                                        {% endif %}
+                                    {% else %}
+                                        {{ obj|discount:'rozn'}}грн
+                                    {% endif %}
+                                    </span>
                                 </div>
-                                <div class="price">21999 грн</div>
+                                <div class="price">
+                                {% if request.user.is_authenticated %}
+                                    {% if request.user.site %}
+                                        {{ obj|calculate_sum_togeth_cheap:'opt' }}грн
+                                    {% else %}
+                                        {{ obj|calculate_sum_togeth_cheap:'rozn' }}грн
+                                    {% endif %}
+                                {% else %}
+                                    {{ obj|calculate_sum_togeth_cheap:'rozn' }}грн
+                                {% endif %}
+                                 
+                                </div>
                                 <a href="#!" class="buy">Купить комплект</a>
                             </div>
                         </div>
-                        <div class="slide">
-                            <div class="items-wrap">
-                                <div class="item">
-                                    <div class="img-wrap">
-                                        <img src="{% static 'img/ramki.png' %}" alt="">
-                                    </div>
-                                    <div class="info">
-                                        <p class="title">Ваш товар</p>
-                                        <a href="#!" class="name">Переходник ISO BMW, Land Rover, Rover, Mini Carav Переходник IS</a>
-                                        <div class="old-price">21999 грн</div>
-                                        <div class="price">14799 грн</div>
-                                    </div>
-                                </div>
-                                <div class="item">
-                                    <div class="img-wrap">
-                                        <img src="{% static 'img/ramki.png' %}" alt="">
-                                    </div>
-                                    <div class="info">
-                                        <a href="#!" class="name">Переходник ISO BMW, Land Rover, Rover, Mini Carav Переходник IS</a>
-                                        <div class="old-price">21999 грн</div>
-                                        <div class="price">14799 грн</div>
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="summury">
-                                <div class="saving">Экономия:
-                                    <span>598 грн</span>
-                                </div>
-                                <div class="price">21999 грн</div>
-                                <a href="#!" class="buy">Купить комплект</a>
-                            </div>
-                        </div>
+                    {% endfor %}
                     </div>
                     <div class="dots-wrap" id="dots-wrap"></div>
                     <div class="nav-arrows">
@@ -662,597 +617,137 @@
                 </div>
             </section>
             <!-- cheaper end  -->
+            {% endif %}
 
             <!-- popular products start -->
             <section class="popular-section">
                 <p class="title">С этим товаром заказывают</p>
 
                 <div class="tovar-list" id="popular-slider">
+                {% for obj in related_products %}
                     <div class="tovar">
-                        <a href="#!" class="tovar__top-title">Переходные рамки для аксессуаров адаптеров кнопок на руле</a>
-                        <img class="tovar__img" src="{% static 'img/sales-img.png' %}" alt="ramki.png">
-                        <div class="tovar__title">Переходник ISO BMW, Land Rover, Rover, Mini Carav Переходник ISO BMW, Land Rover, Rover, Mini Carav
-                            12-003
-                        </div>
-                        <div class="tovar__middle-line">
-                            <div class="code">Код: 11-0q524525151252541 </div>
-                            <div class="available">
-                                <svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" version="1.1" id="Capa_1" x="0px" y="0px"
-                                    width="512px" height="512px" viewBox="0 0 442.533 442.533" style="enable-background:new 0 0 442.533 442.533;"
-                                    xml:space="preserve">
-                                    <g>
-                                        <path d="M434.539,98.499l-38.828-38.828c-5.324-5.328-11.799-7.993-19.41-7.993c-7.618,0-14.093,2.665-19.417,7.993L169.59,247.248   l-83.939-84.225c-5.33-5.33-11.801-7.992-19.412-7.992c-7.616,0-14.087,2.662-19.417,7.992L7.994,201.852   C2.664,207.181,0,213.654,0,221.269c0,7.609,2.664,14.088,7.994,19.416l103.351,103.349l38.831,38.828   c5.327,5.332,11.8,7.994,19.414,7.994c7.611,0,14.084-2.669,19.414-7.994l38.83-38.828L434.539,137.33   c5.325-5.33,7.994-11.802,7.994-19.417C442.537,110.302,439.864,103.829,434.539,98.499z"
-                                            fill="#52ac62" />
-                                    </g>
-                                </svg>
-                                <span>В наличии</span>
-                            </div>
-                        </div>
-                        <div class="tovar__old-price">21999 грн</div>
-                        <div class="tovar__price-line">
-                            <div class="price">14799 грн</div>
-                            <!-- <div class="convert">(25 243,40 грн)</div> -->
-                        </div>
-                        <a href="#!" class="tovar__basket">
-                            <span>В корзину</span>
-                            <svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" version="1.1" id="Capa_1" x="0px" y="0px"
-                                width="512px" height="512px" viewBox="0 0 32.028 32.028" style="enable-background:new 0 0 32.028 32.028;"
-                                xml:space="preserve">
-                                <g>
-                                    <g id="Cart">
-                                        <g>
-                                            <path d="M31.998,0.772c-0.133-0.535-0.677-0.863-1.213-0.728l-4.004,1c-0.39,0.098-0.684,0.418-0.746,0.813l-0.507,3.208     L0.878,8.022c-0.019,0.002-0.034,0.016-0.055,0.02C0.8,8.046,0.779,8.039,0.755,8.045c-0.057,0.014-0.1,0.049-0.15,0.071     c-0.057,0.024-0.11,0.043-0.16,0.076C0.375,8.24,0.318,8.302,0.263,8.365C0.234,8.396,0.198,8.414,0.173,8.448     c-0.006,0.008-0.006,0.018-0.01,0.026C0.109,8.558,0.078,8.652,0.05,8.748c-0.01,0.035-0.03,0.065-0.036,0.101     C-0.006,8.981-0.006,9.12,0.028,9.258l3.004,12l1,4c0.008,0.029,0.025,0.052,0.035,0.079c0.016,0.048,0.037,0.092,0.061,0.137     c0.033,0.065,0.074,0.125,0.122,0.182c0.029,0.034,0.06,0.068,0.093,0.101c0.061,0.053,0.125,0.094,0.194,0.131     c0.036,0.021,0.068,0.043,0.107,0.059c0.112,0.042,0.232,0.068,0.357,0.068h21.022c0.553,0,1-0.447,1-0.999     c0-0.553-0.447-1.001-1-1.001H5.783l-0.5-2h18.739c0.123,0,0.242-0.021,0.352-0.063c0.045-0.018,0.08-0.047,0.121-0.069     c0.062-0.033,0.126-0.062,0.179-0.107c0.039-0.033,0.065-0.078,0.102-0.119c0.042-0.051,0.089-0.095,0.122-0.15     c0.027-0.053,0.039-0.113,0.059-0.172c0.021-0.053,0.047-0.103,0.059-0.158l0.004-0.021v-0.011L27.91,2.824l3.36-0.839     C31.808,1.851,32.133,1.308,31.998,0.772z M4.783,20.014L2.244,9.873l3.104-0.372l1.505,10.513H4.783z M8.873,20.014L7.336,9.263     l3.119-0.374l0.505,11.125H8.873z M15.056,20.014h-2.089L12.449,8.649l3.116-0.373L15.056,20.014z M19.133,20.014H17.06     l0.52-11.98l3.102-0.371L19.133,20.014z M23.146,20.014h-1.994l1.576-12.598l2.133-0.255L23.146,20.014z M9.005,28.014     c-1.104,0-2.002,0.896-2.002,2.001c0,1.105,0.897,1.999,2.002,1.999c1.106,0,2.002-0.895,2.002-1.999     C11.007,28.912,10.111,28.014,9.005,28.014z M22.021,28.014c-1.105,0-2.002,0.896-2.002,2.001c0,1.105,0.896,1.999,2.002,1.999     c1.104,0,2.002-0.895,2.002-1.999C24.021,28.911,23.125,28.014,22.021,28.014z"
-                                                fill="#FFFFFF"></path>
-                                        </g>
-                                    </g>
-                                </g>
-                            </svg>
-                        </a>
-                        <div class="tovar__additions">
-                            <ul>
-                                <li>
-                                    <a>3 Series (E30) 1987-1990</a>
-                                </li>
-                                <li>
-                                    <a>3 Series (E36) 1991-1999</a>
-                                </li>
-                                <li>
-                                    <a>3 Series (E46) 1998-2003</a>
-                                </li>
-                                <li>
-                                    <a>5 Series (E39) 1995-2000</a>
-                                </li>
-                                <li>
-                                    <a>7 Series (E38) 1994-2000</a>
-                                </li>
-                                <li>
-                                    <a>X5 (E53) 1999-2001</a>
-                                </li>
-                                <li>
-                                    <a>Z3 1995-2002</a>
-                                </li>
-                                <li>
-                                    <a>Z8 2000-2003</a>
-                                </li>
-                            </ul>
-                            <ul>
-                                <li>
-                                    <a>3 Series (E30) 1987-1990</a>
-                                </li>
-                                <li>
-                                    <a>3 Series (E36) 1991-1999</a>
-                                </li>
-                                <li>
-                                    <a>3 Series (E46) 1998-2003</a>
-                                </li>
-                                <li>
-                                    <a>5 Series (E39) 1995-2000</a>
-                                </li>
-                                <li>
-                                    <a>7 Series (E38) 1994-2000</a>
-                                </li>
-                                <li>
-                                    <a>X5 (E53) 1999-2001</a>
-                                </li>
-                                <li>
-                                    <a>Z3 1995-2002</a>
-                                </li>
-                                <li>
-                                    <a>Z8 2000-2003</a>
-                                </li>
-                            </ul>
-                        </div>
-                    </div>
-                    <div class="tovar">
-                        <a href="#!" class="tovar__top-title">Переходные рамки для аксессуаров адаптеров кнопок на руле</a>
-                        <img class="tovar__img" src="{% static 'img/sales-img.png' %}" alt="ramki.png">
-                        <div class="tovar__title">Переходник ISO BMW, Land Rover, Rover, Mini Carav Переходник ISO BMW, Land Rover, Rover, Mini Carav
-                            12-003
-                        </div>
-                        <div class="tovar__middle-line">
-                            <div class="code">Код: 11-0q524525151252541 </div>
-                            <div class="available">
-                                <svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" version="1.1" id="Capa_1" x="0px" y="0px"
-                                    width="512px" height="512px" viewBox="0 0 442.533 442.533" style="enable-background:new 0 0 442.533 442.533;"
-                                    xml:space="preserve">
-                                    <g>
-                                        <path d="M434.539,98.499l-38.828-38.828c-5.324-5.328-11.799-7.993-19.41-7.993c-7.618,0-14.093,2.665-19.417,7.993L169.59,247.248   l-83.939-84.225c-5.33-5.33-11.801-7.992-19.412-7.992c-7.616,0-14.087,2.662-19.417,7.992L7.994,201.852   C2.664,207.181,0,213.654,0,221.269c0,7.609,2.664,14.088,7.994,19.416l103.351,103.349l38.831,38.828   c5.327,5.332,11.8,7.994,19.414,7.994c7.611,0,14.084-2.669,19.414-7.994l38.83-38.828L434.539,137.33   c5.325-5.33,7.994-11.802,7.994-19.417C442.537,110.302,439.864,103.829,434.539,98.499z"
-                                            fill="#52ac62" />
-                                    </g>
-                                </svg>
-                                <span>В наличии</span>
-                            </div>
-                        </div>
-                        <div class="tovar__ppc">РРЦ: 27 418 грн</div>
-                        <div class="tovar__price-line">
-                            <div class="price">949 $</div>
-                            <div class="convert">(25 243,40 грн)</div>
-                        </div>
-                        <a href="#!" class="tovar__basket">
-                            <span>В корзину</span>
-                            <svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" version="1.1" id="Capa_1" x="0px" y="0px"
-                                width="512px" height="512px" viewBox="0 0 32.028 32.028" style="enable-background:new 0 0 32.028 32.028;"
-                                xml:space="preserve">
-                                <g>
-                                    <g id="Cart">
-                                        <g>
-                                            <path d="M31.998,0.772c-0.133-0.535-0.677-0.863-1.213-0.728l-4.004,1c-0.39,0.098-0.684,0.418-0.746,0.813l-0.507,3.208     L0.878,8.022c-0.019,0.002-0.034,0.016-0.055,0.02C0.8,8.046,0.779,8.039,0.755,8.045c-0.057,0.014-0.1,0.049-0.15,0.071     c-0.057,0.024-0.11,0.043-0.16,0.076C0.375,8.24,0.318,8.302,0.263,8.365C0.234,8.396,0.198,8.414,0.173,8.448     c-0.006,0.008-0.006,0.018-0.01,0.026C0.109,8.558,0.078,8.652,0.05,8.748c-0.01,0.035-0.03,0.065-0.036,0.101     C-0.006,8.981-0.006,9.12,0.028,9.258l3.004,12l1,4c0.008,0.029,0.025,0.052,0.035,0.079c0.016,0.048,0.037,0.092,0.061,0.137     c0.033,0.065,0.074,0.125,0.122,0.182c0.029,0.034,0.06,0.068,0.093,0.101c0.061,0.053,0.125,0.094,0.194,0.131     c0.036,0.021,0.068,0.043,0.107,0.059c0.112,0.042,0.232,0.068,0.357,0.068h21.022c0.553,0,1-0.447,1-0.999     c0-0.553-0.447-1.001-1-1.001H5.783l-0.5-2h18.739c0.123,0,0.242-0.021,0.352-0.063c0.045-0.018,0.08-0.047,0.121-0.069     c0.062-0.033,0.126-0.062,0.179-0.107c0.039-0.033,0.065-0.078,0.102-0.119c0.042-0.051,0.089-0.095,0.122-0.15     c0.027-0.053,0.039-0.113,0.059-0.172c0.021-0.053,0.047-0.103,0.059-0.158l0.004-0.021v-0.011L27.91,2.824l3.36-0.839     C31.808,1.851,32.133,1.308,31.998,0.772z M4.783,20.014L2.244,9.873l3.104-0.372l1.505,10.513H4.783z M8.873,20.014L7.336,9.263     l3.119-0.374l0.505,11.125H8.873z M15.056,20.014h-2.089L12.449,8.649l3.116-0.373L15.056,20.014z M19.133,20.014H17.06     l0.52-11.98l3.102-0.371L19.133,20.014z M23.146,20.014h-1.994l1.576-12.598l2.133-0.255L23.146,20.014z M9.005,28.014     c-1.104,0-2.002,0.896-2.002,2.001c0,1.105,0.897,1.999,2.002,1.999c1.106,0,2.002-0.895,2.002-1.999     C11.007,28.912,10.111,28.014,9.005,28.014z M22.021,28.014c-1.105,0-2.002,0.896-2.002,2.001c0,1.105,0.896,1.999,2.002,1.999     c1.104,0,2.002-0.895,2.002-1.999C24.021,28.911,23.125,28.014,22.021,28.014z"
-                                                fill="#FFFFFF"></path>
-                                        </g>
-                                    </g>
-                                </g>
-                            </svg>
-                        </a>
-                        <div class="tovar__additions">
-                            <ul>
-                                <li>
-                                    <a>3 Series (E30) 1987-1990</a>
-                                </li>
-                                <li>
-                                    <a>3 Series (E36) 1991-1999</a>
-                                </li>
-                                <li>
-                                    <a>3 Series (E46) 1998-2003</a>
-                                </li>
-                                <li>
-                                    <a>5 Series (E39) 1995-2000</a>
-                                </li>
-                                <li>
-                                    <a>7 Series (E38) 1994-2000</a>
-                                </li>
-                                <li>
-                                    <a>X5 (E53) 1999-2001</a>
-                                </li>
-                                <li>
-                                    <a>Z3 1995-2002</a>
-                                </li>
-                                <li>
-                                    <a>Z8 2000-2003</a>
-                                </li>
-                            </ul>
-                            <ul>
-                                <li>
-                                    <a>3 Series (E30) 1987-1990</a>
-                                </li>
-                                <li>
-                                    <a>3 Series (E36) 1991-1999</a>
-                                </li>
-                                <li>
-                                    <a>3 Series (E46) 1998-2003</a>
-                                </li>
-                                <li>
-                                    <a>5 Series (E39) 1995-2000</a>
-                                </li>
-                                <li>
-                                    <a>7 Series (E38) 1994-2000</a>
-                                </li>
-                                <li>
-                                    <a>X5 (E53) 1999-2001</a>
-                                </li>
-                                <li>
-                                    <a>Z3 1995-2002</a>
-                                </li>
-                                <li>
-                                    <a>Z8 2000-2003</a>
-                                </li>
-                            </ul>
-                        </div>
-                    </div>
-                    <div class="tovar">
-                        <a href="#!" class="tovar__top-title">Переходные рамки для аксессуаров адаптеров кнопок на руле</a>
+                        <a href="{{ obj.link }}" class="tovar__top-title">{{ obj.category.name }}</a>
                         <div class="tovar__img-wrap">
+                        {% if obj.discount %}
                             <div class="tovar__sale">Акция!</div>
-                            <img class="tovar__img" src="{% static 'img/sales-img.png' %}" alt="ramki.png">
-                            <div class="tovar__credit">Кредит 0,01%</div>
+                        {% endif %}
+                            <img class="tovar__img" src="{{ images|get_first_image_url:obj.id }}" alt="ramki.png">
+                        {% if obj.credit %}
+                            <div class="tovar__credit">Кредит {{ obj.credit }}%</div>
+                        {% endif %}
                         </div>
-                        <div class="tovar__title">Переходник ISO BMW, Land Rover, Rover, Mini Carav
+                        <div class="tovar__title">{{ obj.information|safe }}
                         </div>
                         <div class="tovar__middle-line">
-                            <div class="code">Код: 11-0q524525151252541 </div>
+                            <div class="code">Код: {{ obj.code }} </div>
                             <div class="available">
-                                <svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" version="1.1" id="Capa_1" x="0px" y="0px"
-                                    width="512px" height="512px" viewBox="0 0 442.533 442.533" style="enable-background:new 0 0 442.533 442.533;"
-                                    xml:space="preserve">
-                                    <g>
-                                        <path d="M434.539,98.499l-38.828-38.828c-5.324-5.328-11.799-7.993-19.41-7.993c-7.618,0-14.093,2.665-19.417,7.993L169.59,247.248   l-83.939-84.225c-5.33-5.33-11.801-7.992-19.412-7.992c-7.616,0-14.087,2.662-19.417,7.992L7.994,201.852   C2.664,207.181,0,213.654,0,221.269c0,7.609,2.664,14.088,7.994,19.416l103.351,103.349l38.831,38.828   c5.327,5.332,11.8,7.994,19.414,7.994c7.611,0,14.084-2.669,19.414-7.994l38.83-38.828L434.539,137.33   c5.325-5.33,7.994-11.802,7.994-19.417C442.537,110.302,439.864,103.829,434.539,98.499z"
-                                            fill="#52ac62" />
-                                    </g>
-                                </svg>
+                                {% include 'check_mark.html' %}
                                 <span>В наличии</span>
                             </div>
                         </div>
-                        <div class="tovar__ppc">РРЦ: 27 418 грн</div>
+                        {% if obj.discount %}
+                        <div class="tovar__old-price">
+                            {% if obj.currency %}
+                                {% if request.user.is_authenticated %}
+                                    {% if request.user.site %}
+                                        {{ obj.get_convert_price|floatformat:2|intcomma|replace_comma_with_space }} грн
+                                    {% else %}
+                                        {{ obj.get_convert_ppc_price|floatformat:2|intcomma|replace_comma_with_space }} грн
+                                    {% endif %}
+                                {% else %}
+                                    {{ obj.get_convert_ppc_price|floatformat:2|intcomma|replace_comma_with_space }} грн
+                                {% endif %}
+                            {% else %}
+                                {% if request.user.is_authenticated %}
+                                    {% if request.user.site %}
+                                        {{ obj.price|floatformat:2|intcomma|replace_comma_with_space }} $
+                                    {% else %}
+                                        {{ obj.ppc_price|floatformat:2|intcomma|replace_comma_with_space }} $
+                                    {% endif %}
+                                {% else %}
+                                    {{ obj.ppc_price|floatformat:2|intcomma|replace_comma_with_space }} $
+                                {% endif %}
+                            {% endif %}
+                        </div>
                         <div class="tovar__price-line">
-                            <div class="price">949 $</div>
-                            <div class="convert">(25 243,40 грн)</div>
-                        </div>
-                        <a href="#!" class="tovar__basket">
-                            <span>В корзину</span>
-                            <svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" version="1.1" id="Capa_1" x="0px" y="0px"
-                                width="512px" height="512px" viewBox="0 0 32.028 32.028" style="enable-background:new 0 0 32.028 32.028;"
-                                xml:space="preserve">
-                                <g>
-                                    <g id="Cart">
-                                        <g>
-                                            <path d="M31.998,0.772c-0.133-0.535-0.677-0.863-1.213-0.728l-4.004,1c-0.39,0.098-0.684,0.418-0.746,0.813l-0.507,3.208     L0.878,8.022c-0.019,0.002-0.034,0.016-0.055,0.02C0.8,8.046,0.779,8.039,0.755,8.045c-0.057,0.014-0.1,0.049-0.15,0.071     c-0.057,0.024-0.11,0.043-0.16,0.076C0.375,8.24,0.318,8.302,0.263,8.365C0.234,8.396,0.198,8.414,0.173,8.448     c-0.006,0.008-0.006,0.018-0.01,0.026C0.109,8.558,0.078,8.652,0.05,8.748c-0.01,0.035-0.03,0.065-0.036,0.101     C-0.006,8.981-0.006,9.12,0.028,9.258l3.004,12l1,4c0.008,0.029,0.025,0.052,0.035,0.079c0.016,0.048,0.037,0.092,0.061,0.137     c0.033,0.065,0.074,0.125,0.122,0.182c0.029,0.034,0.06,0.068,0.093,0.101c0.061,0.053,0.125,0.094,0.194,0.131     c0.036,0.021,0.068,0.043,0.107,0.059c0.112,0.042,0.232,0.068,0.357,0.068h21.022c0.553,0,1-0.447,1-0.999     c0-0.553-0.447-1.001-1-1.001H5.783l-0.5-2h18.739c0.123,0,0.242-0.021,0.352-0.063c0.045-0.018,0.08-0.047,0.121-0.069     c0.062-0.033,0.126-0.062,0.179-0.107c0.039-0.033,0.065-0.078,0.102-0.119c0.042-0.051,0.089-0.095,0.122-0.15     c0.027-0.053,0.039-0.113,0.059-0.172c0.021-0.053,0.047-0.103,0.059-0.158l0.004-0.021v-0.011L27.91,2.824l3.36-0.839     C31.808,1.851,32.133,1.308,31.998,0.772z M4.783,20.014L2.244,9.873l3.104-0.372l1.505,10.513H4.783z M8.873,20.014L7.336,9.263     l3.119-0.374l0.505,11.125H8.873z M15.056,20.014h-2.089L12.449,8.649l3.116-0.373L15.056,20.014z M19.133,20.014H17.06     l0.52-11.98l3.102-0.371L19.133,20.014z M23.146,20.014h-1.994l1.576-12.598l2.133-0.255L23.146,20.014z M9.005,28.014     c-1.104,0-2.002,0.896-2.002,2.001c0,1.105,0.897,1.999,2.002,1.999c1.106,0,2.002-0.895,2.002-1.999     C11.007,28.912,10.111,28.014,9.005,28.014z M22.021,28.014c-1.105,0-2.002,0.896-2.002,2.001c0,1.105,0.896,1.999,2.002,1.999     c1.104,0,2.002-0.895,2.002-1.999C24.021,28.911,23.125,28.014,22.021,28.014z"
-                                                fill="#FFFFFF"></path>
-                                        </g>
-                                    </g>
-                                </g>
-                            </svg>
-                        </a>
-                        <div class="tovar__additions">
-                            <ul>
-                                <li>
-                                    <a>3 Series (E30) 1987-1990</a>
-                                </li>
-                                <li>
-                                    <a>3 Series (E36) 1991-1999</a>
-                                </li>
-                                <li>
-                                    <a>3 Series (E46) 1998-2003</a>
-                                </li>
-                                <li>
-                                    <a>5 Series (E39) 1995-2000</a>
-                                </li>
-                                <li>
-                                    <a>7 Series (E38) 1994-2000</a>
-                                </li>
-                                <li>
-                                    <a>X5 (E53) 1999-2001</a>
-                                </li>
-                                <li>
-                                    <a>Z3 1995-2002</a>
-                                </li>
-                                <li>
-                                    <a>Z8 2000-2003</a>
-                                </li>
-                            </ul>
-                            <ul>
-                                <li>
-                                    <a>3 Series (E30) 1987-1990</a>
-                                </li>
-                                <li>
-                                    <a>3 Series (E36) 1991-1999</a>
-                                </li>
-                                <li>
-                                    <a>3 Series (E46) 1998-2003</a>
-                                </li>
-                                <li>
-                                    <a>5 Series (E39) 1995-2000</a>
-                                </li>
-                                <li>
-                                    <a>7 Series (E38) 1994-2000</a>
-                                </li>
-                                <li>
-                                    <a>X5 (E53) 1999-2001</a>
-                                </li>
-                                <li>
-                                    <a>Z3 1995-2002</a>
-                                </li>
-                                <li>
-                                    <a>Z8 2000-2003</a>
-                                </li>
-                            </ul>
-                        </div>
-                    </div>
-                    <div class="tovar">
-                        <a href="#!" class="tovar__top-title">Переходные рамки для аксессуаров адаптеров кнопок на руле</a>
-                        <img class="tovar__img" src="{% static 'img/sales-img.png' %}" alt="ramki.png">
-                        <div class="tovar__title">Переходник ISO BMW, Land Rover, Rover, Mini Carav Переходник ISO BMW, Land Rover, Rover, Mini Carav
-                            12-003
-                        </div>
-                        <div class="tovar__middle-line">
-                            <div class="code">Код: 11-0q524525151252541 </div>
-                            <div class="available">
-                                <svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" version="1.1" id="Capa_1" x="0px" y="0px"
-                                    width="512px" height="512px" viewBox="0 0 442.533 442.533" style="enable-background:new 0 0 442.533 442.533;"
-                                    xml:space="preserve">
-                                    <g>
-                                        <path d="M434.539,98.499l-38.828-38.828c-5.324-5.328-11.799-7.993-19.41-7.993c-7.618,0-14.093,2.665-19.417,7.993L169.59,247.248   l-83.939-84.225c-5.33-5.33-11.801-7.992-19.412-7.992c-7.616,0-14.087,2.662-19.417,7.992L7.994,201.852   C2.664,207.181,0,213.654,0,221.269c0,7.609,2.664,14.088,7.994,19.416l103.351,103.349l38.831,38.828   c5.327,5.332,11.8,7.994,19.414,7.994c7.611,0,14.084-2.669,19.414-7.994l38.83-38.828L434.539,137.33   c5.325-5.33,7.994-11.802,7.994-19.417C442.537,110.302,439.864,103.829,434.539,98.499z"
-                                            fill="#52ac62" />
-                                    </g>
-                                </svg>
-                                <span>В наличии</span>
+                            <div class="price">
+                            {% if obj.currency %}
+                                {% if request.user.is_authenticated %}
+                                    {% if request.user.site %}
+                                        {{ obj.discount.get_new_convert_price|floatformat:2|intcomma|replace_comma_with_space }} грн
+                                    {% else %}
+                                        {{ obj.discount.get_new_convert_ppc_price|floatformat:2|intcomma|replace_comma_with_space }} грн
+                                    {% endif %}
+                                {% else %}
+                                    {{ obj.discount.get_new_convert_ppc_price|floatformat:2|intcomma|replace_comma_with_space }} грн
+                                {% endif %}
+                            {% else %}
+                                {% if request.user.is_authenticated %}
+                                    {% if request.user.site %}
+                                        {{ obj.discount.get_new_price|floatformat:2|intcomma|replace_comma_with_space }} $
+                                    {% else %}
+                                        {{ obj.discount.get_new_ppc_price|floatformat:2|intcomma|replace_comma_with_space }} $
+                                    {% endif %}
+                                {% else %}
+                                    {{ obj.discount.get_new_ppc_price|floatformat:2|intcomma|replace_comma_with_space }} $
+                                {% endif %}
+                            {% endif %}
                             </div>
                         </div>
-                        <div class="tovar__old-price">21999 грн</div>
+                        {% else %}
                         <div class="tovar__price-line">
-                            <div class="price">14799 грн</div>
-                            <!-- <div class="convert">(25 243,40 грн)</div> -->
-                        </div>
-                        <a href="#!" class="tovar__basket">
-                            <span>В корзину</span>
-                            <svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" version="1.1" id="Capa_1" x="0px" y="0px"
-                                width="512px" height="512px" viewBox="0 0 32.028 32.028" style="enable-background:new 0 0 32.028 32.028;"
-                                xml:space="preserve">
-                                <g>
-                                    <g id="Cart">
-                                        <g>
-                                            <path d="M31.998,0.772c-0.133-0.535-0.677-0.863-1.213-0.728l-4.004,1c-0.39,0.098-0.684,0.418-0.746,0.813l-0.507,3.208     L0.878,8.022c-0.019,0.002-0.034,0.016-0.055,0.02C0.8,8.046,0.779,8.039,0.755,8.045c-0.057,0.014-0.1,0.049-0.15,0.071     c-0.057,0.024-0.11,0.043-0.16,0.076C0.375,8.24,0.318,8.302,0.263,8.365C0.234,8.396,0.198,8.414,0.173,8.448     c-0.006,0.008-0.006,0.018-0.01,0.026C0.109,8.558,0.078,8.652,0.05,8.748c-0.01,0.035-0.03,0.065-0.036,0.101     C-0.006,8.981-0.006,9.12,0.028,9.258l3.004,12l1,4c0.008,0.029,0.025,0.052,0.035,0.079c0.016,0.048,0.037,0.092,0.061,0.137     c0.033,0.065,0.074,0.125,0.122,0.182c0.029,0.034,0.06,0.068,0.093,0.101c0.061,0.053,0.125,0.094,0.194,0.131     c0.036,0.021,0.068,0.043,0.107,0.059c0.112,0.042,0.232,0.068,0.357,0.068h21.022c0.553,0,1-0.447,1-0.999     c0-0.553-0.447-1.001-1-1.001H5.783l-0.5-2h18.739c0.123,0,0.242-0.021,0.352-0.063c0.045-0.018,0.08-0.047,0.121-0.069     c0.062-0.033,0.126-0.062,0.179-0.107c0.039-0.033,0.065-0.078,0.102-0.119c0.042-0.051,0.089-0.095,0.122-0.15     c0.027-0.053,0.039-0.113,0.059-0.172c0.021-0.053,0.047-0.103,0.059-0.158l0.004-0.021v-0.011L27.91,2.824l3.36-0.839     C31.808,1.851,32.133,1.308,31.998,0.772z M4.783,20.014L2.244,9.873l3.104-0.372l1.505,10.513H4.783z M8.873,20.014L7.336,9.263     l3.119-0.374l0.505,11.125H8.873z M15.056,20.014h-2.089L12.449,8.649l3.116-0.373L15.056,20.014z M19.133,20.014H17.06     l0.52-11.98l3.102-0.371L19.133,20.014z M23.146,20.014h-1.994l1.576-12.598l2.133-0.255L23.146,20.014z M9.005,28.014     c-1.104,0-2.002,0.896-2.002,2.001c0,1.105,0.897,1.999,2.002,1.999c1.106,0,2.002-0.895,2.002-1.999     C11.007,28.912,10.111,28.014,9.005,28.014z M22.021,28.014c-1.105,0-2.002,0.896-2.002,2.001c0,1.105,0.896,1.999,2.002,1.999     c1.104,0,2.002-0.895,2.002-1.999C24.021,28.911,23.125,28.014,22.021,28.014z"
-                                                fill="#FFFFFF"></path>
-                                        </g>
-                                    </g>
-                                </g>
-                            </svg>
-                        </a>
-                        <div class="tovar__additions">
-                            <ul>
-                                <li>
-                                    <a>3 Series (E30) 1987-1990</a>
-                                </li>
-                                <li>
-                                    <a>3 Series (E36) 1991-1999</a>
-                                </li>
-                                <li>
-                                    <a>3 Series (E46) 1998-2003</a>
-                                </li>
-                                <li>
-                                    <a>5 Series (E39) 1995-2000</a>
-                                </li>
-                                <li>
-                                    <a>7 Series (E38) 1994-2000</a>
-                                </li>
-                                <li>
-                                    <a>X5 (E53) 1999-2001</a>
-                                </li>
-                                <li>
-                                    <a>Z3 1995-2002</a>
-                                </li>
-                                <li>
-                                    <a>Z8 2000-2003</a>
-                                </li>
-                            </ul>
-                            <ul>
-                                <li>
-                                    <a>3 Series (E30) 1987-1990</a>
-                                </li>
-                                <li>
-                                    <a>3 Series (E36) 1991-1999</a>
-                                </li>
-                                <li>
-                                    <a>3 Series (E46) 1998-2003</a>
-                                </li>
-                                <li>
-                                    <a>5 Series (E39) 1995-2000</a>
-                                </li>
-                                <li>
-                                    <a>7 Series (E38) 1994-2000</a>
-                                </li>
-                                <li>
-                                    <a>X5 (E53) 1999-2001</a>
-                                </li>
-                                <li>
-                                    <a>Z3 1995-2002</a>
-                                </li>
-                                <li>
-                                    <a>Z8 2000-2003</a>
-                                </li>
-                            </ul>
-                        </div>
-                    </div>
-                    <div class="tovar">
-                        <a href="#!" class="tovar__top-title">Переходные рамки для аксессуаров адаптеров кнопок на руле</a>
-                        <img class="tovar__img" src="{% static 'img/sales-img.png' %}" alt="ramki.png">
-                        <div class="tovar__title">Переходник ISO BMW, Land Rover, Rover, Mini Carav Переходник ISO BMW, Land Rover, Rover, Mini Carav
-                            12-003
-                        </div>
-                        <div class="tovar__middle-line">
-                            <div class="code">Код: 11-0q524525151252541 </div>
-                            <div class="available">
-                                <svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" version="1.1" id="Capa_1" x="0px" y="0px"
-                                    width="512px" height="512px" viewBox="0 0 442.533 442.533" style="enable-background:new 0 0 442.533 442.533;"
-                                    xml:space="preserve">
-                                    <g>
-                                        <path d="M434.539,98.499l-38.828-38.828c-5.324-5.328-11.799-7.993-19.41-7.993c-7.618,0-14.093,2.665-19.417,7.993L169.59,247.248   l-83.939-84.225c-5.33-5.33-11.801-7.992-19.412-7.992c-7.616,0-14.087,2.662-19.417,7.992L7.994,201.852   C2.664,207.181,0,213.654,0,221.269c0,7.609,2.664,14.088,7.994,19.416l103.351,103.349l38.831,38.828   c5.327,5.332,11.8,7.994,19.414,7.994c7.611,0,14.084-2.669,19.414-7.994l38.83-38.828L434.539,137.33   c5.325-5.33,7.994-11.802,7.994-19.417C442.537,110.302,439.864,103.829,434.539,98.499z"
-                                            fill="#52ac62" />
-                                    </g>
-                                </svg>
-                                <span>В наличии</span>
+                            <div class="price">
+                            {% if obj.product.currency %}
+                                {% if request.user.is_authenticated %}
+                                    {% if request.user.site %}
+                                        {{ obj.get_convert_price|floatformat:2|intcomma|replace_comma_with_space }} грн
+                                    {% else %}
+                                        {{ obj.get_convert_ppc_price|floatformat:2|intcomma|replace_comma_with_space }} грн
+                                    {% endif %}
+                                {% else %}
+                                    {{ obj.get_convert_ppc_price|floatformat:2|intcomma|replace_comma_with_space }} грн
+                                {% endif %}
+                            {% else %}
+                                {% if request.user.is_authenticated %}
+                                    {% if request.user.site %}
+                                        {{ obj.price|floatformat:2|intcomma|replace_comma_with_space }} $
+                                    {% else %}
+                                        {{ obj.ppc_price|floatformat:2|intcomma|replace_comma_with_space }} $
+                                    {% endif %}
+                                {% else %}
+                                    {{ obj.ppc_price|floatformat:2|intcomma|replace_comma_with_space }} $
+                                {% endif %}
+                            {% endif %}
                             </div>
                         </div>
-                        <div class="tovar__ppc">РРЦ: 27 418 грн</div>
-                        <div class="tovar__price-line">
-                            <div class="price">949 $</div>
-                            <div class="convert">(25 243,40 грн)</div>
-                        </div>
+                        {% endif %}
                         <a href="#!" class="tovar__basket">
                             <span>В корзину</span>
-                            <svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" version="1.1" id="Capa_1" x="0px" y="0px"
-                                width="512px" height="512px" viewBox="0 0 32.028 32.028" style="enable-background:new 0 0 32.028 32.028;"
-                                xml:space="preserve">
-                                <g>
-                                    <g id="Cart">
-                                        <g>
-                                            <path d="M31.998,0.772c-0.133-0.535-0.677-0.863-1.213-0.728l-4.004,1c-0.39,0.098-0.684,0.418-0.746,0.813l-0.507,3.208     L0.878,8.022c-0.019,0.002-0.034,0.016-0.055,0.02C0.8,8.046,0.779,8.039,0.755,8.045c-0.057,0.014-0.1,0.049-0.15,0.071     c-0.057,0.024-0.11,0.043-0.16,0.076C0.375,8.24,0.318,8.302,0.263,8.365C0.234,8.396,0.198,8.414,0.173,8.448     c-0.006,0.008-0.006,0.018-0.01,0.026C0.109,8.558,0.078,8.652,0.05,8.748c-0.01,0.035-0.03,0.065-0.036,0.101     C-0.006,8.981-0.006,9.12,0.028,9.258l3.004,12l1,4c0.008,0.029,0.025,0.052,0.035,0.079c0.016,0.048,0.037,0.092,0.061,0.137     c0.033,0.065,0.074,0.125,0.122,0.182c0.029,0.034,0.06,0.068,0.093,0.101c0.061,0.053,0.125,0.094,0.194,0.131     c0.036,0.021,0.068,0.043,0.107,0.059c0.112,0.042,0.232,0.068,0.357,0.068h21.022c0.553,0,1-0.447,1-0.999     c0-0.553-0.447-1.001-1-1.001H5.783l-0.5-2h18.739c0.123,0,0.242-0.021,0.352-0.063c0.045-0.018,0.08-0.047,0.121-0.069     c0.062-0.033,0.126-0.062,0.179-0.107c0.039-0.033,0.065-0.078,0.102-0.119c0.042-0.051,0.089-0.095,0.122-0.15     c0.027-0.053,0.039-0.113,0.059-0.172c0.021-0.053,0.047-0.103,0.059-0.158l0.004-0.021v-0.011L27.91,2.824l3.36-0.839     C31.808,1.851,32.133,1.308,31.998,0.772z M4.783,20.014L2.244,9.873l3.104-0.372l1.505,10.513H4.783z M8.873,20.014L7.336,9.263     l3.119-0.374l0.505,11.125H8.873z M15.056,20.014h-2.089L12.449,8.649l3.116-0.373L15.056,20.014z M19.133,20.014H17.06     l0.52-11.98l3.102-0.371L19.133,20.014z M23.146,20.014h-1.994l1.576-12.598l2.133-0.255L23.146,20.014z M9.005,28.014     c-1.104,0-2.002,0.896-2.002,2.001c0,1.105,0.897,1.999,2.002,1.999c1.106,0,2.002-0.895,2.002-1.999     C11.007,28.912,10.111,28.014,9.005,28.014z M22.021,28.014c-1.105,0-2.002,0.896-2.002,2.001c0,1.105,0.896,1.999,2.002,1.999     c1.104,0,2.002-0.895,2.002-1.999C24.021,28.911,23.125,28.014,22.021,28.014z"
-                                                fill="#FFFFFF"></path>
-                                        </g>
-                                    </g>
-                                </g>
-                            </svg>
+                            {% include 'basket_icon.html' %}                            
                         </a>
                         <div class="tovar__additions">
                             <ul>
+                            {% for model in obj.product.get_compatibility_models %}
                                 <li>
-                                    <a>3 Series (E30) 1987-1990</a>
+                                    <a>{{ model.name }} {{ model|get_first_last_years }}</a>
                                 </li>
-                                <li>
-                                    <a>3 Series (E36) 1991-1999</a>
-                                </li>
-                                <li>
-                                    <a>3 Series (E46) 1998-2003</a>
-                                </li>
-                                <li>
-                                    <a>5 Series (E39) 1995-2000</a>
-                                </li>
-                                <li>
-                                    <a>7 Series (E38) 1994-2000</a>
-                                </li>
-                                <li>
-                                    <a>X5 (E53) 1999-2001</a>
-                                </li>
-                                <li>
-                                    <a>Z3 1995-2002</a>
-                                </li>
-                                <li>
-                                    <a>Z8 2000-2003</a>
-                                </li>
-                            </ul>
-                            <ul>
-                                <li>
-                                    <a>3 Series (E30) 1987-1990</a>
-                                </li>
-                                <li>
-                                    <a>3 Series (E36) 1991-1999</a>
-                                </li>
-                                <li>
-                                    <a>3 Series (E46) 1998-2003</a>
-                                </li>
-                                <li>
-                                    <a>5 Series (E39) 1995-2000</a>
-                                </li>
-                                <li>
-                                    <a>7 Series (E38) 1994-2000</a>
-                                </li>
-                                <li>
-                                    <a>X5 (E53) 1999-2001</a>
-                                </li>
-                                <li>
-                                    <a>Z3 1995-2002</a>
-                                </li>
-                                <li>
-                                    <a>Z8 2000-2003</a>
-                                </li>
+                                {% if forloop.counter == 8 %}
+                                    </ul>
+                                    <ul>
+                                {% endif %}
+                            {% endfor %}
                             </ul>
                         </div>
                     </div>
-                    <div class="tovar">
-                        <a href="#!" class="tovar__top-title">Переходные рамки для аксессуаров адаптеров кнопок на руле</a>
-                        <div class="tovar__img-wrap">
-                            <div class="tovar__sale">Акция!</div>
-                            <img class="tovar__img" src="{% static 'img/sales-img.png' %}" alt="ramki.png">
-                            <div class="tovar__credit">Кредит 0,01%</div>
-                        </div>
-                        <div class="tovar__title">Переходник ISO BMW, Land Rover, Rover, Mini Carav
-                        </div>
-                        <div class="tovar__middle-line">
-                            <div class="code">Код: 11-0q524525151252541 </div>
-                            <div class="available">
-                                <svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" version="1.1" id="Capa_1" x="0px" y="0px"
-                                    width="512px" height="512px" viewBox="0 0 442.533 442.533" style="enable-background:new 0 0 442.533 442.533;"
-                                    xml:space="preserve">
-                                    <g>
-                                        <path d="M434.539,98.499l-38.828-38.828c-5.324-5.328-11.799-7.993-19.41-7.993c-7.618,0-14.093,2.665-19.417,7.993L169.59,247.248   l-83.939-84.225c-5.33-5.33-11.801-7.992-19.412-7.992c-7.616,0-14.087,2.662-19.417,7.992L7.994,201.852   C2.664,207.181,0,213.654,0,221.269c0,7.609,2.664,14.088,7.994,19.416l103.351,103.349l38.831,38.828   c5.327,5.332,11.8,7.994,19.414,7.994c7.611,0,14.084-2.669,19.414-7.994l38.83-38.828L434.539,137.33   c5.325-5.33,7.994-11.802,7.994-19.417C442.537,110.302,439.864,103.829,434.539,98.499z"
-                                            fill="#52ac62" />
-                                    </g>
-                                </svg>
-                                <span>В наличии</span>
-                            </div>
-                        </div>
-                        <div class="tovar__ppc">РРЦ: 27 418 грн</div>
-                        <div class="tovar__price-line">
-                            <div class="price">949 $</div>
-                            <div class="convert">(25 243,40 грн)</div>
-                        </div>
-                        <a href="#!" class="tovar__basket">
-                            <span>В корзину</span>
-                            <svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" version="1.1" id="Capa_1" x="0px" y="0px"
-                                width="512px" height="512px" viewBox="0 0 32.028 32.028" style="enable-background:new 0 0 32.028 32.028;"
-                                xml:space="preserve">
-                                <g>
-                                    <g id="Cart">
-                                        <g>
-                                            <path d="M31.998,0.772c-0.133-0.535-0.677-0.863-1.213-0.728l-4.004,1c-0.39,0.098-0.684,0.418-0.746,0.813l-0.507,3.208     L0.878,8.022c-0.019,0.002-0.034,0.016-0.055,0.02C0.8,8.046,0.779,8.039,0.755,8.045c-0.057,0.014-0.1,0.049-0.15,0.071     c-0.057,0.024-0.11,0.043-0.16,0.076C0.375,8.24,0.318,8.302,0.263,8.365C0.234,8.396,0.198,8.414,0.173,8.448     c-0.006,0.008-0.006,0.018-0.01,0.026C0.109,8.558,0.078,8.652,0.05,8.748c-0.01,0.035-0.03,0.065-0.036,0.101     C-0.006,8.981-0.006,9.12,0.028,9.258l3.004,12l1,4c0.008,0.029,0.025,0.052,0.035,0.079c0.016,0.048,0.037,0.092,0.061,0.137     c0.033,0.065,0.074,0.125,0.122,0.182c0.029,0.034,0.06,0.068,0.093,0.101c0.061,0.053,0.125,0.094,0.194,0.131     c0.036,0.021,0.068,0.043,0.107,0.059c0.112,0.042,0.232,0.068,0.357,0.068h21.022c0.553,0,1-0.447,1-0.999     c0-0.553-0.447-1.001-1-1.001H5.783l-0.5-2h18.739c0.123,0,0.242-0.021,0.352-0.063c0.045-0.018,0.08-0.047,0.121-0.069     c0.062-0.033,0.126-0.062,0.179-0.107c0.039-0.033,0.065-0.078,0.102-0.119c0.042-0.051,0.089-0.095,0.122-0.15     c0.027-0.053,0.039-0.113,0.059-0.172c0.021-0.053,0.047-0.103,0.059-0.158l0.004-0.021v-0.011L27.91,2.824l3.36-0.839     C31.808,1.851,32.133,1.308,31.998,0.772z M4.783,20.014L2.244,9.873l3.104-0.372l1.505,10.513H4.783z M8.873,20.014L7.336,9.263     l3.119-0.374l0.505,11.125H8.873z M15.056,20.014h-2.089L12.449,8.649l3.116-0.373L15.056,20.014z M19.133,20.014H17.06     l0.52-11.98l3.102-0.371L19.133,20.014z M23.146,20.014h-1.994l1.576-12.598l2.133-0.255L23.146,20.014z M9.005,28.014     c-1.104,0-2.002,0.896-2.002,2.001c0,1.105,0.897,1.999,2.002,1.999c1.106,0,2.002-0.895,2.002-1.999     C11.007,28.912,10.111,28.014,9.005,28.014z M22.021,28.014c-1.105,0-2.002,0.896-2.002,2.001c0,1.105,0.896,1.999,2.002,1.999     c1.104,0,2.002-0.895,2.002-1.999C24.021,28.911,23.125,28.014,22.021,28.014z"
-                                                fill="#FFFFFF"></path>
-                                        </g>
-                                    </g>
-                                </g>
-                            </svg>
-                        </a>
-                        <div class="tovar__additions">
-                            <ul>
-                                <li>
-                                    <a>3 Series (E30) 1987-1990</a>
-                                </li>
-                                <li>
-                                    <a>3 Series (E36) 1991-1999</a>
-                                </li>
-                                <li>
-                                    <a>3 Series (E46) 1998-2003</a>
-                                </li>
-                                <li>
-                                    <a>5 Series (E39) 1995-2000</a>
-                                </li>
-                                <li>
-                                    <a>7 Series (E38) 1994-2000</a>
-                                </li>
-                                <li>
-                                    <a>X5 (E53) 1999-2001</a>
-                                </li>
-                                <li>
-                                    <a>Z3 1995-2002</a>
-                                </li>
-                                <li>
-                                    <a>Z8 2000-2003</a>
-                                </li>
-                            </ul>
-                            <ul>
-                                <li>
-                                    <a>3 Series (E30) 1987-1990</a>
-                                </li>
-                                <li>
-                                    <a>3 Series (E36) 1991-1999</a>
-                                </li>
-                                <li>
-                                    <a>3 Series (E46) 1998-2003</a>
-                                </li>
-                                <li>
-                                    <a>5 Series (E39) 1995-2000</a>
-                                </li>
-                                <li>
-                                    <a>7 Series (E38) 1994-2000</a>
-                                </li>
-                                <li>
-                                    <a>X5 (E53) 1999-2001</a>
-                                </li>
-                                <li>
-                                    <a>Z3 1995-2002</a>
-                                </li>
-                                <li>
-                                    <a>Z8 2000-2003</a>
-                                </li>
-                            </ul>
-                        </div>
-                    </div>
+                {% endfor %}                   
                 </div>
                 <div class="dots-wrap" id="popular-dots-wrap"></div>
             </section>
             <!-- popular products end -->
-
         </div>
     </section>
 {% endblock %}
 
-{% block extrascrypts %}  
+{% block extrascripts %}
 <script type="text/javascript" src="{% static 'js/tovar.js' %}"></script>
 {% endblock %}

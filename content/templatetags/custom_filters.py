@@ -1,6 +1,8 @@
 # -*- coding: utf-8 -*-
 from __future__ import unicode_literals
 
+from decimal import Decimal
+
 from django import template
 
 from content.models import ChipBasket
@@ -144,3 +146,52 @@ def calculate_sum(basket_id, type_price):
     except Exception as e:
         result = 0
     return result
+
+
+@register.filter
+def get_products_together_cheaper(togeth_cheap):
+    try:
+        result = togeth_cheap.products.iterator()
+    except Exception as e:
+        result = None
+    return result
+
+
+@register.filter
+def calculate_sum_togeth_cheap(togeth_cheap, condition):
+    if condition == 'opt':
+        summ = 0
+        for obj in togeth_cheap.products.iterator():
+            summ += obj.get_convert_price()
+        if togeth_cheap.percent:
+            summ *= (1 - togeth_cheap.discount/100)
+        else:
+            summ -= togeth_cheap.discount
+    else:
+        summ = 0
+        for obj in togeth_cheap.products.iterator():
+            summ += obj.get_convert_ppc_price()
+        if togeth_cheap.percent:
+            summ *= (1 - togeth_cheap.discount/100)
+        else:
+            summ -= togeth_cheap.discount
+    return round(summ, 2)
+
+
+@register.filter
+def discount(togeth_cheap, condition):
+    if not togeth_cheap.percent:
+        return togeth_cheap.discount
+    else:  
+        if condition == 'opt':
+            summ = 0
+            for obj in togeth_cheap.products.iterator():
+                summ += obj.get_convert_price()
+            return round(summ * togeth_cheap.discount/100, 2)
+        else:
+            summ = 0
+            for obj in togeth_cheap.products.iterator():
+                summ += obj.get_convert_price()
+            return round(summ * togeth_cheap.discount/100, 2)            
+
+

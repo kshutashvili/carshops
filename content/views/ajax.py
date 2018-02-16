@@ -1,9 +1,12 @@
 # -*- coding: utf-8 -*-
 from __future__ import unicode_literals
 
+from decimal import Decimal
+
 from django.http import HttpResponse, JsonResponse
 from django.shortcuts import render
 from django.template.loader import render_to_string
+
 
 from content.models import Blog, DiscountProduct, ChipBasket, BasketProduct,\
                            ProductImage, StampCar, ModelCar, YearCar, Product,\
@@ -33,7 +36,13 @@ def basket_session(request):
             inter.save()
 
         response['amount'] = basket.count()
-        response['sum'] = basket.calculate_sum_convert_ppc_price()
+        if request.user.is_authenticated:
+            if request.user.site:
+                response['sum'] = round(basket.calculate_sum_convert_price(), 2)
+            else:
+                response['sum'] = round(basket.calculate_sum_convert_ppc_price(), 2)
+        else:
+            response['sum'] = round(basket.calculate_sum_convert_ppc_price(), 2)
 
         return JsonResponse(response)
     else:
@@ -63,10 +72,10 @@ def products_discount_generate(request):
         block = data['container']
         start = int(data['start'])
         end = start + int(data['length'])
-        products = DiscountProduct.objects.all()[start:end]
+        products = Product.objects.all()[start:end]
         images = dict()
         for obj in products:
-            images[obj.product.id]=ProductImage.objects.filter(product_id=obj.product.id)
+            images[obj.id]=ProductImage.objects.filter(product_id=obj.id)
 
         templ = ''.join(['prod_disc_gen_', block, '.html'])
         html = render(request, templ, {'products':products,
@@ -113,7 +122,13 @@ def change_amount(request):
             pass
         basket_product.save()
         response['amount'] = basket_product.amount
-        response['sum'] = basket_product.basket.calculate_sum_convert_ppc_price()
+        if request.user.is_authenticated:
+            if request.user.site:
+                response['sum'] = basket_product.basket.calculate_sum_convert_price()
+            else:
+                response['sum'] = basket_product.basket.calculate_sum_convert_ppc_price()
+        else:
+            response['sum'] = basket_product.basket.calculate_sum_convert_ppc_price()
         return JsonResponse(response)
 
 

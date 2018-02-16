@@ -198,6 +198,9 @@ class Information(models.Model):
 
 class Product(models.Model):
     """Товар"""
+    name = models.CharField(_('Название товара'),
+                            max_length=128,
+                            null=True)
     category = models.ForeignKey("MenuHeaderItem",
                                  verbose_name=_('Категория'),
                                  null=True)

@@ -22,8 +22,14 @@ BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 # SECURITY WARNING: keep the secret key used in production secret!
 SECRET_KEY = '!2sus_8f#e5z(zlrovmji6olv%3(cz09y$06ec=i7t&^8l9xxq'
 
-SOCIAL_AUTH_FACEBOOK_KEY = '396987517411123'
-SOCIAL_AUTH_FACEBOOK_SECRET = '072e7556266ffb8dba9015aedc648179'
+
+# Social-auth
+SOCIAL_AUTH_FACEBOOK_KEY = '1906165263029356'
+SOCIAL_AUTH_FACEBOOK_SECRET = '0b22b2c13168f346c235dc3325e9a825'
+
+SOCIAL_AUTH_GOOGLE_OAUTH2_KEY ='797002199441'
+SOCIAL_AUTH_GOOGLE_OAUTH2_SECRET = '30mhbbn4lis025kb55uv219vsv0282ca'
+
 
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = False
@@ -50,7 +56,8 @@ INSTALLED_APPS = [
     'content',
 ]
 
-MIDDLEWARE = [
+
+MIDDLEWARE_CLASSES = [
     'django.middleware.security.SecurityMiddleware',
     'django.contrib.sessions.middleware.SessionMiddleware',
     'django.middleware.common.CommonMiddleware',
@@ -58,6 +65,7 @@ MIDDLEWARE = [
     'django.contrib.auth.middleware.AuthenticationMiddleware',
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
+
 ]
 
 ROOT_URLCONF = 'carav.urls'
@@ -116,9 +124,9 @@ AUTH_PASSWORD_VALIDATORS = [
     },
 ]
 
-AUTHENTICATON_BACKENDS = [
+AUTHENTICATON_BACKENDS = (
     'users.backends.AuthBackend',
-]
+)
 
 # Internationalization
 # https://docs.djangoproject.com/en/1.10/topics/i18n/

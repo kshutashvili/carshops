@@ -11,7 +11,7 @@
 {% block title %}Catalog{% endblock %}
 
 {% block extrastyles %}
-<link href="{% static '/css/catalog.css' %}" rel="stylesheet">
+<link href="{% static 'css/catalog.css' %}" rel="stylesheet">
 {% endblock %}
 
 {% block content %}
@@ -259,10 +259,10 @@
                     </div>
                     <div class="products-container">
                         <div class="tovar-list active" id="tovar-list-block">
-                        {% products_discount_generate_block products images %}                            
+                        {% products_discount_generate_block products images request.user banners %}                            
                         </div>
                         <div class="tovar-list-view" id="tovar-list-view">
-                        {% products_discount_generate_view products images %}
+                        {% products_discount_generate_view products images request.user banners %}
                         </div>
                     </div>
                     <form method="get">

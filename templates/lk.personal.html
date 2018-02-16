@@ -215,9 +215,15 @@
                                                 {{ obj.id }}</div>
                                             <div class="type">{{ obj.delivery.delivery_way.name }}</div>
                                             <div class="amount">{{ obj.basket.count }}</div>
-                                            <div class="sum">{{ obj.basket.calculate_sum_ppc_price }} $
-                                                <span> ({{ obj.basket.calculate_sum_convert_ppc_price }} грн)</span>
-                                            </div>
+                                            {% if request.user.site %}
+                                                <div class="sum">{{ obj.basket.calculate_sum_price }} $
+                                                    <span> ({{ obj.basket.calculate_sum_convert_price }} грн)</span>
+                                                </div>
+                                            {% else %}
+                                                <div class="sum">{{ obj.basket.calculate_sum_ppc_price }} $
+                                                    <span> ({{ obj.basket.calculate_sum_convert_ppc_price }} грн)</span>
+                                                </div>
+                                            {% endif %}
                                             <div class="status green">{{ obj.status }}</div>
                                             {% if obj.cod %}
                                                 <div class="tth">{{ obj.cod }}</div>

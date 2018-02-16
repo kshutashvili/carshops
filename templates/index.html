@@ -91,25 +91,57 @@
                             <div class="slide">
                                 <img src="{{ pop_images|get_first_image_url:obj.product.id }}" alt="">
                                 <div class="slide__info">
-                                    <p class="slide__info__title">{{ obj.product.category.name }}</p>
+                                    <p class="slide__info__title">{{ obj.product.name }}</p>
                                     <div class="slide__info__name">{{ obj.product.information|safe }}</div>
                                     <div class="price-wrap">
                                     {% if obj.product.discount %}
                                         <div class="price">
                                         {% with discount_obj=obj.product.discount %} 
                                             {% if obj.product.currency %}
-                                                {{ discount_obj.get_new_convert_ppc_price|floatformat:2|intcomma|replace_comma_with_space }} грн
+                                                {% if request.user.is_authenticated %}
+                                                    {% if request.user.site %}
+                                                        {{ discount_obj.get_new_convert_price|floatformat:2|intcomma|replace_comma_with_space }} грн
+                                                    {% else %}
+                                                        {{ discount_obj.get_new_convert_ppc_price|floatformat:2|intcomma|replace_comma_with_space }} грн
+                                                    {% endif %}
+                                                {% else %}
+                                                    {{ discount_obj.get_new_convert_ppc_price|floatformat:2|intcomma|replace_comma_with_space }} грн
+                                                {% endif %}
                                             {% else %}
-                                                 {{ discount_obj.get_new_ppc_price|floatformat:2|intcomma|replace_comma_with_space }} $
+                                                {% if request.user.is_authenticated %}
+                                                    {% if request.user.site %}
+                                                        {{ discount_obj.get_new_price|floatformat:2|intcomma|replace_comma_with_space }} $
+                                                    {% else %}
+                                                        {{ discount_obj.get_new_ppc_price|floatformat:2|intcomma|replace_comma_with_space }} $
+                                                    {% endif %}
+                                                {% else %}
+                                                    {{ discount_obj.get_new_ppc_price|floatformat:2|intcomma|replace_comma_with_space }} $
+                                                {% endif %}
                                             {% endif %}
                                         {% endwith %}
                                         </div>
                                     {% else %}
                                         <div class="price">
                                         {% if obj.product.currency %}
-                                            {{ obj.product.get_convert_ppc_price|floatformat:2|intcomma|replace_comma_with_space }} грн
+                                            {% if request.user.is_authenticated %}
+                                                {% if request.user.site %}
+                                                    {{ obj.product.get_convert_price|floatformat:2|intcomma|replace_comma_with_space }} грн
+                                                {% else %}
+                                                    {{ obj.product.get_convert_ppc_price|floatformat:2|intcomma|replace_comma_with_space }} грн
+                                                {% endif %}
+                                            {% else %}
+                                                {{ obj.product.get_convert_ppc_price|floatformat:2|intcomma|replace_comma_with_space }} грн
+                                            {% endif %}
                                         {% else %}
-                                            { obj.product.ppc_price|floatformat:2|intcomma|replace_comma_with_space }} $
+                                            {% if request.user.is_authenticated %}
+                                                {% if request.user.site %}
+                                                    { obj.product.price|floatformat:2|intcomma|replace_comma_with_space }} $
+                                                {% else %}
+                                                    { obj.product.ppc_price|floatformat:2|intcomma|replace_comma_with_space }} $
+                                                {% endif %}
+                                            {% else %}
+                                                { obj.product.ppc_price|floatformat:2|intcomma|replace_comma_with_space }} $
+                                            {% endif %}
                                         {% endif %}
                                         </div>
                                     {% endif %}
@@ -154,7 +186,7 @@
                 <div class="tovar-list" id="sales-slider">
                 {% for obj in products_disc %}
                     <div class="tovar">
-                        <a href="#!" class="tovar__top-title">{{ obj.product.category.name }}</a>
+                        <a href="{% url 'product' obj.id %}" class="tovar__top-title">{{ obj.product.name }}</a>
                         <div class="tovar__img-wrap">
                         {% if forloop.last %}
                             <div class="tovar__sale">Акция!</div>
@@ -177,17 +209,49 @@
                         </div>
                         <div class="tovar__old-price">
                             {% if obj.product.currency %}
-                                {{ obj.product.get_convert_ppc_price|floatformat:2|intcomma|replace_comma_with_space }} грн
+                                {% if request.user.is_authenticated %}
+                                    {% if request.user.site %}
+                                        {{ obj.product.get_convert_price|floatformat:2|intcomma|replace_comma_with_space }} грн
+                                    {% else %}
+                                        {{ obj.product.get_convert_ppc_price|floatformat:2|intcomma|replace_comma_with_space }} грн
+                                    {% endif %}
+                                {% else %}
+                                    {{ obj.product.get_convert_ppc_price|floatformat:2|intcomma|replace_comma_with_space }} грн
+                                {% endif %}
                             {% else %}
-                                {{ obj.product.ppc_price|floatformat:2|intcomma|replace_comma_with_space }} $
+                                {% if request.user.is_authenticated %}
+                                    {% if request.user.site %}
+                                        {{ obj.product.price|floatformat:2|intcomma|replace_comma_with_space }} $
+                                    {% else %}
+                                        {{ obj.product.ppc_price|floatformat:2|intcomma|replace_comma_with_space }} $
+                                    {% endif %}
+                                {% else %}
+                                    {{ obj.product.ppc_price|floatformat:2|intcomma|replace_comma_with_space }} $
+                                {% endif %}
                             {% endif %}
                         </div>
                         <div class="tovar__price-line">
                             <div class="price" >
                             {% if obj.product.currency %}
-                                {{ obj.get_new_convert_ppc_price|floatformat:2|intcomma|replace_comma_with_space }} грн
+                                {% if request.user.is_authenticated %}
+                                    {% if request.user.site %}
+                                        {{ obj.get_new_convert_price|floatformat:2|intcomma|replace_comma_with_space }} грн
+                                    {% else %}
+                                        {{ obj.get_new_convert_ppc_price|floatformat:2|intcomma|replace_comma_with_space }} грн
+                                    {% endif %}
+                                {% else %}
+                                    {{ obj.get_new_convert_ppc_price|floatformat:2|intcomma|replace_comma_with_space }} грн
+                                {% endif %}
                             {% else %}
-                                {{ obj.get_new_ppc_price|floatformat:2|intcomma|replace_comma_with_space }} $
+                                {% if request.user.is_authenticated %}
+                                    {% if request.user.site %}
+                                        {{ obj.get_new_price|floatformat:2|intcomma|replace_comma_with_space }} $
+                                    {% else %}
+                                        {{ obj.get_new_ppc_price|floatformat:2|intcomma|replace_comma_with_space }} $
+                                    {% endif %}
+                                {% else %}
+                                    {{ obj.get_new_ppc_price|floatformat:2|intcomma|replace_comma_with_space }} $
+                                {% endif %}
                             {% endif %}
                             </div>
                         </div>

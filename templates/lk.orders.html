@@ -88,9 +88,15 @@
                                             {{ obj.id }}</div>
                                         <div class="cell type">{{ obj.delivery.delivery_way.name }}</div>
                                         <div class="cell amount">{{ obj.basket.count }}</div>
-                                        <div class="cell sum">{{ obj.basket.calculate_sum_ppc_price }} $
-                                            <span> ({{ obj.basket.calculate_sum_convert_ppc_price }} грн)</span>
-                                        </div>
+                                        {% if request.user.site %}
+                                            <div class="cell sum">{{ obj.basket.calculate_sum_price }} $
+                                                <span> ({{ obj.basket.calculate_sum_convert_price }} грн)</span>
+                                            </div> 
+                                        {% else %}
+                                            <div class="cell sum">{{ obj.basket.calculate_sum_ppc_price }} $
+                                                <span> ({{ obj.basket.calculate_sum_convert_ppc_price }} грн)</span>
+                                            </div>                        
+                                        {% endif %}
                                         <div class="cell status green">{{ obj.status }}</div>
                                         {% if not obj.cod %}
                                             <div class="cell tth"></div>
@@ -119,12 +125,17 @@
                                                             <div class="name">{{ row.product.information|safe }}</div>
                                                         </div>
                                                         <div class="category">
-                                                            {{ row.product.category.name }}
+                                                            {{ row.product.name }}
                                                         </div>
                                                         <div class="code">{{ row.product.code }}</div>
                                                         <div class="amount">{{ row.amount }}</div>
-                                                        <div class="price">{{ row.product.ppr_price }}$
-                                                            <br> ({{ row.product.get_convert_ppc_price }} грн)</div>
+                                                        {% if request.user.site %}
+                                                            <div class="price">{{ row.product.price }}$
+                                                                <br> ({{ row.product.get_convert_price }} грн)</div>
+                                                        {% else %}
+                                                            <div class="price">{{ row.product.ppr_price }}$
+                                                                <br> ({{ row.product.get_convert_ppc_price }} грн)</div>
+                                                        {% endif %}
                                                     </div>
                                                 </li>
                                             {% endfor %}
@@ -196,7 +207,11 @@
                                                     </div>
                                                     <div class="field">
                                                         <div class="label">Сумма платежа::</div>
-                                                        <div class="text">{{ obj.basket.calculate_sum_convert_ppc_price }} грн</div>
+                                                        {% if request.user.site %}
+                                                            <div class="text">{{ obj.basket.calculate_sum_convert_price }} грн</div>
+                                                        {% else %}
+                                                            <div class="text">{{ obj.basket.calculate_sum_convert_ppc_price }} грн</div>
+                                                        {% endif %}
                                                     </div>
                                                 </div>
                                             </div>

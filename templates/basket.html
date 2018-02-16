@@ -84,7 +84,7 @@
                                 {% for obj in delivery_ways %}
                                 {% if forloop.counter == 1 %}
                                     <div class="input-block">
-                                        <input type="radio" name="method" class="radio-field" value="{{ obj.name }}" id="method1">
+                                        <input type="radio" name="method" class="radio-field" value="{{ obj.name }}" id="method1" {% if obj.name == account.delivery_way.name %}checked{% endif %}>
                                         <div>
                                             <svg class="car" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" version="1.1" id="Capa_1"
                                                 x="0px" y="0px" width="512px" height="512px" viewBox="0 0 48.997 48.998" style="enable-background:new 0 0 48.997 48.998;"
@@ -99,7 +99,7 @@
                                     </div>
                                 {% elif forloop.counter == 2 %}
                                     <div class="input-block">
-                                        <input type="radio" name="method" class="radio-field" value="{{ obj.name }}" id="method3">
+                                        <input type="radio" name="method" class="radio-field" value="{{ obj.name }}" id="method3" {% if obj.name == account.delivery_way.name %}checked{% endif %}>
                                         <div>
                                             <svg class="nova-poshta" xmlns="http://www.w3.org/2000/svg" version="1" viewBox="0 0 512 512">
                                                 <style>
@@ -119,7 +119,7 @@
                                     </div>
                                 {% elif forloop.counter == 3 %}
                                     <div class="input-block">
-                                        <input type="radio" name="method" class="radio-field" id="method2" value="{{ obj.name }}" checked>
+                                        <input type="radio" name="method" class="radio-field" id="method2" value="{{ obj.name }}" {% if obj.name == account.delivery_way.name %}checked{% endif %}>
                                         <div>
                                             <svg class="businessman" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" version="1.1" id="Capa_1"
                                                 x="0px" y="0px" viewBox="0 0 482.974 482.974" style="enable-background:new 0 0 482.974 482.974;"
@@ -333,6 +333,40 @@
                                     <div class="inputs-container">
                                     {% csrf_token %}
                                         <div class="left">
+                                        {% if account %}
+                                            <p class="input-wrap require">
+                                                <input type="text" class="input-field" name="first_name" value="{{ request.user.first_name }}" placeholder="Имя получателя">
+                                                <span class='help-block'>{{ errors.first_name }}</span>
+                                            </p>
+                                            <p class="input-wrap require">
+                                                <input type="text" class="input-field" name="last_name" value="{{ request.user.last_name }}" placeholder="Фамилия получателя">
+                                                <span class='help-block'>{{ errors.last_name }}</span>
+                                            </p>
+                                            <p class="input-wrap require">
+                                                <input type="text" class="input-field" name="city" value="{{ account.delivery_city }}" placeholder="Город">
+                                                <span class='help-block'>{{ errors.city }}</span>
+                                            </p>
+                                            <p class="input-wrap require">
+                                                <input type="text" class="input-field" name="phone_number" value="{{ request.user.phone_number }}" placeholder="Телефон клиента">
+                                                <span class='help-block'>{{ errors.phone_number }}</span>
+                                            </p>
+                                            <p class="input-wrap">
+                                                <input type="checkbox" class="chechbox_field" id="sms__tth" name="is_sms">
+                                                <label for="sms__tth">Отправить СМС с номером ТТН</label>
+                                            </p>
+                                            <p class="input-wrap require">
+                                                <input type="text" class="input-field" name="nova_poshta_stock" value="{{ account.delivery_address }}" placeholder='Склад "Новой Почты"'>
+                                                <span class='help-block'>{{ errors.nova_poshta_stock }}</span>
+                                            </p>
+                                            <p class="input-wrap require">
+                                                <input type="text" class="input-field" name="cod" placeholder='Сумма наложенного платежа'>
+                                                <span class='help-block'>{{ errors.cod_sum }}</span>
+                                            </p>
+                                            <p class="input-wrap">
+                                                <input type="checkbox" class="chechbox_field" id="is_cod" name="without_money">
+                                                <label class="bold" for="without_money">Отправка без денег</label>
+                                            </p>
+                                        {% else %}
                                             <p class="input-wrap require">
                                                 {{ delivery_data_form.first_name }}
                                                 <span class='help-block'>{{ errors.first_name }}</span>
@@ -365,10 +399,15 @@
                                                 {{ delivery_data_form.is_cod }}
                                                 <label class="bold" for="without_money">Отправка без денег</label>
                                             </p>
+                                        {% endif %}
                                         </div>
                                         <div class="right">
                                             <p class="input-wrap">
+                                            {% if account %}
+                                                <input type="text" class="input-field" name="email" value="{{ request.user.email }}" placeholder="E-mail">
+                                            {% else %}
                                                 {{ delivery_data_form.email }}
+                                            {% endif %}
                                                 <span class='help-block'>{{ errors.email }}</span>
                                             </p>
                                             <p class="input-wrap">

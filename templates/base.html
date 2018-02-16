@@ -301,7 +301,19 @@
                     </div>
                     <div class="info-wrap">
                         <a href="{% url 'basket' %} " class="info-wrap__title">В корзине</a>
-                        <p class="info-wrap__text" id="basket_template" >{% if request.session.basket_id %}{{ request.session.basket_id|prod_count }} товаров на {{ request.session.basket_id|calculate_sum:'convert_ppc_price' }} грн{% else %} 0 товаров на 0,00 грн{% endif %}</p>
+                        <p class="info-wrap__text" id="basket_template" >
+                        {% if request.session.basket_id %}{{ request.session.basket_id|prod_count }}
+                         товаров на 
+                            {% if request.user.is_authenticated %}
+                                {% if request.user.site %}
+                                    {{ request.session.basket_id|calculate_sum:'convert_price' }} грн</p>
+                                {% else %}
+                                    {{ request.session.basket_id|calculate_sum:'convert_ppc_price' }} грн</p>
+                                {% endif %}
+                            {% else %}
+                                {{ request.session.basket_id|calculate_sum:'convert_ppc_price' }} грн</p>
+                            {% endif %}
+                        {% else %} 0 товаров на 0,00 грн{% endif %}
                     </div>
                 </div>
             </section>

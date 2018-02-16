@@ -5,7 +5,7 @@
     <span>Цена</span>
 </p>
 <div class="content-wrap">
-{% for obj in basket.basketproduct_set.iterator %}
+{% for obj in basket_product %}
     <article class="item">
         <div class="wrap-for-info">
             <div class="left">
@@ -38,9 +38,25 @@
         </div>
         <div class="right">
         {% if obj.product.discount %}
-            <div class="item__price">{{ obj.product.discount.get_new_ppc_price }}$</div>
+            {% if request.user.is_authenticated %}
+                {% if request.user.site %}
+                    <div class="item__price">{{ obj.product.discount.get_new_price }}$</div>
+                {% else %}
+                    <div class="item__price">{{ obj.product.discount.get_new_ppc_price }}$</div>
+                {% endif %}
+            {% else %}
+                <div class="item__price">{{ obj.product.discount.get_new_ppc_price }}$</div>
+            {% endif %}
         {% else %}
-            <div class="item__price">{{ obj.product.ppc_price }}$</div>
+            {% if request.user.is_authenticated %}
+                {% if request.user.site %}
+                    <div class="item__price">{{ obj.product.price }}$</div>
+                {% else %}
+                    <div class="item__price">{{ obj.product.ppc_price }}$</div>
+                {% endif %}
+            {% else %}
+                <div class="item__price">{{ obj.product.ppc_price }}$</div>
+            {% endif %}
         {% endif %}
             <div class="item__amount">
                 <p class="item__amount__title">Количество товара</p>
@@ -60,7 +76,15 @@
     {% if not basket %}
         <div class="conversion__sum" id="convert"> 0 грн </div>
     {% else %}
-        <div class="conversion__sum" id="convert" >{{ basket.calculate_sum_convert_ppc_price }} грн</div>
+        {% if request.user.is_authenticated %}
+            {% if request.user.site %}
+                <div class="conversion__sum" id="convert" >{{ basket.calculate_sum_convert_price }} грн</div>
+            {% else %}
+                <div class="conversion__sum" id="convert" >{{ basket.calculate_sum_convert_ppc_price }} грн</div>
+            {% endif %}
+        {% else %}
+            <div class="conversion__sum" id="convert" >{{ basket.calculate_sum_convert_ppc_price }} грн</div>
+        {% endif %}
     {% endif %}
 </div>
 <div class="bottom">
@@ -72,8 +96,16 @@
         <p class="right__title">Сумма к оплате</p>
         {% if not basket %}
             <div class="right__sum" id="sum"> 0 грн </div>
-        {% else %}    
-            <div class="right__sum" id="sum">{{ basket.calculate_sum_convert_ppc_price }} грн</div>
+        {% else %}
+            {% if request.user.is_authenticated %}
+                {% if request.user.site %}
+                    <div class="right__sum" id="sum" >{{ basket.calculate_sum_convert_price }} грн</div>
+                {% else %}
+                    <div class="right__sum" id="sum" >{{ basket.calculate_sum_convert_ppc_price }} грн</div>
+                {% endif %}
+            {% else %}
+                <div class="right__sum" id="sum" >{{ basket.calculate_sum_convert_ppc_price }} грн</div>
+            {% endif %}
         {% endif %}
     </div>
 </div>

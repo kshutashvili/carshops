@@ -10,15 +10,19 @@ def news_generate(news):
 
 
 @register.inclusion_tag('prod_disc_gen_block.html')
-def products_discount_generate_block(products, images):
+def products_discount_generate_block(products, images, user, banners):
     return {'products':products,
-            'images':images}
+            'images':images,
+            'user':user,
+            'banners':banners}
 
 
 @register.inclusion_tag('prod_disc_gen_view.html')
-def products_discount_generate_view(products, images):
+def products_discount_generate_view(products, images, user, banners):
     return {'products':products,
-            'images':images}
+            'images':images,
+            'user':user,
+            'banners':banners}
 
 
 @register.inclusion_tag('model_cars_generate.html')
