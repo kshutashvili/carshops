@@ -526,6 +526,7 @@
                                     <div class="info">
                                         <p class="title">Ваш товар</p>
                                         <a href="{% url 'product' prod.id %}" class="name">{{ prod.name }}</a>
+                                        {% if prod.discount %}
                                         <div class="old-price">
                                             {% if request.user.is_authenticated %}
                                                 {% if request.user.site %}
@@ -548,6 +549,19 @@
                                                 {{ prod.discount.get_new_convert_ppc_price|floatformat:2|intcomma|replace_comma_with_space }} $
                                             {% endif %}
                                         </div>
+                                        {% else %}
+                                            <div class="price">
+                                            {% if request.user.is_authenticated %}
+                                                {% if request.user.site %}
+                                                    {{ prod.get_convert_price|floatformat:2|intcomma|replace_comma_with_space }} $
+                                                {% else %}
+                                                    {{ prod.get_convert_ppc_price|floatformat:2|intcomma|replace_comma_with_space }} $
+                                                {% endif %}
+                                            {% else %}
+                                                {{ prod.get_convert_ppc_price|floatformat:2|intcomma|replace_comma_with_space }} $
+                                            {% endif %}
+                                        </div>
+                                        {% endif %}
                                     </div>
                                 </div>
                             {% endfor %}  
