@@ -34,7 +34,7 @@ SOCIAL_AUTH_GOOGLE_OAUTH2_SECRET = '30mhbbn4lis025kb55uv219vsv0282ca'
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = False
 
-ALLOWED_HOSTS = []
+ALLOWED_HOSTS = ['*']
 
 
 # Application definition
