@@ -57,7 +57,7 @@ def basket(request):
     elif request.method == 'POST':
         data = request.POST
         delivery_data_form = DeliveryDataForm(data)
-        if delivery_data_form.is_valid():
+        if delivery_data_form.is_valid() and data.has_key('method'):
             if request.session.has_key('basket_id'):
 
                 basket = ChipBasket.objects.get(id=request.session['basket_id'])
@@ -68,7 +68,7 @@ def basket(request):
                 if has_products:
 
                     delivery = Delivery()
-                    delivery.delivery_way = DeliveryWay.objects.get(name=data['method'])
+                    delivery.delivery_way = DeliveryWay.objects.filter(name=data['method']).first()
                     delivery.save()
 
                     delivery_data = DeliveryData()
@@ -95,7 +95,7 @@ def basket(request):
                             account.user = request.user
                             account.save()
                         elif not acc.delivery_way:
-                            acc.delivery_city = delivery_data.delivery_city
+                            acc.delivery_city = delivery_data.city
                             acc.delivery_address = delivery_data.delivery_address
                             acc.delivery_way = delivery.delivery_way
                             acc.save()
@@ -126,7 +126,8 @@ def basket(request):
             else:
                 return HttpResponseRedirect('%s?status_message=%s' % (reverse('basket'),_('Корзина пуста')))
         else:
-            return HttpResponseRedirect('%s?status_message=%s' % (reverse('basket'),_('Исправьте, пожалуйста, ошибки в данных')))
+            return HttpResponseRedirect('%s?status_message=%s' % (reverse('basket'),
+                                                                _('Исправьте, пожалуйста, ошибки в данных и заполните всё необходимое')))
 
 
 

@@ -416,7 +416,11 @@
                                             <p class="input-wrap">
                                             {% if request.user.is_authenticated %}
                                                 <input type="text" class="input-field" name="email"
-                                                {% if user_social %}value="{{ user_social.email }}"{% else %}value="{{ request.user.email }}"{% endif %}
+                                                {% if user_social %}
+                                                value="{{ user_social.email }}"
+                                                {% else %}
+                                                value="{{ request.user.email }}"
+                                                {% endif %}
                                                 placeholder="E-mail">
                                             {% else %}
                                                 {{ delivery_data_form.email }}

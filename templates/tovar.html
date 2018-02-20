@@ -646,7 +646,7 @@
                 <div class="tovar-list" id="popular-slider">
                 {% for obj in related_products %}
                     <div class="tovar">
-                        <a href="{{ obj.link }}" class="tovar__top-title">{{ obj.category.name }}</a>
+                        <a href="{% url 'product' obj.id %}" class="tovar__top-title">{{ obj.category.name }}</a>
                         <div class="tovar__img-wrap">
                         {% if obj.discount %}
                             <div class="tovar__sale">Акция!</div>
