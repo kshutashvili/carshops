@@ -118,6 +118,7 @@ def change_password(request):
     if request.method == 'POST':
         data = request.POST
         user = request.user
+        account = PersonalAccount.objects.filter(user=user).first()     
         errors = dict()
         if user.check_password(data['old_pass']):
             try:
@@ -131,9 +132,11 @@ def change_password(request):
                 errors['new_pass'] = _('Слишком слабый пароль')
         else:
             errors['old_pass'] = _('Неправильный пароль')
-        return render(request, 'lk.change.password.html', {'errors':errors})
+        return render(request, 'lk.change.password.html', {'errors':errors,
+                                                           'account':account})
     else:
-        return render(request, 'lk.change.password.html', {})
+        account = PersonalAccount.objects.filter(user=request.user).first()
+        return render(request, 'lk.change.password.html', {'account':account})
 
 
 @login_required
