@@ -341,18 +341,31 @@
                                         {% if request.user.is_authenticated %}
                                             <p class="input-wrap require">
                                                 <input type="text" class="input-field" name="first_name"
-                                                {% if user_social %}value="{{ user_social.first_name }}"{% else %}value="{{ request.user.first_name }}"{% endif %}
+                                                {% if user_social %}
+                                                    value="{{ user_social.first_name }}"
+                                                {% else %}
+                                                    value="{{ request.user.first_name }}"
+                                                {% endif %}
                                                 placeholder="Имя получателя">
                                                 <span class='help-block'>{{ errors.first_name }}</span>
                                             </p>
                                             <p class="input-wrap require">
                                                 <input type="text" class="input-field" name="last_name"
-                                                {% if user_social %}value="{{ user_social.last_name }}"{% else %}value="{{ request.user.last_name }}"{% endif %}
+                                                {% if user_social %}
+                                                    value="{{ user_social.last_name }}"
+                                                {% else %}
+                                                    value="{{ request.user.last_name }}"{% endif %}
                                                 placeholder="Фамилия получателя">
                                                 <span class='help-block'>{{ errors.last_name }}</span>
                                             </p>
                                             <p class="input-wrap require">
-                                                <input type="text" class="input-field" name="city" value="{{ account.delivery_city }}" placeholder="Город">
+                                                <input type="text" class="input-field" name="city" 
+                                                {% if account.delivery_city %}
+                                                    value="{{ account.delivery_city }}"
+                                                {% else %}
+                                                    value=""
+                                                {% endif %}
+                                                placeholder="Город">
                                                 <span class='help-block'>{{ errors.city }}</span>
                                             </p>
                                             <p class="input-wrap require">
@@ -364,7 +377,13 @@
                                                 <label for="sms__tth">Отправить СМС с номером ТТН</label>
                                             </p>
                                             <p class="input-wrap require">
-                                                <input type="text" class="input-field" name="nova_poshta_stock" value="{{ account.delivery_address }}" placeholder='Склад "Новой Почты"'>
+                                                <input type="text" class="input-field" name="nova_poshta_stock"
+                                                {% if account.delivery_address %}
+                                                    value="{{ account.delivery_address }}"
+                                                {% else %}
+                                                    value=""
+                                                {% endif %}
+                                                placeholder='Склад "Новой Почты"'>
                                                 <span class='help-block'>{{ errors.nova_poshta_stock }}</span>
                                             </p>
                                             <p class="input-wrap require">

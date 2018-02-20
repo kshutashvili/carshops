@@ -96,7 +96,7 @@ def basket(request):
                             account.save()
                         elif not acc.delivery_way:
                             acc.delivery_city = delivery_data.city
-                            acc.delivery_address = delivery_data.delivery_address
+                            acc.delivery_address = delivery_data.nova_poshta_stock
                             acc.delivery_way = delivery.delivery_way
                             acc.save()
 
