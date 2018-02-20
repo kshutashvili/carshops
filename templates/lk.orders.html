@@ -130,11 +130,21 @@
                                                         <div class="code">{{ row.product.code }}</div>
                                                         <div class="amount">{{ row.amount }}</div>
                                                         {% if request.user.site %}
-                                                            <div class="price">{{ row.product.price }}$
+                                                            {% if row.product.discount %}
+                                                                <div class="price">{{ row.product.discount.get_new_price }}$
+                                                                <br> ({{ row.product.discount.get_new_convert_price }} грн)</div>
+                                                            {% else %}
+                                                                <div class="price">{{ row.product.price }}$
                                                                 <br> ({{ row.product.get_convert_price }} грн)</div>
+                                                            {% endif %}
                                                         {% else %}
-                                                            <div class="price">{{ row.product.ppr_price }}$
+                                                            {% if row.product.discount %}
+                                                                <div class="price">{{ row.product.discount.get_new_ppc_price }}$
+                                                                <br> ({{ row.product.discount.get_new_convert_ppc_price }} грн)</div>
+                                                            {% else %}
+                                                                <div class="price">{{ row.product.ppc_price }}$
                                                                 <br> ({{ row.product.get_convert_ppc_price }} грн)</div>
+                                                            {% endif %}
                                                         {% endif %}
                                                     </div>
                                                 </li>

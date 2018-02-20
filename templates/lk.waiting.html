@@ -36,9 +36,17 @@
                                             </div>
                                             <div class="table__body">
                                             {% if request.user.site %}
-                                                <div class="cell price">{{ row.product.price }}$</div>
+                                                {% if row.product.discount %}
+                                                    <div class="cell price">{{ row.product.discount.get_new_price }}$</div>
+                                                {% else %}
+                                                    <div class="cell price">{{ row.product.price }}$</div>
+                                                {% endif %}
                                             {% else %}
-                                                <div class="cell price">{{ row.product.ppc_price }}$</div>
+                                                {% if row.product.discount %}
+                                                    <div class="cell price">{{ row.product.discount.get_new_ppc_price }}$</div>
+                                                {% else %}
+                                                    <div class="cell price">{{ row.product.ppc_price }}$</div>
+                                                {% endif %}
                                             {% endif %}
                                                 <div class="cell order_date">{{ obj.created|date:'m.d.Y' }}</div>
                                                 {% if not obj.delivered %}

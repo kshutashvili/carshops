@@ -398,20 +398,20 @@
                                             <p class="input-wrap require">
                                                 {{ delivery_data_form.first_name }}
                                                 <span class='help-block'>
-                                                {{ errors.first_name }}
+                                                {{ delivery_data_form.errors.first_name }}
                                                 </span>
                                             </p>
                                             <p class="input-wrap require">
                                                 {{ delivery_data_form.last_name }}
-                                                <span class='help-block'>{{ errors.last_name }}</span>
+                                                <span class='help-block'>{{ delivery_data_form.errors.last_name }}</span>
                                             </p>
                                             <p class="input-wrap require">
                                                 {{ delivery_data_form.city }}
-                                                <span class='help-block'>{{ errors.city }}</span>
+                                                <span class='help-block'>{{ delivery_data_form.errors.city }}</span>
                                             </p>
                                             <p class="input-wrap require">
                                                 {{ delivery_data_form.phone_number }}
-                                                <span class='help-block'>{{ errors.phone_number }}</span>
+                                                <span class='help-block'>{{ delivery_data_form.errors.phone_number }}</span>
                                             </p>
                                             <p class="input-wrap">
                                                 {{ delivery_data_form.is_sms }}
@@ -419,11 +419,11 @@
                                             </p>
                                             <p class="input-wrap require">
                                                 {{ delivery_data_form.nova_poshta_stock }}
-                                                <span class='help-block'>{{ errors.nova_poshta_stock }}</span>
+                                                <span class='help-block'>{{ delivery_data_form.errors.nova_poshta_stock }}</span>
                                             </p>
                                             <p class="input-wrap require">
                                                 {{ delivery_data_form.cod_sum }}
-                                                <span class='help-block'>{{ errors.cod_sum }}</span>
+                                                <span class='help-block'>{{ delivery_data_form.errors.cod_sum }}</span>
                                             </p>
                                             <p class="input-wrap">
                                                 {{ delivery_data_form.is_cod }}
@@ -444,11 +444,11 @@
                                             {% else %}
                                                 {{ delivery_data_form.email }}
                                             {% endif %}
-                                                <span class='help-block'>{{ errors.email }}</span>
+                                                <span class='help-block'>{{ delivery_data_form.errors.email }}</span>
                                             </p>
                                             <p class="input-wrap">
                                                 {{ delivery_data_form.commentary }}
-                                                <span class='help-block'>{{ errors.commentary }}</span>
+                                                <span class='help-block'>{{ delivery_data_form.errors.commentary }}</span>
                                             </p>
                                         </div>
                                     </div>

@@ -126,6 +126,7 @@ def basket(request):
             else:
                 return HttpResponseRedirect('%s?status_message=%s' % (reverse('basket'),_('Корзина пуста')))
         else:
+
             return HttpResponseRedirect('%s?status_message=%s' % (reverse('basket'),
                                                                 _('Исправьте, пожалуйста, ошибки в данных и заполните всё необходимое')))
 
