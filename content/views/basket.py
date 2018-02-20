@@ -36,25 +36,24 @@ def basket(request):
             basket_product = None
             result = None
         delivery_data_form = DeliveryDataForm()
-        social_user = request.user.social_auth.get(provider='facebook')
-        if social_user:
-            user_social = dict()
-            url = 'https://graph.facebook.com/me?fields=id,name,email&access_token=%s' % social_user.extra_data['access_token']
-            string = urllib.urlopen(url).read().decode('unicode-escape')
-            data = ast.literal_eval(string)
-            user_social = dict()
-            user_social['first_name'] = data['name'].split()[0]
-            user_social['last_name'] = data['name'].split()[1]
-            user_social['email'] = data['email']
-        else:
-            user_social = None
+#        social_user = request.user.social_auth.get(provider='facebook')
+#        if social_user:
+#            user_social = dict()
+#            url = 'https://graph.facebook.com/me?fields=id,name,email&access_token=%s' % social_user.extra_data['access_token']
+#            string = urllib.urlopen(url).read().decode('unicode-escape')
+#            data = ast.literal_eval(string)
+#            user_social = dict()
+#            user_social['first_name'] = data['name'].split()[0]
+#            user_social['last_name'] = data['name'].split()[1]
+#            user_social['email'] = data['email']
+#        else:
+#            user_social = None
         return render(request, 'basket.html', {'delivery_ways':delivery_ways,
                                                'delivery_data_form':delivery_data_form,
                                                'basket':basket,
                                                'images':result,
                                                'basket_product':basket_product,
-                                               'account':account,
-                                               'user_social':user_social})
+                                               'account':account})
     elif request.method == 'POST':
         data = request.POST
         delivery_data_form = DeliveryDataForm(data)
