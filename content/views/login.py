@@ -90,9 +90,7 @@ def user_login(request):
         auth = AuthBackend()
         user = auth.authenticate(username, password)
         if user is not None:
-            tmp1 = user.is_authenticated
-            login(request, user, backend=AuthBackend())
-            tmp2 = user.is_authenticated
+            login(request, user)
             if request.POST.get('remember_me') is not None:
                 request.session.set_expiry(0)
             return HttpResponseRedirect(reverse('personal'))

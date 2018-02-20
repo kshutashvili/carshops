@@ -30,7 +30,7 @@ def personal(request):
             account.user = request.user
             account.save()
         delivery_ways = DeliveryWay.objects.all()
-        social_user = request.user.social_auth.get(provider='google-oauth2')
+#        social_user = request.user.social_auth.get(provider='google-oauth2')
 #       if social_user:
 #           url = 'https://graph.facebook.com/me?fields=id,name,email&access_token=%s' % social_user.extra_data['access_token']
 #           string = urllib.urlopen(url).read().decode('unicode-escape')
@@ -51,15 +51,15 @@ def personal(request):
                                                     'account':account})
     else:
         data = request.POST
-        social_user = request.user.social_auth.get(provider='facebook')
+#        social_user = request.user.social_auth.get(provider='facebook')
         errors = dict()
-        if not social_user:
-            if not data['first_name']:
-                errors['first_name'] = _('Это поле обязательно')
-            if not data['last_name']:
-                errors['last_name'] = _('Это поле обязательно')
-            if not data['email']:
-                errors['email'] = _('Это поле обязательно')
+#        if not social_user:
+        if not data['first_name']:
+            errors['first_name'] = _('Это поле обязательно')
+        if not data['last_name']:
+            errors['last_name'] = _('Это поле обязательно')
+        if not data['email']:
+            errors['email'] = _('Это поле обязательно')
         if not data['middle_name']:
             errors['middle_name'] = _('Это поле обязательно')
         if not data['phone_number']:
@@ -70,10 +70,10 @@ def personal(request):
             errors['delivery_address'] = _('Это поле обязательно')
 
         if not errors:
-            if not social_user:
-                request.user.first_name = data['first_name']
-                request.user.last_name = data['last_name']
-                request.user.email = data['email']
+#            if not social_user:
+            request.user.first_name = data['first_name']
+            request.user.last_name = data['last_name']
+            request.user.email = data['email']
             request.user.middle_name = data['middle_name']
             request.user.phone_number = data['phone_number']
             account = PersonalAccount.objects.get(user=request.user)
