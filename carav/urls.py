@@ -47,6 +47,7 @@ urlpatterns = [
     url(r'^ajax/car_select/$', ajax.car_select, name='car_select'),
     url(r'^ajax/change_amount/$', ajax.change_amount, name='change_amount'),
     url(r'^ajax/clear_basket/$', ajax.clear_basket, name='clear_basket'),
+    url(r'^oauth/', include('social_django.urls', namespace='social')),
 ]
 if settings.DEBUG:
     urlpatterns += static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)

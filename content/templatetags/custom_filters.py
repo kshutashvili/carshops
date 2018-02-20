@@ -195,3 +195,7 @@ def discount(togeth_cheap, condition):
             return round(summ * togeth_cheap.discount/100, 2)            
 
 
+@register.filter
+def recalculate_with_rate(price, rate):
+    return round(price * rate, 2)
+

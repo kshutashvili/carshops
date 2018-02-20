@@ -510,7 +510,7 @@ class ChipBasket(models.Model):
         except DiscountProduct.DoesNotExist as e:
             summ = 0
             for obj in self.basketproduct_set.iterator():
-                summ += obj.get_convert_ppc_price() * obj.amount
+                summ += obj.product.get_convert_ppc_price() * obj.amount
         return summ
 
     def calculate_sum_convert_price(self):
@@ -521,7 +521,7 @@ class ChipBasket(models.Model):
         except DiscountProduct.DoesNotExist as e:    
             summ = 0
             for obj in self.basketproduct_set.iterator():
-                summ += obj.product.discount.get_convert_price() * obj.amount
+                summ += obj.product.get_convert_price() * obj.amount
         return summ
 
     def count(self):
@@ -678,5 +678,28 @@ class PersonalAccount(models.Model):
         verbose_name_plural = _('Персональные аккаунты')
 
     def __unicode__(self):
-        return ' '.join([self.user.first_name, self.user.last_name, self.user.middle_name])
+        if self.user:
+            result = ' '.join([self.user.first_name, self.user.last_name])
+        else:
+            result = 'Незаполненный аккаунт'
+        return result
+
+
+class ExchangeRate(SingletonModel):
+    rate_buy = models.DecimalField(_('Курс доллара к гривне, продажа'),
+                                   decimal_places=2,
+                                   max_digits=5,
+                                   validators=[MinValueValidator(0.00)])
+    rate_sale = models.DecimalField(_('Курс доллара к гривне, покупка'),
+                                   decimal_places=2,
+                                   max_digits=5,
+                                   validators=[MinValueValidator(0.00)],
+                                   null=True)
+
+    class Meta:
+        verbose_name = _('Курс доллара к гривне')
+        verbose_name_plural = _('Курс доллара к гривне')
+
+    def __unicode__(self):
+        return 'Продажа: 1 USD = %s UAH  Покупка: 1 USD = %s UAH' % (str(self.rate_buy), str(self.rate_sale))
 

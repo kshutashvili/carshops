@@ -2,6 +2,12 @@
 
 {% load static %}
 
+{% load solo_tags %}
+
+{% load humanize %}
+
+{% load custom_filters %}
+
 {% block title %}LK Personal Information{% endblock %}
 
 {% block extrastyles %}
@@ -67,7 +73,36 @@
                                 </div>
                             </div>
                             <form action="{% url 'personal' %}" method="post" class="form">
-                                <div id="personal" >
+                            {% if user_social %}
+                                 <div id="personal" >
+                                    <div class="input-wrap">
+                                        <label for="name">Имя:</label>
+                                        <input type="text" id="name" name="first_name" value="{{ user_social.first_name }}">
+                                        <span class='help-block'>{{ errors.first_name }}</span>
+                                    </div>
+                                    <div class="input-wrap">
+                                        <label for="last_name">Фамилия:</label>
+                                        <input type="text" id="last_name" name="last_name" value="{{ user_social.last_name }}">
+                                        <span class='help-block'>{{ errors.last_name }}</span>
+                                    </div>
+                                    <div class="input-wrap">
+                                        <label for="third_name">Отчество:</label>
+                                        <input type="text" id="middle_name" name="middle_name" value="{{ request.user.middle_name }}">
+                                        <span class='help-block'>{{ errors.middle_name }}</span>
+                                    </div>
+                                    <div class="input-wrap">
+                                        <label for="phone">Телефон:</label>
+                                        <input type="text" id="phone" name="phone_number" value="{{ request.user.phone_number }}">
+                                        <span class='help-block'>{{ errors.phone_number }}</span>
+                                    </div>
+                                    <div class="input-wrap">
+                                        <label for="email">E-mail:</label>
+                                        <input type="text" id="email" name="email" value="{{ user_social.email }}">
+                                        <span class='help-block'>{{ errors.email }}</span>
+                                    </div>
+                                </div>
+                            {% else %}
+                                 <div id="personal" >
                                     <div class="input-wrap">
                                         <label for="name">Имя:</label>
                                         <input type="text" id="name" name="first_name" value="{{ request.user.first_name }}">
@@ -94,6 +129,7 @@
                                         <span class='help-block'>{{ errors.email }}</span>
                                     </div>
                                 </div>
+                            {% endif %}
                                 <div>
                                     <div class="input-wrap">
                                         <label for="city">Город доставки:</label>
@@ -136,10 +172,11 @@
                             </div>
                             <div class="section__content">
                                 <div class="private-balance">
+                                {% get_solo 'content.ExchangeRate' as rate %}
                                     <div class="balance-wrap">
                                         <div class="title">Личный баланс:</div>
                                         <div class="amount">{{ account.balance }} $
-                                            <span>(11 358.20 грн)</span>
+                                            <span>({{ account.balance|recalculate_with_rate:rate.rate_sale|intcomma|replace_comma_with_space }} грн)</span>
                                         </div>
                                     </div>
                                     <div class="btns">
@@ -169,8 +206,8 @@
                                         </div>
                                         <div class="rate__main">
                                             <div class="name">Доллар</div>
-                                            <div class="buy">26,550</div>
-                                            <div class="sell">26,750</div>
+                                            <div class="buy">{{ rate.rate_buy }}</div>
+                                            <div class="sell">{{ rate.rate_sale }}</div>
                                         </div>
                                         <div class="rate__bottom">
                                             <span>*</span>03.10.2017</div>

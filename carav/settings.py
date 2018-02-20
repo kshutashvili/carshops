@@ -26,9 +26,16 @@ SECRET_KEY = '!2sus_8f#e5z(zlrovmji6olv%3(cz09y$06ec=i7t&^8l9xxq'
 # Social-auth
 SOCIAL_AUTH_FACEBOOK_KEY = '1906165263029356'
 SOCIAL_AUTH_FACEBOOK_SECRET = '0b22b2c13168f346c235dc3325e9a825'
+SOCIAL_AUTH_FACEBOOK_SCOPE = ['email']
 
-SOCIAL_AUTH_GOOGLE_OAUTH2_KEY ='797002199441'
-SOCIAL_AUTH_GOOGLE_OAUTH2_SECRET = '30mhbbn4lis025kb55uv219vsv0282ca'
+SOCIAL_AUTH_GOOGLE_OAUTH2_KEY ='797002199441-30mhbbn4lis025kb55uv219vsv0282ca.apps.googleusercontent.com'
+SOCIAL_AUTH_GOOGLE_OAUTH2_SECRET = 'rpt8Mnrk8naCKekHs9IUcc9m'
+SOCIAL_AUTH_GOOGLE_OAUTH2_SCOPE = [
+    'https://www.googleapis.com/auth/userinfo.email',
+    'https://www.googleapis.com/auth/userinfo.profile'
+]
+
+SESSION_SERIALIZER='django.contrib.sessions.serializers.PickleSerializer'
 
 
 # SECURITY WARNING: don't run with debug turned on in production!
@@ -51,6 +58,7 @@ INSTALLED_APPS = [
     'solo',
     'ckeditor',
     'mptt',
+    'social_django',
     # own
     'users',
     'content',
@@ -65,7 +73,7 @@ MIDDLEWARE_CLASSES = [
     'django.contrib.auth.middleware.AuthenticationMiddleware',
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
-
+    'social_django.middleware.SocialAuthExceptionMiddleware',
 ]
 
 ROOT_URLCONF = 'carav.urls'
@@ -82,6 +90,8 @@ TEMPLATES = [
                 'django.contrib.auth.context_processors.auth',
                 'django.contrib.messages.context_processors.messages',
                 'content.context_processors.menu_processor',
+                'social_django.context_processors.backends',
+                'social_django.context_processors.login_redirect',
             ],
         },
     },
@@ -108,6 +118,7 @@ DATABASES = {
 # https://docs.djangoproject.com/en/1.10/ref/settings/#auth-password-validators
 
 AUTH_USER_MODEL = 'users.User'
+SOCIAL_AUTH_USER_MODEL = 'users.User'
 
 AUTH_PASSWORD_VALIDATORS = [
     {
@@ -124,8 +135,12 @@ AUTH_PASSWORD_VALIDATORS = [
     },
 ]
 
-AUTHENTICATON_BACKENDS = (
+
+AUTHENTICATION_BACKENDS = (
     'users.backends.AuthBackend',
+    'social_core.backends.google.GoogleOAuth2', 
+    'social_core.backends.facebook.FacebookOAuth2',
+    'django.contrib.auth.backends.ModelBackend',
 )
 
 # Internationalization

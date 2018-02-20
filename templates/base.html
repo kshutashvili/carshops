@@ -2,6 +2,10 @@
 
 {% load mptt_tags %}
 
+{% load solo_tags %}
+
+{% load humanize %}
+
 {% load custom_filters %}
 <!DOCTYPE html>
 <html lang="ru">
@@ -306,12 +310,12 @@
                          товаров на 
                             {% if request.user.is_authenticated %}
                                 {% if request.user.site %}
-                                    {{ request.session.basket_id|calculate_sum:'convert_price' }} грн</p>
+                                    {{ request.session.basket_id|calculate_sum:'convert_price'|intcomma|replace_comma_with_space }} грн</p>
                                 {% else %}
-                                    {{ request.session.basket_id|calculate_sum:'convert_ppc_price' }} грн</p>
+                                    {{ request.session.basket_id|calculate_sum:'convert_ppc_price'|intcomma|replace_comma_with_space }} грн</p>
                                 {% endif %}
                             {% else %}
-                                {{ request.session.basket_id|calculate_sum:'convert_ppc_price' }} грн</p>
+                                {{ request.session.basket_id|calculate_sum:'convert_ppc_price'|intcomma|replace_comma_with_space }} грн</p>
                             {% endif %}
                         {% else %} 0 товаров на 0,00 грн{% endif %}
                     </div>

@@ -1,5 +1,11 @@
 {% load static %}
 
+{% load solo_tags %}
+
+{% load humanize %}
+
+{% load custom_filters %}
+
 <!DOCTYPE html>
 <html lang="en">
 
@@ -23,12 +29,17 @@
             <div class="top-line">
                 <div class="login-wrap">
                     <a href="{% url 'logout' %}" class="log-out">Выйти</a>
-                    <div class="name">Здравствуйте, {{ request.user.first_name }}</div>
+                    {% if user_social %}
+                        <div class="name">Здравствуйте, {{ user_social.first_name }}</div>
+                    {% else %}
+                        <div class="name">Здравствуйте, {{ request.user.first_name }}</div>
+                    {% endif %}
                 </div>
+                {% get_solo 'content.ExchangeRate' as rate %}
                 <div class="balance-wrap">
                     <div class="title">Ваш баланс составляет:</div>
                     <div class="amount">{{ account.balance }} $
-                        <span>(11 358.20 грн)</span>
+                        <span>({{ account.balance|recalculate_with_rate:rate.rate_sale|intcomma|replace_comma_with_space }} грн)</span>
                     </div>
                 </div>
             </div>

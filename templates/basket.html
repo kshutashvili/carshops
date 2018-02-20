@@ -2,6 +2,10 @@
 
 {% load static %}
 
+{% load humanize %}
+
+{% load solo_tags %}
+
 {% load custom_filters %}
 
 {% block title %}Basket{% endblock %}
@@ -203,11 +207,12 @@
                             </div>
                             <div class="personal-balance" id="personal-balance-opt">
                                 <p class="title">Личный баланс</p>
+                            {% get_solo 'content.ExchangeRate' as rate %}
                                 <div class="content-wrap">
                                     <p class="title">Ваш баланс:</p>
                                     {% if user.is_authenticated %}
                                         <div class="balance">{{ account.balance }}$
-                                            <span>(11 358,20 грн)</span>
+                                            <span>({{ account.balance|recalculate_with_rate:rate.rate_sale|intcomma|replace_comma_with_space }} грн)</span>
                                         </div>
                                     {% endif %}
                                     <p class="text">Для пополнения личного баланса перейдите в личный кабинет.</p>
@@ -333,13 +338,17 @@
                                     <div class="inputs-container">
                                     {% csrf_token %}
                                         <div class="left">
-                                        {% if account %}
+                                        {% if request.user.is_authenticated %}
                                             <p class="input-wrap require">
-                                                <input type="text" class="input-field" name="first_name" value="{{ request.user.first_name }}" placeholder="Имя получателя">
+                                                <input type="text" class="input-field" name="first_name"
+                                                {% if user_social %}value="{{ user_social.first_name }}"{% else %}value="{{ request.user.first_name }}"{% endif %}
+                                                placeholder="Имя получателя">
                                                 <span class='help-block'>{{ errors.first_name }}</span>
                                             </p>
                                             <p class="input-wrap require">
-                                                <input type="text" class="input-field" name="last_name" value="{{ request.user.last_name }}" placeholder="Фамилия получателя">
+                                                <input type="text" class="input-field" name="last_name"
+                                                {% if user_social %}value="{{ user_social.last_name }}"{% else %}value="{{ request.user.last_name }}"{% endif %}
+                                                placeholder="Фамилия получателя">
                                                 <span class='help-block'>{{ errors.last_name }}</span>
                                             </p>
                                             <p class="input-wrap require">
@@ -369,7 +378,9 @@
                                         {% else %}
                                             <p class="input-wrap require">
                                                 {{ delivery_data_form.first_name }}
-                                                <span class='help-block'>{{ errors.first_name }}</span>
+                                                <span class='help-block'>
+                                                {{ errors.first_name }}
+                                                </span>
                                             </p>
                                             <p class="input-wrap require">
                                                 {{ delivery_data_form.last_name }}
@@ -403,8 +414,10 @@
                                         </div>
                                         <div class="right">
                                             <p class="input-wrap">
-                                            {% if account %}
-                                                <input type="text" class="input-field" name="email" value="{{ request.user.email }}" placeholder="E-mail">
+                                            {% if request.user.is_authenticated %}
+                                                <input type="text" class="input-field" name="email"
+                                                {% if user_social %}value="{{ user_social.email }}"{% else %}value="{{ request.user.email }}"{% endif %}
+                                                placeholder="E-mail">
                                             {% else %}
                                                 {{ delivery_data_form.email }}
                                             {% endif %}

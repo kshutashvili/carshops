@@ -43,7 +43,7 @@
 
             <div class="forms-wrap">
 
-                <form class="form" id="form-rzn" action="{% url 'login' %}" method="post" enctype="multipart/form-data">
+                <form class="form" id="form-rzn" action="{% url 'register' %}" method="post" enctype="multipart/form-data">
 
                     <p class="input-wrap">
                         {{ form.first_name }}
@@ -110,7 +110,7 @@
                     </div>
                 </form>
 
-                <form class="form" id="form-opt" action="{% url 'login' %}" method="post" enctype="multipart/form-data">
+                <form class="form" id="form-opt" action="{% url 'register' %}" method="post" enctype="multipart/form-data">
 
                     <p class="input-wrap">
                         {{ form.first_name }}
@@ -253,7 +253,7 @@
                     <div class="other-logs">
                         <p class="other-logs__title">Или войти с помощью:</p>
                         <div>
-                            <a href="#!">
+                            <a href="{% url 'social:begin' 'google-oauth2' %}">
                                 <svg class="g" version="1.1" id="Layer_1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px"
                                     y="0px" viewBox="0 0 458.246 458.246" style="enable-background:new 0 0 458.246 458.246;"
                                     xml:space="preserve">
@@ -273,7 +273,7 @@
                                 </svg>
                                 <span>Google+</span>
                             </a>
-                            <a href="#!">
+                            <a href="{% url 'social:begin' 'facebook' %}">
                                 <svg class="f" version="1.1" id="Capa_1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px"
                                     y="0px" width="430.113px" height="430.114px" viewBox="0 0 430.113 430.114" style="enable-background:new 0 0 430.113 430.114;"
                                     xml:space="preserve">
