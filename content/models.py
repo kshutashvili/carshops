@@ -115,7 +115,8 @@ class LandingProductBlock(models.Model):
                                     null=True,
                                     help_text=_("Выбирайте самые 'старшие' категории, у которых нету 'родителей'"))
     button_text = models.CharField(_("Текст в кнопке"),
-                                   max_length=32)
+                                   max_length=32,
+                                   default=_('Подробнее'))
     image = models.ImageField(_("Картинка на заднем фоне"),
                               upload_to="langing_products_images")
     order = models.IntegerField(_('Порядок'),
@@ -234,10 +235,10 @@ class Product(models.Model):
                                help_text=_("Необязательное поле"))
     car_compatibility = models.ManyToManyField('ModelCar',
                                                verbose_name=_("Совместимость с машинами"))
-    rait = models.OneToOneField('Rait',
-                                verbose_name=_("Рейтинг товара"),
-                                related_name=_("product"),
-                                null=True)
+    rait = models.ForeignKey('Rait',
+                             verbose_name=_("Рейтинг товара"),
+                             related_name=_("product"),
+                             null=True)
     currency = models.BooleanField(_("Валюта, в которой отображать цену"),
                                    default=False,
                                    help_text=_("Если включить, то UAH "

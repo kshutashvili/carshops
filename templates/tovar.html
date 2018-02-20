@@ -198,9 +198,15 @@
                                 </div>
                                 <div class="trade-price">
                                     <p class="trade-price__title">Ваша оптовая цена:</p>
-                                    <div class="trade-price__price">{{ product.price }}$
-                                        <span>({{ product.get_convert_price }} грн)</span>
-                                    </div>
+                                    {% if product.discount %}
+                                        <div class="trade-price__price">{{ product.discount.get_new_price }}$
+                                            <span>({{ product.discount.get_new_convert_price }} грн)</span>
+                                        </div>
+                                    {% else %}
+                                        <div class="trade-price__price">{{ product.price }}$
+                                            <span>({{ product.get_convert_price }} грн)</span>
+                                        </div>
+                                    {% endif %}
                                 </div>
                             </div>
                             <div class="ordering">

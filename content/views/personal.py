@@ -24,7 +24,11 @@ from content.forms import ContactForm
 def personal(request):
     if request.method == 'GET':
         orders = Order.objects.filter(user=request.user).order_by('created').reverse()[:3]
-        account = PersonalAccount.objects.get(user=request.user)
+        account = PersonalAccount.objects.filter(user=request.user).first()
+        if not account:
+            account = PersonalAccount()
+            account.user = request.user
+            account.save()
         delivery_ways = DeliveryWay.objects.all()
         social_user = request.user.social_auth.get(provider='google-oauth2')
 #       if social_user:
