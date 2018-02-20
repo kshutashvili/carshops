@@ -8,6 +8,7 @@ import requests
 
 from django.shortcuts import render
 from django.utils.translation import ugettext_lazy as _
+from django.contrib.auth import login
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth.password_validation import validate_password
 from django.http import HttpResponseRedirect, HttpResponse
@@ -125,6 +126,8 @@ def change_password(request):
                 validate_password(data['new_pass'])
                 if data['new_pass'] == data['repeat']:
                     user.set_password(data['new_pass'])
+                    user.save()
+                    login(request, user)
                     return HttpResponseRedirect('%s?status_message=%s' % (reverse('change_pass'),_('Пароль успешно изменён')))
                 else:
                     errors['pass'] = _('Пароли не совпадают')
