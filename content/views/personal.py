@@ -94,8 +94,7 @@ def personal(request):
             return render(request, 'lk.personal.html', {'orders':orders,
                                                         'delivery_ways':delivery_ways,
                                                         'account':account,
-                                                        'errors':errors,
-                                                        'social_user':social_user})
+                                                        'errors':errors})
         
 
 @login_required

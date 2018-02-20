@@ -31,7 +31,7 @@ def tovar(request, pk):
         promotions_queryset = TogetherCheaper.objects.all()
         promotions = []
         for obj in promotions_queryset:
-            if product not in obj.products.iterator():
+            if product in obj.products.iterator():
                 promotions.append(obj) 
         return render(request,'tovar.html',{'related_products':related_products,
                                             'images':related_products_images,

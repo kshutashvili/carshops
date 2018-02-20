@@ -115,7 +115,12 @@
                                     </div>
                                     <div class="input-wrap">
                                         <label for="third_name">Отчество:</label>
-                                        <input type="text" id="middle_name" name="middle_name" value="{% if request.user.middle_name %}{{ request.user.middle_name }}{% else %}{% endif %}">
+                                        <input type="text" id="middle_name" name="middle_name"
+                                        {% if request.user.middle_name %}
+                                            value="{{ request.user.middle_name }}"
+                                        {% else %}
+                                            value=""
+                                        {% endif %}>
                                         <span class='help-block'>{{ errors.middle_name }}</span>
                                     </div>
                                     <div class="input-wrap">
@@ -133,12 +138,22 @@
                                 <div>
                                     <div class="input-wrap">
                                         <label for="city">Город доставки:</label>
-                                        <input type="text" id="city" name="delivery_city" value="{% if account.delivery_city %}{{ account.delivery_city }}{% else %}{% endif %}">
+                                        <input type="text" id="city" name="delivery_city"
+                                        {% if account.delivery_city %}
+                                            value="{{ account.delivery_city }}"
+                                        {% else %}
+                                            value=""
+                                        {% endif %}>
                                         <span class='help-block'>{{ errors.delivery_city }}</span>
                                     </div>
                                     <div class="input-wrap">
                                         <label for="address">Адрес доставки:</label>
-                                        <input type="text" id="address" name="delivery_address" value="{% if account.delivery_address %}{{ account.delivery_address }}{% else %}{% endif %}">
+                                        <input type="text" id="address" name="delivery_address"
+                                        {% if account.delivery_address %}
+                                            value="{{ account.delivery_address }}"
+                                        {% else %}
+                                            value=""
+                                        {% endif %}">
                                         <span class='help-block'>{{ errors.delivery_address }}</span>
                                     </div>
                                     <div class="input-wrap">
