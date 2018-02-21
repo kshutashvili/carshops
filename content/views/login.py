@@ -29,6 +29,7 @@ def user_create(request):
                         user = User()
                         user.first_name = request.POST['first_name']
                         user.last_name = request.POST['last_name']
+                        user.middle_name = request.POST['middle_name']
                         user.phone_number = request.POST['phone_number']
                         user.email = request.POST['email']
                         user.set_password(request.POST['password'])
@@ -36,7 +37,7 @@ def user_create(request):
                         user.save()
                         account.user = user
                         account.save()
-                        return HttpResponseRedirect(reverse('home'))
+                        return HttpResponseRedirect(u'%s?status_message=%s' % (reverse('home'), _('Пользователь успешно зарегестрирован')))
                 else:
 
                     site = request.POST.get('site')
@@ -56,6 +57,7 @@ def user_create(request):
                         account = PersonalAccount()
                         user.first_name = request.POST['first_name']
                         user.last_name = request.POST['last_name']
+                        user.middle_name = request.POST['middle_name']
                         user.phone_number = request.POST['phone_number']
                         user.email = request.POST['email']
                         user.set_password(request.POST['password'])
@@ -65,7 +67,7 @@ def user_create(request):
                         user.save()
                         account.user = user
                         user.save()
-                        return HttpResponseRedirect(reverse('home'))
+                        return HttpResponseRedirect(u'%s?status_message=%s' % (reverse('home'), _('Аккаунт будет доступен, после одобрения администрацией')))
                     else:
                         messages.success(request, _('Исправьте ошибки'))
                         return render(request, 'login.html', {'form':form,
