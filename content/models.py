@@ -679,10 +679,10 @@ class PersonalAccount(models.Model):
         verbose_name_plural = _('Персональные аккаунты')
 
     def __unicode__(self):
-        if self.user:
+        if self.user.first_name and self.user.last_name:
             result = ' '.join([self.user.first_name, self.user.last_name])
         else:
-            result = 'Незаполненный аккаунт'
+            result = ' '.join(['Незаполненный аккаунт', str(self.id)])
         return result
 
 
@@ -703,4 +703,31 @@ class ExchangeRate(SingletonModel):
 
     def __unicode__(self):
         return 'Продажа: 1 USD = %s UAH  Покупка: 1 USD = %s UAH' % (str(self.rate_buy), str(self.rate_sale))
+
+
+class Comment(MPTTModel):
+    product = models.ForeignKey('Product',
+                                verbose_name=_('Товар'),
+                                related_name='comments')
+    name = models.CharField(_('Имя того, кто оставил комментарий'),
+                            max_length=64)
+    rait = models.ForeignKey('Rait',
+                             verbose_name=_('Рейтинг'),
+                             null=True)
+    date = models.DateField(_('Дата'),
+                            auto_now_add=True)
+    content = models.TextField(_('Комментарий'))
+    parent = TreeForeignKey('self',
+                            verbose_name=_('Родитель'),
+                            related_name='subitems',
+                            blank=True,
+                            null=True)
+
+    class Meta:
+        verbose_name = _('Отзыв')
+        verbose_name_plural = _('Отзывы')
+
+    def __unicode__(self):
+        return ' '.join([self.name, str(self.date)])
+
 

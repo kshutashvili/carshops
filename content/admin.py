@@ -28,4 +28,5 @@ admin.site.register(models.PersonalAccount)
 admin.site.register(models.Rait)
 admin.site.register(models.InformationType)
 admin.site.register(models.ExchangeRate)
+admin.site.register(models.Comment)
 

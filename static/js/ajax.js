@@ -20,6 +20,7 @@ function basket_session(name, id){
                 $("#basket_number").html(data.amount);
             },
             'error':function(xhr,status,error){
+
             }
         });
     });
@@ -46,7 +47,7 @@ function objects_generate_block(length){
                 }
             },
             'error':function(xhr,status,error){
-                console.log(status);
+                //console.log(status);
             }
         });
     });
@@ -74,7 +75,7 @@ function objects_generate_view(length){
                 more.data("length", more.data('length') + length);
             },
             'error':function(xhr,status,error){
-                console.log(status);
+                //console.log(status);
             }
         });
     });
@@ -103,7 +104,7 @@ function cars_generate(container_changed, container, optional_container_to_clean
                 //console.log(status);
             },
             'error':function(xhr,status,error){
-                console.log(status);
+                //console.log(status);
             }
         });
     });
@@ -127,7 +128,7 @@ function objects_generate_news(length){
                 more.data("length", more.data('length') + length);
             },
             'error':function(xhr,status,error){
-                console.log(status);
+                //console.log(status);
             }
         });
     });

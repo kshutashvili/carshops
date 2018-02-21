@@ -1,7 +1,13 @@
+# -*- coding: utf-8 -*-
+from __future__ import unicode_literals
+
+from django.core.urlresolvers import reverse
 from django.shortcuts import render
+from django.http import HttpResponse, HttpResponseRedirect
+from django.utils.translation import ugettext_lazy as _
 
 from content.models import Product, ProductImage, ChipBasket, Rait, ModelCar,\
-                           TogetherCheaper
+                           TogetherCheaper, Comment
 
 
 def tovar(request, pk):
@@ -32,12 +38,30 @@ def tovar(request, pk):
         promotions = []
         for obj in promotions_queryset:
             if product in obj.products.iterator():
-                promotions.append(obj) 
+                promotions.append(obj)
+        comments = Comment.objects.filter(product_id=pk) 
         return render(request,'tovar.html',{'related_products':related_products,
                                             'images':related_products_images,
                                             'product':product,
                                             'prod_images':prod_images,
                                             'raits':raits,
                                             'compatibilities':compatibilities,
-                                            'promotions':promotions})
+                                            'promotions':promotions,
+                                            'comments':comments})
+    else:
+        errors = []
+        if not request.POST.get('name',''):
+            errors.append('Ошибка')
+        if not request.POST.get('msg',''):
+            errors.append('Ошибка')
+        if not errors:
+            comment = Comment()
+            comment.product = Product.objects.get(id=pk)
+            comment.name = request.POST['name']
+            comment.content = request.POST['msg']
+            comment.save()
+            return HttpResponseRedirect('%s?status_message=%s' % (reverse('product', kwargs={'pk':pk}),_('Отзыв успешно опубликован')))
+        else:
+            return HttpResponseRedirect('%s?status_message=%s' % (reverse('product', kwargs={'pk':pk}),_('Если хотите оставить отзыв, заполните все поля')))
+        
 
