@@ -35,6 +35,7 @@ def basket(request):
         basket_product = None
         result = None
     delivery_data_form = DeliveryDataForm()
+
     if request.method == "GET":
         return render(request, 'basket.html', {'delivery_ways':delivery_ways,
                                                'delivery_data_form':delivery_data_form,
@@ -45,7 +46,7 @@ def basket(request):
     elif request.method == 'POST':
         data = request.POST
         delivery_data_form = DeliveryDataForm(data)
-        if delivery_data_form.is_valid() and data.has_key('method'):
+        if delivery_data_form.is_valid() and data.get('method'):
             if request.session.has_key('basket_id'):
 
                 basket = ChipBasket.objects.get(id=request.session['basket_id'])
@@ -114,6 +115,7 @@ def basket(request):
             else:
                 return HttpResponseRedirect('%s?status_message=%s' % (reverse('basket'),_('Корзина пуста')))
         else:
+            delivery_data_form.errors['method_error'] =  _('Выберите способ доставки')
             return render(request, 'basket.html', {'delivery_ways':delivery_ways,
                                                    'delivery_data_form':delivery_data_form,
                                                    'basket':basket,

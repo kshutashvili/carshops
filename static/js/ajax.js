@@ -111,37 +111,17 @@ function cars_generate(container_changed, container, optional_container_to_clean
 }
 
 
-function objects_generate_news(length){
-    $("#more_news").click(function(event){
-        var more = $(this);
-        $.ajax(more.data('url'),{
-            'type':'GET',
-            'async':true,
-            'dataType':'html',
-            'data':{
-                'start':more.data('length'),
-                'length':length,
-                'csrfmiddlewaretoken': $('input[name="csrfmiddlewaretoken"]').val()
-            },
-            'success':function(data,status,xhr){
-                $("#news-container").append(data);
-                more.data("length", more.data('length') + length);
-            },
-            'error':function(xhr,status,error){
-                //console.log(status);
-            }
-        });
-    });
-}
-
-
 $(document).ready(function(){
-    basket_session('buy',false);
-    basket_session('tovar__basket',false);
-    basket_session('basket',false);
+    var lastPathSegment = location.pathname.split('/').slice(-3)[0];
+    console.log(lastPathSegment);
+    if (lastPathSegment != 'product'){
+        basket_session('buy',false);
+        basket_session('tovar__basket',false);
+        basket_session('basket',false);        
+    }
+
     objects_generate_block(2);
     objects_generate_view(2);
-    objects_generate_news(3);
     cars_generate('stamp_cars', 'model_cars', 'year_cars');
     cars_generate('model_cars', 'year_cars');
 });

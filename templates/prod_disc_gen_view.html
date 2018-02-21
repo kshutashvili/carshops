@@ -119,10 +119,12 @@
                             {% include "basket_icon.html" %}
                         </a>
                     </form>
-                    <div class="available">
-                        {% include "check_mark.html" %}
-                        <span>В наличии</span>
-                    </div>
+                    {% if obj.available %}
+                        <div class="available">
+                            {% include "check_mark.html" %}
+                            <span>В наличии</span>
+                        </div>
+                    {% endif %}
                 </div>
             </div>
         </div>

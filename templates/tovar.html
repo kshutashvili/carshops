@@ -233,12 +233,12 @@
                                 <div class="trade-price">
                                     <p class="trade-price__title">Ваша оптовая цена:</p>
                                     {% if product.discount %}
-                                        <div class="trade-price__price">{{ product.discount.get_new_price }}$
-                                            <span>({{ product.discount.get_new_convert_price }} грн)</span>
+                                        <div class="trade-price__price">{{ product.discount.get_new_price|floatformat:2|intcomma|replace_comma_with_space }}$
+                                            <span>({{ product.discount.get_new_convert_price|floatformat:2|intcomma|replace_comma_with_space }} грн)</span>
                                         </div>
                                     {% else %}
-                                        <div class="trade-price__price">{{ product.price }}$
-                                            <span>({{ product.get_convert_price }} грн)</span>
+                                        <div class="trade-price__price">{{ product.price|floatformat:2|intcomma|replace_comma_with_space }}$
+                                            <span>({{ product.get_convert_price|floatformat:2|intcomma|replace_comma_with_space }} грн)</span>
                                         </div>
                                     {% endif %}
                                 </div>
@@ -586,9 +586,8 @@
                                 {% else %}
                                     {{ obj|calculate_sum_togeth_cheap:'rozn' }}грн
                                 {% endif %}
-                                 
                                 </div>
-                                <a href="#!" class="buy">Купить комплект</a>
+                                <a href="#!" class="buy complect">Купить комплект</a>
                             </div>
                         </div>
                     {% endfor %}
@@ -650,10 +649,12 @@
                         </div>
                         <div class="tovar__middle-line">
                             <div class="code">Код: {{ obj.code }} </div>
+                        {% if obj.available %}
                             <div class="available">
                                 {% include 'check_mark.html' %}
                                 <span>В наличии</span>
                             </div>
+                        {% endif %}
                         </div>
                         {% if obj.discount %}
                         <div class="tovar__old-price">

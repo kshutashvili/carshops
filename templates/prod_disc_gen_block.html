@@ -16,10 +16,12 @@
     <div class="tovar__title">{{ obj.information|safe }}</div>
     <div class="tovar__middle-line">
         <div class="code">Код: {{ obj.code }} </div>
-        <div class="available">
-            {% include "check_mark.html" %}
-            <span>В наличии</span>
-        </div>
+        {% if obj.available %}
+            <div class="available">
+                {% include "check_mark.html" %}
+                <span>В наличии</span>
+            </div>
+        {% endif %}
     </div>
     {% if obj.discount %}
     <div class="tovar__old-price">

@@ -44,7 +44,7 @@ class DeliveryDataForm(forms.Form):
         if re.match(r'^\+{0,1}\d{9,15}$', phone_number) == None:
             self.add_error('phone_number', _('Неправильный формат телефона'))
 
-        if cleaned_data.has_key('cod_sum'):
+        if cleaned_data.get('cod_sum'):
           if cleaned_data.get('cod_sum') < 0:
             self.add_error('cod_sum', _('Сумма должна быть больше 0.00'))
 

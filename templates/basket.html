@@ -142,6 +142,9 @@
                                     </div>
                                 {% endif %}
                                 {% endfor %}
+                                {% if delivery_data_form.errors.method_error %}
+                                    <div>{{ delivery_data_form.errors.method_error }}</div>
+                                {% endif %}
                                 </div>
                             </div>
                             <div class="delivery-method" id="delivery-method-rzn" style="display: none;">

@@ -10,6 +10,8 @@ from django.core.exceptions import ValidationError
 from django.contrib.auth.password_validation import validate_password
 from django.utils.translation import ugettext, ugettext_lazy as _
 
+from users.models import User
+
 
 class RegistrationForm(forms.Form):
     first_name = forms.CharField(widget=forms.TextInput(attrs={'placeholder':_('Имя')}))
@@ -35,9 +37,15 @@ class RegistrationForm(forms.Form):
         password = cleaned_data.get('password')
         rep_password = cleaned_data.get('rep_password')
         phone_number = cleaned_data.get('phone_number')
+        email = cleaned_data.get('email')
+
+        if User.objects.filter(email=email).first():
+            self.add_error('email', _('Этот почтовый адрес уже занят'))
 
         if re.match(r'^\+{0,1}\d{9,15}$', phone_number) == None:
             self.add_error('phone_number', _('Неправильный формат телефона'))
+        elif User.objects.filter(phone_number=phone_number).first():
+            self.add_error('phone_number', _('Этот номер телефона уже занят'))
 
         if password != rep_password:
             self.add_error('password', _('Введенные пароли не совпадают'))
