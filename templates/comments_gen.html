@@ -8,11 +8,9 @@
                                         <div class="rating">
                                             <form action="start-review">
                                                 <select class="starts-select-review">
-                                                    <option value="1">1</option>
-                                                    <option value="2">2</option>
-                                                    <option value="3">3</option>
-                                                    <option value="4">4</option>
-                                                    <option value="5">5</option>
+                                                {% for rait in raits %}
+                                                    <option value="{{ rait.value }}" {% if rait.value == obj.rait.value %}selected{% endif %} >{{ rait.value }}</option>
+                                                {% endfor %}
                                                 </select>
                                             </form>
                                         </div>

@@ -39,7 +39,7 @@ def tovar(request, pk):
         for obj in promotions_queryset:
             if product in obj.products.iterator():
                 promotions.append(obj)
-        comments = Comment.objects.filter(product_id=pk) 
+        comments = Comment.objects.filter(product_id=pk)
         return render(request,'tovar.html',{'related_products':related_products,
                                             'images':related_products_images,
                                             'product':product,
@@ -59,6 +59,7 @@ def tovar(request, pk):
             comment.product = Product.objects.get(id=pk)
             comment.name = request.POST['name']
             comment.content = request.POST['msg']
+            comment.rait = Rait.objects.filter(value=1).first()
             comment.save()
             return HttpResponseRedirect('%s?status_message=%s' % (reverse('product', kwargs={'pk':pk}),_('Отзыв успешно опубликован')))
         else:
