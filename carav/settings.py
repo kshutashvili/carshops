@@ -35,8 +35,6 @@ SOCIAL_AUTH_GOOGLE_OAUTH2_SCOPE = [
     'https://www.googleapis.com/auth/userinfo.profile'
 ]
 
-
-
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = False
 
@@ -57,7 +55,7 @@ INSTALLED_APPS = [
     'solo',
     'ckeditor',
     'mptt',
-#    'social_django',
+    'social_django',
     # own
     'users',
     'content',
@@ -72,7 +70,7 @@ MIDDLEWARE_CLASSES = [
     'django.contrib.auth.middleware.AuthenticationMiddleware',
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
-#    'social_django.middleware.SocialAuthExceptionMiddleware',
+    'social_django.middleware.SocialAuthExceptionMiddleware',
 ]
 
 ROOT_URLCONF = 'carav.urls'
@@ -89,8 +87,8 @@ TEMPLATES = [
                 'django.contrib.auth.context_processors.auth',
                 'django.contrib.messages.context_processors.messages',
                 'content.context_processors.menu_processor',
-#                'social_django.context_processors.backends',
-#                'social_django.context_processors.login_redirect',
+                'social_django.context_processors.backends',
+                'social_django.context_processors.login_redirect',
             ],
         },
     },
@@ -137,8 +135,8 @@ AUTH_PASSWORD_VALIDATORS = [
 
 AUTHENTICATION_BACKENDS = (
     'users.backends.AuthBackend',
-#    'social_core.backends.google.GoogleOAuth2', 
-#    'social_core.backends.facebook.FacebookOAuth2',
+    'social_core.backends.google.GoogleOAuth2', 
+    'social_core.backends.facebook.FacebookOAuth2',
 )
 
 # Internationalization

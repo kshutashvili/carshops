@@ -340,58 +340,71 @@
                                         <div class="left">
                                         {% if request.user.is_authenticated %}
                                             <p class="input-wrap require">
-                                                <input type="text" class="input-field" name="first_name"
-                                                {% if user_social %}
-                                                    value="{{ user_social.first_name }}"
-                                                {% else %}
+                                                <input type="text" class="input-field" name="first_name" 
+                                                {% if delivery_data_form.first_name.value %}
+                                                    value="{{ delivery_data_form.first_name.value }}" 
+                                                {% elif request.user.first_name %}
                                                     value="{{ request.user.first_name }}"
                                                 {% endif %}
                                                 placeholder="Имя получателя">
-                                                <span class='help-block'>{{ errors.first_name }}</span>
+                                                <span class='help-block'>{{ delivery_data_form.errors.first_name }}</span>
                                             </p>
                                             <p class="input-wrap require">
                                                 <input type="text" class="input-field" name="last_name"
-                                                {% if user_social %}
-                                                    value="{{ user_social.last_name }}"
-                                                {% else %}
-                                                    value="{{ request.user.last_name }}"{% endif %}
+                                                {% if delivery_data_form.last_name.value %}
+                                                    value="{{ delivery_data_form.last_name.value }}" 
+                                                {% elif request.user.last_name %}
+                                                    value="{{ request.user.last_name }}"
+                                                {% endif %}
                                                 placeholder="Фамилия получателя">
-                                                <span class='help-block'>{{ errors.last_name }}</span>
+                                                <span class='help-block'>{{ delivery_data_form.errors.last_name }}</span>
                                             </p>
                                             <p class="input-wrap require">
                                                 <input type="text" class="input-field" name="city" 
-                                                {% if account.delivery_city %}
+                                                {% if delivery_data_form.city.value %}
+                                                    value="{{ delivery_data_form.city.value }}" 
+                                                {% elif account.delivery_city %}
                                                     value="{{ account.delivery_city }}"
-                                                {% else %}
-                                                    value=""
-                                                {% endif %}
+                                                {% endif %} 
                                                 placeholder="Город">
-                                                <span class='help-block'>{{ errors.city }}</span>
+                                                <span class='help-block'>{{ delivery_data_form.errors.city }}</span>
                                             </p>
                                             <p class="input-wrap require">
-                                                <input type="text" class="input-field" name="phone_number" value="{{ request.user.phone_number }}" placeholder="Телефон клиента">
-                                                <span class='help-block'>{{ errors.phone_number }}</span>
+                                                <input type="text" class="input-field" name="phone_number"
+                                                {% if delivery_data_form.phone_number.value %}
+                                                    value="{{ delivery_data_form.phone_number.value }}" 
+                                                {% elif request.user.phone_number %}
+                                                    value="{{ request.user.phone_number }}"
+                                                {% endif %}
+                                                placeholder="Телефон клиента">
+                                                <span class='help-block'>{{ delivery_data_form.errors.phone_number }}</span>
                                             </p>
                                             <p class="input-wrap">
-                                                <input type="checkbox" class="chechbox_field" id="sms__tth" name="is_sms">
+                                                <input type="checkbox" class="chechbox_field" id="sms__tth"{% if delivery_data_form.is_sms.value %}checked{% endif %} name="is_sms">
                                                 <label for="sms__tth">Отправить СМС с номером ТТН</label>
                                             </p>
                                             <p class="input-wrap require">
                                                 <input type="text" class="input-field" name="nova_poshta_stock"
-                                                {% if account.delivery_address %}
+                                                {% if delivery_data_form.nova_poshta_stock.value %}
+                                                    value="{{ delivery_data_form.nova_poshta_stock.value }}" 
+                                                {% elif account.delivery_address %}
                                                     value="{{ account.delivery_address }}"
-                                                {% else %}
-                                                    value=""
                                                 {% endif %}
                                                 placeholder='Склад "Новой Почты"'>
-                                                <span class='help-block'>{{ errors.nova_poshta_stock }}</span>
+                                                <span class='help-block'>{{ delivery_data_form.errors.nova_poshta_stock }}</span>
                                             </p>
                                             <p class="input-wrap require">
-                                                <input type="text" class="input-field" name="cod" placeholder='Сумма наложенного платежа'>
-                                                <span class='help-block'>{{ errors.cod_sum }}</span>
+                                                <input type="text" class="input-field" name="cod" placeholder='Сумма наложенного платежа'
+                                                {% if delivery_data_form.cod_sum.value %}
+                                                    value="{{ delivery_data_form.cod_sum.value }}"
+                                                {% endif %}>
+                                                <span class='help-block'>{{ delivery_data_form.errors.cod_sum }}</span>
                                             </p>
                                             <p class="input-wrap">
-                                                <input type="checkbox" class="chechbox_field" id="is_cod" name="without_money">
+                                                <input type="checkbox" class="chechbox_field" id="is_cod"
+                                                {% if delivery_data_form.is_cod.value %} name="without_money"
+                                                checked
+                                                {% endif %}>
                                                 <label class="bold" for="without_money">Отправка без денег</label>
                                             </p>
                                         {% else %}
@@ -434,13 +447,12 @@
                                         <div class="right">
                                             <p class="input-wrap">
                                             {% if request.user.is_authenticated %}
-                                                <input type="text" class="input-field" name="email"
-                                                {% if user_social %}
-                                                value="{{ user_social.email }}"
-                                                {% else %}
-                                                value="{{ request.user.email }}"
-                                                {% endif %}
-                                                placeholder="E-mail">
+                                                <input type="text" class="input-field" name="email" placeholder="E-mail"
+                                                {% if delivery_data_form.first_name.value %}
+                                                    value="{{ delivery_data_form.first_name.value }}" 
+                                                {% elif request.user.is_authenticated %}
+                                                    value="{{ request.user.email }}"
+                                                {% endif %}>
                                             {% else %}
                                                 {{ delivery_data_form.email }}
                                             {% endif %}

@@ -25,7 +25,6 @@ class DeliveryDataForm(forms.Form):
     nova_poshta_stock = forms.CharField(widget=forms.TextInput(attrs={'placeholder':_('Склад "Новой Почты"'),
                                                                       'class':'input-field'}))
     cod_sum = forms.FloatField(required=False,
-                               validators=[MinValueValidator(0)],
                                widget=forms.NumberInput(attrs={'placeholder':_('Сумма наложенного платежа'),
                                                                'class':'input-field'}))
     is_cod = forms.BooleanField(widget=forms.CheckboxInput(attrs={'class':'chechbox_field'}),
@@ -44,6 +43,10 @@ class DeliveryDataForm(forms.Form):
         phone_number = cleaned_data.get('phone_number')
         if re.match(r'^\+{0,1}\d{9,15}$', phone_number) == None:
             self.add_error('phone_number', _('Неправильный формат телефона'))
+
+        if cleaned_data.has_key('cod_sum'):
+          if cleaned_data.get('cod_sum') < 0:
+            self.add_error('cod_sum', _('Сумма должна быть больше 0.00'))
 
         if not self.errors:
             cleaned_data = {

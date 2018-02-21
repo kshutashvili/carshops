@@ -31,36 +31,36 @@ def personal(request):
             account.user = request.user
             account.save()
         delivery_ways = DeliveryWay.objects.all()
-#        social_user = request.user.social_auth.get(provider='google-oauth2')
-#       if social_user:
-#           url = 'https://graph.facebook.com/me?fields=id,name,email&access_token=%s' % social_user.extra_data['access_token']
-#           string = urllib.urlopen(url).read().decode('unicode-escape')
-#           data = ast.literal_eval(string)
-#           user_social = dict()
-#           request.user.first_name = user_social['first_name'] = data['name'].split()[0]
-#           request.user.last_name = user_social['last_name'] = data['name'].split()[1]
-#           request.user.email = user_social['email'] = data['email']
-#        #else:
-#           user_social = None
-#        response = requests.get(
-#                'https://www.googleapis.com/plus/v1/people/me/people/visible',
-#                params={'access_token': social_user.extra_data['access_token']}
-#        )
+        social_user = request.user.social_auth.filter(provider='facebook').first()
+        if social_user:
+            response = requests.get('https://graph.facebook.com/me?fields=id,email',
+                                    params={'access_token': social_user.extra_data['access_token']})
+            request.user.email = response.json()['email']
+            request.user.save()
+        else:
+            social_user = request.user.social_auth.filter(provider='google-oauth2').first()
+            if social_user:
+                response = requests.get('https://www.googleapis.com/userinfo/v2/me',
+                                        params={'access_token': social_user.extra_data['access_token']})
+                request.user.email = response.json()['email']
+                request.user.save()
 
         return render(request, 'lk.personal.html', {'orders':orders,
                                                     'delivery_ways':delivery_ways,
                                                     'account':account})
     else:
         data = request.POST
-#        social_user = request.user.social_auth.get(provider='facebook')
+        social_user = request.user.social_auth.filter(provider='facebook').first()
+        if not social_user:
+            social_user = request.user.social_auth.filter(provider='google-oauth2').first()
         errors = dict()
-#        if not social_user:
+        if not social_user:
+            if not data['email']:
+                errors['email'] = _('Это поле обязательно')
         if not data['first_name']:
             errors['first_name'] = _('Это поле обязательно')
         if not data['last_name']:
             errors['last_name'] = _('Это поле обязательно')
-        if not data['email']:
-            errors['email'] = _('Это поле обязательно')
         if not data['middle_name']:
             errors['middle_name'] = _('Это поле обязательно')
         if not data['phone_number']:
@@ -71,10 +71,10 @@ def personal(request):
             errors['delivery_address'] = _('Это поле обязательно')
 
         if not errors:
-#            if not social_user:
+            if not social_user:
+                request.user.email = data['email']
             request.user.first_name = data['first_name']
             request.user.last_name = data['last_name']
-            request.user.email = data['email']
             request.user.middle_name = data['middle_name']
             request.user.phone_number = data['phone_number']
             account = PersonalAccount.objects.get(user=request.user)

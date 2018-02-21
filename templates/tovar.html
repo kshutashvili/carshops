@@ -547,24 +547,24 @@
                                         <div class="price">
                                             {% if request.user.is_authenticated %}
                                                 {% if request.user.site %}
-                                                    {{ prod.discount.get_new_convert_price|floatformat:2|intcomma|replace_comma_with_space }} $
+                                                    {{ prod.discount.get_new_convert_price|floatformat:2|intcomma|replace_comma_with_space }} грн
                                                 {% else %}
-                                                    {{ prod.discount.get_new_convert_ppc_price|floatformat:2|intcomma|replace_comma_with_space }} $
+                                                    {{ prod.discount.get_new_convert_ppc_price|floatformat:2|intcomma|replace_comma_with_space }} грн
                                                 {% endif %}
                                             {% else %}
-                                                {{ prod.discount.get_new_convert_ppc_price|floatformat:2|intcomma|replace_comma_with_space }} $
+                                                {{ prod.discount.get_new_convert_ppc_price|floatformat:2|intcomma|replace_comma_with_space }} грн
                                             {% endif %}
                                         </div>
                                         {% else %}
                                             <div class="price">
                                             {% if request.user.is_authenticated %}
                                                 {% if request.user.site %}
-                                                    {{ prod.get_convert_price|floatformat:2|intcomma|replace_comma_with_space }} $
+                                                    {{ prod.get_convert_price|floatformat:2|intcomma|replace_comma_with_space }} грн
                                                 {% else %}
-                                                    {{ prod.get_convert_ppc_price|floatformat:2|intcomma|replace_comma_with_space }} $
+                                                    {{ prod.get_convert_ppc_price|floatformat:2|intcomma|replace_comma_with_space }} грн
                                                 {% endif %}
                                             {% else %}
-                                                {{ prod.get_convert_ppc_price|floatformat:2|intcomma|replace_comma_with_space }} $
+                                                {{ prod.get_convert_ppc_price|floatformat:2|intcomma|replace_comma_with_space }} грн
                                             {% endif %}
                                         </div>
                                         {% endif %}

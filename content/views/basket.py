@@ -15,39 +15,27 @@ from content.forms import DeliveryDataForm
 
 
 def basket(request):
+    delivery_ways = DeliveryWay.objects.all()
+    images = ProductImage.objects.all()
+    if request.user.is_authenticated():
+        account = PersonalAccount.objects.filter(user=request.user).first()
+    else:
+        account = None
+    result = dict()
+    if request.session.has_key('basket_id'):
+        basket = ChipBasket.objects.get(id=request.session['basket_id'])
+        basket_product = BasketProduct.objects.filter(basket=basket)
+        for obj in basket.basketproduct_set.iterator():
+            if obj.amount == 0:
+                obj.delete()
+                continue
+            result[obj.product.id] = images.filter(product_id=obj.product.id)
+    else:
+        basket = None
+        basket_product = None
+        result = None
+    delivery_data_form = DeliveryDataForm()
     if request.method == "GET":
-        delivery_ways = DeliveryWay.objects.all()
-        images = ProductImage.objects.all()
-        if request.user.is_authenticated():
-            account = PersonalAccount.objects.filter(user=request.user).first()
-        else:
-            account = None
-        result = dict()
-        if request.session.has_key('basket_id'):
-            basket = ChipBasket.objects.get(id=request.session['basket_id'])
-            basket_product = BasketProduct.objects.filter(basket=basket)
-            for obj in basket.basketproduct_set.iterator():
-                if obj.amount == 0:
-                    obj.delete()
-                    continue
-                result[obj.product.id] = images.filter(product_id=obj.product.id)
-        else:
-            basket = None
-            basket_product = None
-            result = None
-        delivery_data_form = DeliveryDataForm()
-#        social_user = request.user.social_auth.get(provider='facebook')
-#        if social_user:
-#            user_social = dict()
-#            url = 'https://graph.facebook.com/me?fields=id,name,email&access_token=%s' % social_user.extra_data['access_token']
-#            string = urllib.urlopen(url).read().decode('unicode-escape')
-#            data = ast.literal_eval(string)
-#            user_social = dict()
-#            user_social['first_name'] = data['name'].split()[0]
-#            user_social['last_name'] = data['name'].split()[1]
-#            user_social['email'] = data['email']
-#        else:
-#            user_social = None
         return render(request, 'basket.html', {'delivery_ways':delivery_ways,
                                                'delivery_data_form':delivery_data_form,
                                                'basket':basket,
@@ -126,10 +114,12 @@ def basket(request):
             else:
                 return HttpResponseRedirect('%s?status_message=%s' % (reverse('basket'),_('Корзина пуста')))
         else:
-
-            return HttpResponseRedirect('%s?status_message=%s' % (reverse('basket'),
-                                                                _('Исправьте, пожалуйста, ошибки в данных и заполните всё необходимое')))
-
+            return render(request, 'basket.html', {'delivery_ways':delivery_ways,
+                                                   'delivery_data_form':delivery_data_form,
+                                                   'basket':basket,
+                                                   'images':result,
+                                                   'basket_product':basket_product,
+                                                   'account':account})
 
 
             
