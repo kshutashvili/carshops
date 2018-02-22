@@ -75,7 +75,7 @@ def products_discount_generate(request):
         products = Product.objects.all()[start:end]
         images = dict()
         for obj in products:
-            images[obj.id]=ProductImage.objects.filter(product_id=obj.id)
+            images[obj.id] = obj.images.get_queryset()
 
         templ = ''.join(['prod_disc_gen_', block, '.html'])
         html = render(request, templ, {'products':products,

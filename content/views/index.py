@@ -1,22 +1,21 @@
 from django.shortcuts import render
 
 from content.models import LandingProductBlock, Blog, Product, PopularProduct,\
-                           DiscountProduct, ProductImage, ChipBasket
+                           DiscountProduct, ChipBasket
 
 
 def index(request):
     if request.method == 'GET':
         landing_products = LandingProductBlock.objects.order_by('order').reverse()[:5]
         news = Blog.objects.order_by('date').filter(active=True).reverse()[:6]
-        images = ProductImage.objects.all()
-        discount_products = DiscountProduct.objects.all()
+        discount_products = DiscountProduct.objects.all().select_related('product')
         discount_products_images = {}
         for obj in discount_products:
-            discount_products_images[obj.product.id]=images.filter(product_id=obj.product.id)
-        popular_products = PopularProduct.objects.all()
+            discount_products_images[obj.product.id] = obj.product.images.get_queryset()
+        popular_products = PopularProduct.objects.all().select_related('product')
         popular_products_images = {}
         for obj in popular_products:
-            popular_products_images[obj.product.id]=images.filter(product_id=obj.product.id)
+            popular_products_images[obj.product.id] = obj.product.images.get_queryset()
         if request.session.has_key('basket_id'):
             baskets = ChipBasket.objects.filter(id=request.session['basket_id'])
             if len(baskets) == 0:

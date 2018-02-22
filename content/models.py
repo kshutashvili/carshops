@@ -9,6 +9,7 @@ from PIL import Image
 from django.db import models
 from django.utils.translation import ugettext_lazy as _
 from django.core.validators import MinValueValidator
+from django.utils.safestring import mark_safe
 
 from users.models import User
 
@@ -239,6 +240,8 @@ class Product(models.Model):
                              verbose_name=_("Рейтинг товара"),
                              related_name=_("product"),
                              null=True)
+    images = models.ManyToManyField('ProductImage',
+                                    verbose_name=_('Фото товара'))
     currency = models.BooleanField(_("Валюта, в которой отображать цену"),
                                    default=False,
                                    help_text=_("Если включить, то UAH "
@@ -326,9 +329,6 @@ class ProductImage(models.Model):
     """Картинки для товара."""
     image = models.ImageField(_("Картинка"),
                               upload_to="product_photos")
-    product = models.ForeignKey('Product',
-                                verbose_name=_("Товар"),
-                                related_name="images")
 
     class Meta:
         verbose_name = _("Фото товара")
@@ -348,7 +348,12 @@ class ProductImage(models.Model):
             image.save(self.image.path)
 
     def __unicode__(self):
-        return " | ".join([self.product.category.name, self.product.code])
+        return str(self.id)
+
+    def image_tag(self, width=250, height=250):
+        return mark_safe('<img src="%s" width="%d" height="%d" />' % (self.image.url, width, height))
+
+    image_tag.short_description = 'Image'
 
 
 class Rait(models.Model):

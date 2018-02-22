@@ -103,15 +103,15 @@ def orders(request):
     orders = Order.objects.filter(user=request.user)
     account = PersonalAccount.objects.get(user=request.user)
     basket_products = dict()
-    result = dict()
+    images = dict()
     for obj in orders:
         basket_products[obj.id] = obj.basket.basketproduct_set.iterator()
         for prod in obj.basket.basketproduct_set.iterator():
-            result[prod.product.id] = ProductImage.objects.filter(product_id=prod.product.id)
+            images[prod.product.id] = prod.product.images.get_queryset()
     return render(request, 'lk.orders.html', {'orders':orders,
                                               'account':account,
                                               'basket_products':basket_products,
-                                              'images':result})
+                                              'images':images})
 
 
 @login_required
@@ -147,16 +147,16 @@ def waiting(request):
     orders = Order.objects.filter(user=request.user)
     account = PersonalAccount.objects.get(user=request.user)
     basket_products = dict()
-    result = dict()
+    images = dict()
     for obj in orders:
         if obj.status != 'Закончен':
             basket_products[obj.id] = obj.basket.basketproduct_set.iterator()
             for prod in obj.basket.basketproduct_set.iterator():
-                result[prod.product.id] = ProductImage.objects.filter(product_id=prod.product.id)
+                images[prod.product.id] = prod.product.images.get_queryset()
     return render(request, 'lk.waiting.html', {'orders':orders,
                                                'account':account,
                                                'basket_products':basket_products,
-                                               'images':result})
+                                               'images':images})
 
 
 @login_required

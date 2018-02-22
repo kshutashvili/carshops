@@ -6,7 +6,7 @@ from django.shortcuts import render
 from django.http import HttpResponse, HttpResponseRedirect
 from django.utils.translation import ugettext_lazy as _
 
-from content.models import Product, ProductImage, ChipBasket, Rait, ModelCar,\
+from content.models import Product, ChipBasket, Rait, ModelCar,\
                            TogetherCheaper, Comment
 
 
@@ -14,12 +14,11 @@ def tovar(request, pk):
     if request.method == 'GET':
         product = Product.objects.get(id=pk)
         raits = Rait.objects.all()
-        images = ProductImage.objects.all()
-        prod_images = ProductImage.objects.filter(product_id=pk)
+        prod_images = product.images.get_queryset()
         related_products = Product.objects.all()
         related_products_images = {}
         for obj in related_products:
-            related_products_images[obj.id]=images.filter(product_id=obj.id)
+            related_products_images[obj.id] = obj.images.get_queryset()
         compatibility_models = product.get_compatibility_models()
         compatibilities = []
         temp = []

@@ -2,6 +2,12 @@ from django.contrib import admin
 
 from content import models
 
+
+class ProductImageAdmin(admin.ModelAdmin):
+    fields = ['image_tag','image']
+    readonly_fields = ['image_tag']
+
+
 admin.site.register(models.MenuHeaderItem)
 admin.site.register(models.MenuMainItem)
 admin.site.register(models.DealerSection)
@@ -12,7 +18,7 @@ admin.site.register(models.Information)
 admin.site.register(models.Product)
 admin.site.register(models.DiscountProduct)
 admin.site.register(models.PopularProduct)
-admin.site.register(models.ProductImage)
+admin.site.register(models.ProductImage, ProductImageAdmin)
 admin.site.register(models.Banner)
 admin.site.register(models.TogetherCheaper)
 admin.site.register(models.YearCar)

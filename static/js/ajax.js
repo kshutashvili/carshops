@@ -55,6 +55,7 @@ function objects_generate_block(length){
 
 
 function objects_generate_view(length){
+    console.log(123);
     $("#more_prod").click(function(event){
         var more = $(this);
         $.ajax(more.data('url'),{
@@ -113,7 +114,6 @@ function cars_generate(container_changed, container, optional_container_to_clean
 
 $(document).ready(function(){
     var lastPathSegment = location.pathname.split('/').slice(-3)[0];
-    console.log(lastPathSegment);
     if (lastPathSegment != 'product'){
         basket_session('buy',false);
         basket_session('tovar__basket',false);
